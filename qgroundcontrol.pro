@@ -435,6 +435,7 @@ HEADERS += \
     src/QmlControls/MetFactValueGrid.h \
     src/QmlControls/QmlUnitsConversion.h \
     src/Vehicle/VehicleEscStatusFactGroup.h \
+    src/Vehicle/VehicleMETFactGroup.h \
     src/api/QGCCorePlugin.h \
     src/api/QGCOptions.h \
     src/api/QGCSettings.h \
@@ -450,6 +451,7 @@ SOURCES += \
     src/QmlControls/CustomActionManager.cc \
     src/QmlControls/MetFactValueGrid.cc \
     src/Vehicle/VehicleEscStatusFactGroup.cc \
+    src/Vehicle/VehicleMETFactGroup.cc \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \
     src/api/QGCSettings.cc \
