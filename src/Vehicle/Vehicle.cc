@@ -797,6 +797,12 @@ void Vehicle::_mavlinkMessageReceived(LinkInterface* link, mavlink_message_t mes
     VehicleBatteryFactGroup::handleMessageForFactGroupCreation(this, message);
 
     // Let the fact groups take a whack at the mavlink traffic
+
+
+    //auto groupOfFacts = factGroups();
+    /* Looks like one of the factGroups is killing the message, so we need to find out which one */
+
+
     for (FactGroup* factGroup : factGroups()) {
 
         if (message.msgid == MAVLINK_MSG_ID_CASS_SENSOR_RAW)
@@ -809,6 +815,7 @@ void Vehicle::_mavlinkMessageReceived(LinkInterface* link, mavlink_message_t mes
 
     switch (message.msgid) {
     case MAVLINK_MSG_ID_CASS_SENSOR_RAW:
+        existsForBreakpoint++;
         //our message vanishes before reaching here
         break;
     case MAVLINK_MSG_ID_HOME_POSITION:
