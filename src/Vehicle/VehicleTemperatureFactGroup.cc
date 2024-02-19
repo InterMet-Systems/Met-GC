@@ -40,6 +40,9 @@ VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
 
 void VehicleTemperatureFactGroup::handleMessage(Vehicle* /* vehicle */, mavlink_message_t& message)
 {
+    /* TD test */
+    balancer.update(message);
+
     switch (message.msgid) {
     case MAVLINK_MSG_ID_SCALED_PRESSURE:
         _handleScaledPressure(message);

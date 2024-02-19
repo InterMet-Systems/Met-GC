@@ -11,10 +11,7 @@ void DataBalancer::update(const mavlink_message_t& m){
 
         /* if first cass message, calculate the cass boot time. Do the same thing for altTime in the other cases, provided they have a timestamp at all */
         if (time == 0){
-            using namespace std::chrono;
-            milliseconds ms = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-            uint64_t uTime = ms.count();
-            time = uTime - s.time_boot_ms;
+            time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - s.time_boot_ms;
         }
 
         if (cassCount <= cassArrSize) cassCount++;

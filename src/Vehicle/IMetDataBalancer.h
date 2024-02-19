@@ -36,7 +36,7 @@ class DataBalancer{
     size_t head5Count = 0;
 
     mavlink_cass_sensor_raw_t_local cassArr[cassArrSize];
-
+public:
     void update(const mavlink_message_t& m);
 };
 
