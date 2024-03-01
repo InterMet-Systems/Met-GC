@@ -14,7 +14,7 @@ const char* VehicleTemperatureFactGroup::_temperature1FactName =      "temperatu
 const char* VehicleTemperatureFactGroup::_temperature2FactName =      "temperature2";
 const char* VehicleTemperatureFactGroup::_temperature3FactName =      "temperature3";
 /* TD test */
-//const char* VehicleTemperatureFactGroup::_temperature4FactName =      "temperature4";
+const char* VehicleTemperatureFactGroup::_temperature4FactName =      "temperature4";
 
 VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
     : FactGroup(1000, ":/json/Vehicle/TemperatureFact.json", parent)
@@ -22,20 +22,20 @@ VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
     , _temperature2Fact    (0, _temperature2FactName,     FactMetaData::valueTypeDouble)
     , _temperature3Fact    (0, _temperature3FactName,     FactMetaData::valueTypeDouble)
     /* TD test */
-    //, _temperature4Fact    (0, _temperature4FactName,     FactMetaData::valueTypeDouble)
+    , _temperature4Fact    (0, _temperature4FactName,     FactMetaData::valueTypeDouble)
 {
     _addFact(&_temperature1Fact,       _temperature1FactName);
     _addFact(&_temperature2Fact,       _temperature2FactName);
     _addFact(&_temperature3Fact,       _temperature3FactName);
     /* TD test */
-    //_addFact(&_temperature4Fact,       _temperature4FactName);
+    _addFact(&_temperature4Fact,       _temperature4FactName);
 
     // Start out as not available "--.--"
     _temperature1Fact.setRawValue      (qQNaN());
     _temperature2Fact.setRawValue      (qQNaN());
     _temperature3Fact.setRawValue      (qQNaN());
     /* TD test */
-    //_temperature4Fact.setRawValue      (qQNaN());
+    _temperature4Fact.setRawValue      (qQNaN());
 }
 
 void VehicleTemperatureFactGroup::handleMessage(Vehicle* /* vehicle */, mavlink_message_t& message)
@@ -70,7 +70,7 @@ void VehicleTemperatureFactGroup::_handleHighLatency(mavlink_message_t& message)
     mavlink_msg_high_latency_decode(&message, &highLatency);
     temperature1()->setRawValue(highLatency.temperature_air);
     /* TD test */
-    //temperature4()->setRawValue(69);
+    temperature4()->setRawValue(69);
     _setTelemetryAvailable(true);
 }
 
@@ -80,7 +80,7 @@ void VehicleTemperatureFactGroup::_handleHighLatency2(mavlink_message_t& message
     mavlink_msg_high_latency2_decode(&message, &highLatency2);
     temperature1()->setRawValue(highLatency2.temperature_air);
     /* TD test */
-    //temperature4()->setRawValue(69);
+    temperature4()->setRawValue(69);
     _setTelemetryAvailable(true);
 }
 
@@ -90,7 +90,7 @@ void VehicleTemperatureFactGroup::_handleScaledPressure(mavlink_message_t& messa
     mavlink_msg_scaled_pressure_decode(&message, &pressure);
     temperature1()->setRawValue(pressure.temperature / 100.0);
     /* TD test */
-    //temperature4()->setRawValue(69);
+    temperature4()->setRawValue(69);
     _setTelemetryAvailable(true);
 }
 

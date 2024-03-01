@@ -2,6 +2,8 @@
 #include <chrono>
 
 void DataBalancer::update(const mavlink_message_t* m){
+    uint64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+
     switch(m->msgid){
         /* TODO (at least)
          * Replace literals with macros
@@ -15,7 +17,7 @@ void DataBalancer::update(const mavlink_message_t* m){
 
         /* if first cass message, calculate the cass boot time. Do the same thing for altTime in the other cases, provided they have a timestamp at all */
         if (timeOffset == 0){
-            timeOffset = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - s.time_boot_ms;
+            timeOffset = currentTime - s.time_boot_ms;
         }
 
         switch(s.app_datatype){
@@ -51,10 +53,11 @@ void DataBalancer::update(const mavlink_message_t* m){
     /* Some fields not yet ready... */
     if (!(cass0Count > 0 && cass1Count > 0 && cass2Count > 0 && cass3Count > 0 && count0 > 0 && count1 > 0 && count2 > 0 && count3 > 0 && count4 > 0)) return;
     /* Too soon... */
-    if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - lastUpdate < balancedDataFrequency) return;
-    data.time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() - timeOffset;
+    if (currentTime - lastUpdate < balancedDataFrequency) return;
+    data.time = currentTime - timeOffset;
     data.iMetTemp = cass0Avg;
     /* set the rest of the members... */
+    lastUpdate = currentTime;
 }
 
 /* Better to use the functions in the mavlink files, but I can't include them for some reason. This implementation doesn't account for platform differences yet. */
