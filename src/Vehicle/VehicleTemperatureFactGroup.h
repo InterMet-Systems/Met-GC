@@ -11,7 +11,7 @@
 
 #include "FactGroup.h"
 #include "QGCMAVLink.h"
-#include "IMetDataBalancer.h"
+#include "DataBalancer.h"
 
 class VehicleTemperatureFactGroup : public FactGroup
 {
