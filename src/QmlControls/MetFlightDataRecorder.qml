@@ -21,30 +21,31 @@ import QGroundControl.FactControls  1.0
 import QGroundControl.ScreenTools   1.0
 
 Rectangle {
-    id:                 metDataWindow
-    height:             500
-    width:              500
+    id:                 metFlightData
     color:              qgcPal.window
     radius:             ScreenTools.defaultFontPixelWidth / 2
 
     property real   _toolsMargin:           ScreenTools.defaultFontPixelWidth * 0.75
 
-    MetFlightDataRecorder {
-        id:             metFlightData
-        width:          parent.width
-        height:         250
-        anchors.top:    parent.top
+    Text {
+        id: flightLabel
+        text: "Flight:"
+        font.pixelSize: 20
+        width: 65
+        color: qgcPal.text
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.leftMargin: _toolsMargin
     }
 
-    Rectangle {
-        color: qgcPal.window
-        width: parent.width
-        height: 250
-        anchors.bottom: parent.bottom
-        MetFactValueGrid {
-            id:                     valueArea
-            defaultSettingsGroup:   metDataDefaultSettingsGroup
-            anchors.fill: parent
-        }
+    QGCTextField {
+        id: flightInput
+        anchors.top: text.bottom
+        anchors.left: flightLabel.right
+        anchors.leftMargin: _toolsMargin
+        width: 200
+        height: 30
+        showHelp: false
     }
+
 }
