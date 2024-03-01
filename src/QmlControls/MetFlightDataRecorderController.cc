@@ -7,21 +7,17 @@
  *
  ****************************************************************************/
 
-#include "MetFlightDataRecorder.h"
-#include "InstrumentValueData.h"
-#include "QGCApplication.h"
+#include "MetFlightDataRecorderController.h"
 #include "QGCCorePlugin.h"
 
 #include <QSettings>
 
-const QString MetFlightDataRecorder::flightFileName ("Flight1");
-
-MetFlightDataRecorder::MetFlightDataRecorder(QQuickItem* parent)
+MetFlightDataRecorderController::MetFlightDataRecorderController(QQuickItem* parent)
 {
 
 }
 
-MetFlightDataRecorder::MetFlightDataRecorder(const QString& flightFileName)
+void MetFlightDataRecorderController::setFlightFileName(QString flightFileName)
 {
-
+     qDebug() << "Changing Flight file name to: " << flightFileName;
 }

@@ -27,6 +27,10 @@ Rectangle {
 
     property real   _toolsMargin:           ScreenTools.defaultFontPixelWidth * 0.75
 
+    MetFlightDataRecorderController {
+        id: controller
+    }
+
     Text {
         id: flightLabel
         text: "Flight:"
@@ -36,6 +40,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.leftMargin: _toolsMargin
+        anchors.topMargin: _toolsMargin
     }
 
     QGCTextField {
@@ -43,9 +48,15 @@ Rectangle {
         anchors.top: text.bottom
         anchors.left: flightLabel.right
         anchors.leftMargin: _toolsMargin
-        width: 200
+        anchors.topMargin: _toolsMargin
+        width: 400
         height: 30
         showHelp: false
+        placeholderText:  qsTr("Enter Flight Name")
+        text: controller.flightFileName
+        onEditingFinished: {
+            controller.flightFileName = text
+        }
     }
 
 }

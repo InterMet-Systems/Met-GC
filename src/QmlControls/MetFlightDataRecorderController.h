@@ -9,27 +9,31 @@
 
 #pragma once
 
-#include "FactSystem.h"
+#include <QObject>
+
 #include "QmlObjectListModel.h"
 #include "QGCApplication.h"
-#include "FactValueGrid.h"
 
-class InstrumentValueData;
 
-class MetFlightDataRecorder : public FactValueGrid
+class MetFlightDataRecorderController : public QObject
 {
     Q_OBJECT
 
 public:
-    MetFlightDataRecorder(QQuickItem *parent = nullptr);
-    MetFlightDataRecorder(const QString& flightFileName);
+    MetFlightDataRecorderController(QQuickItem *parent = nullptr);
 
-    Q_PROPERTY(QString flightFileName MEMBER flightFileName CONSTANT)
+    Q_PROPERTY(QString flightFileName MEMBER flightFileName WRITE setFlightFileName NOTIFY flightFileNameChanged)
 
-    static const QString flightFileName;
+    QString flightFileName;
+
+public slots:
+    void setFlightFileName(QString flightFileName);
+
+signals:
+    void flightFileNameChanged();
 
 private:
-    Q_DISABLE_COPY(MetFlightDataRecorder)
+    Q_DISABLE_COPY(MetFlightDataRecorderController)
 };
 
-QML_DECLARE_TYPE(MetFlightDataRecorder)
+QML_DECLARE_TYPE(MetFlightDataRecorderController)
