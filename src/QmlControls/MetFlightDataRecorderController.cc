@@ -9,12 +9,30 @@
 
 #include "MetFlightDataRecorderController.h"
 #include "QGCCorePlugin.h"
-
+#include <cstdlib>
 #include <QSettings>
+
+double generateRandomDouble(double lowerBound, double upperBound) {
+    srand(0);
+    double randomValue = lowerBound + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX/(upperBound-lowerBound)));
+    return randomValue;
+}
 
 MetFlightDataRecorderController::MetFlightDataRecorderController(QQuickItem* parent)
 {
 
+    // test data
+    for(int i = 0; i < 5; i++) {
+        tempAltLevelMsg_t* tempAltLevelMsg = new tempAltLevelMsg_t();
+        tempAltLevelMsg->altitude = generateRandomDouble(0, 1000);
+        tempAltLevelMsg->time = generateRandomDouble(0, 2000);
+        tempAltLevelMsg->pressure = generateRandomDouble(0, 100);
+        tempAltLevelMsg->temperature = generateRandomDouble(-50, 50);
+        tempAltLevelMsg->relativeHumidity = generateRandomDouble(0, 100);
+        tempAltLevelMsg->windSpeed = generateRandomDouble(0, 200);
+        tempAltLevelMsg->windDirection = generateRandomDouble(0, 360);
+        _tempAltLevelMsgList.append(tempAltLevelMsg);
+    }
 }
 
 void MetFlightDataRecorderController::setFlightFileName(QString _flightFileName)

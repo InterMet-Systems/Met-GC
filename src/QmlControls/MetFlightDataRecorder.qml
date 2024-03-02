@@ -26,6 +26,7 @@ Rectangle {
     radius:             ScreenTools.defaultFontPixelWidth / 2
 
     property real _toolsMargin:           ScreenTools.defaultFontPixelWidth * 0.75
+    property real _altMsgMinWidth:        ScreenTools.defaultFontPixelWidth * 10
     property bool _fileNameTouched:       false
     MetFlightDataRecorderController { id: controller; }
 
@@ -91,4 +92,141 @@ Rectangle {
         anchors.topMargin: _toolsMargin
     }
 
+    // altitude message data grid
+    GridLayout {
+        id: altitudeGrid
+        anchors.top: flightNameError.bottom
+        anchors.left: parent.left
+        anchors.leftMargin: _toolsMargin
+        anchors.topMargin: _toolsMargin
+        columns: 7
+        rowSpacing: _toolsMargin
+        columnSpacing: _toolsMargin
+
+        Text {
+            text: qsTr("Alt (m)")
+            font.pixelSize: 26
+            color: qgcPal.text
+        }
+        
+        Text {
+            text: qsTr("Time (s)")
+            font.pixelSize: 26
+            color: qgcPal.text
+        }
+
+        Text {
+            text: qsTr("Press (mB)")
+            font.pixelSize: 26
+            color: qgcPal.text
+        }
+
+        Text {
+            text: qsTr("Temp (C)")
+            font.pixelSize: 26
+            color: qgcPal.text
+        }
+
+        Text {
+            text: qsTr("Rel Hum (%)")
+            font.pixelSize: 26
+            color: qgcPal.text
+        }
+
+        Text {
+            text: qsTr("WSpeed (m/s)")
+            font.pixelSize: 26
+            color: qgcPal.text
+        }
+
+        Text {
+            text: qsTr("WDir (deg)")
+            font.pixelSize: 26
+            color: qgcPal.text
+        }
+
+        Repeater {
+            model: controller.tempAltLevelMsgList.count
+            delegate: QGCLabel {
+                    Layout.row:         index + 1
+                    Layout.column:      0
+                    Layout.minimumWidth: _altMsgMinWidth
+                    text: controller.tempAltLevelMsgList.get(index).altitude.toFixed(2)
+                    font.pixelSize: 26
+                    color: qgcPal.text
+            }
+        }
+
+        Repeater {
+            model: controller.tempAltLevelMsgList.count
+            delegate: QGCLabel {
+                    Layout.row:         index + 1
+                    Layout.column:      1
+                    Layout.minimumWidth: _altMsgMinWidth
+                    text: controller.tempAltLevelMsgList.get(index).time.toFixed(2)
+                    font.pixelSize: 26
+                    color: qgcPal.text
+            }
+        }
+
+        Repeater {
+            model: controller.tempAltLevelMsgList.count
+            delegate: QGCLabel {
+                    Layout.row:         index + 1
+                    Layout.column:      2
+                    Layout.minimumWidth: _altMsgMinWidth
+                    text: controller.tempAltLevelMsgList.get(index).pressure.toFixed(2)
+                    font.pixelSize: 26
+                    color: qgcPal.text
+            }
+        }
+
+        Repeater {
+            model: controller.tempAltLevelMsgList.count
+            delegate: QGCLabel {
+                    Layout.row:         index + 1
+                    Layout.column:      3
+                    Layout.minimumWidth: _altMsgMinWidth
+                    text: controller.tempAltLevelMsgList.get(index).temperature.toFixed(2)
+                    font.pixelSize: 26
+                    color: qgcPal.text
+            }
+        }
+
+        Repeater {
+            model: controller.tempAltLevelMsgList.count
+            delegate: QGCLabel {
+                    Layout.row:         index + 1
+                    Layout.column:      4
+                    Layout.minimumWidth: _altMsgMinWidth
+                    text: controller.tempAltLevelMsgList.get(index).relativeHumidity.toFixed(2)
+                    font.pixelSize: 26
+                    color: qgcPal.text
+            }
+        }
+
+        Repeater {
+            model: controller.tempAltLevelMsgList.count
+            delegate: QGCLabel {
+                    Layout.row:         index + 1
+                    Layout.column:      5
+                    Layout.minimumWidth: _altMsgMinWidth
+                    text: controller.tempAltLevelMsgList.get(index).windSpeed.toFixed(2)
+                    font.pixelSize: 26
+                    color: qgcPal.text
+            }
+        }
+
+        Repeater {
+            model: controller.tempAltLevelMsgList.count
+            delegate: QGCLabel {
+                    Layout.row:         index + 1
+                    Layout.column:      6
+                    Layout.minimumWidth: _altMsgMinWidth
+                    text: controller.tempAltLevelMsgList.get(index).windDirection.toFixed(2)
+                    font.pixelSize: 26
+                    color: qgcPal.text
+            }
+        }
+    }
 }
