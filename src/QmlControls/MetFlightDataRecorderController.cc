@@ -17,7 +17,19 @@ MetFlightDataRecorderController::MetFlightDataRecorderController(QQuickItem* par
 
 }
 
-void MetFlightDataRecorderController::setFlightFileName(QString flightFileName)
+void MetFlightDataRecorderController::setFlightFileName(QString _flightFileName)
 {
-     qDebug() << "Changing Flight file name to: " << flightFileName;
+    this->flightFileName = _flightFileName;
+    bool isValid = this->flightFileName.length() > 0;
+    if(isValid) {
+        for (const QChar ch : _flightFileName) {
+            if (!this->flightNameValidChars.contains(ch)) {
+                isValid = false;
+            }
+        }
+    }
+    if(isValid != this->flightNameValid) {
+        this->flightNameValid = isValid;
+        emit flightNameValidChanged();
+    }
 }

@@ -25,38 +25,70 @@ Rectangle {
     color:              qgcPal.window
     radius:             ScreenTools.defaultFontPixelWidth / 2
 
-    property real   _toolsMargin:           ScreenTools.defaultFontPixelWidth * 0.75
-
-    MetFlightDataRecorderController {
-        id: controller
-    }
+    property real _toolsMargin:           ScreenTools.defaultFontPixelWidth * 0.75
+    property bool _fileNameTouched:       false
+    MetFlightDataRecorderController { id: controller; }
 
     Text {
         id: flightLabel
         text: "Flight:"
-        font.pixelSize: 20
-        width: 65
+        font.pixelSize: 26
         color: qgcPal.text
-        anchors.top: parent.top
+        anchors.verticalCenter: flightInput.verticalCenter
         anchors.left: parent.left
         anchors.leftMargin: _toolsMargin
-        anchors.topMargin: _toolsMargin
     }
 
     QGCTextField {
         id: flightInput
-        anchors.top: text.bottom
+        anchors.top: parent.top
         anchors.left: flightLabel.right
         anchors.leftMargin: _toolsMargin
         anchors.topMargin: _toolsMargin
-        width: 400
-        height: 30
+        width: 300
         showHelp: false
         placeholderText:  qsTr("Enter Flight Name")
         text: controller.flightFileName
-        onEditingFinished: {
+        onTextChanged: {
             controller.flightFileName = text
+            _fileNameTouched = true
         }
+    }
+
+    Text {
+        id: flightNameError
+        text: qsTr("Flight name is invalid")
+        color: qgcPal.colorRed
+        visible: _fileNameTouched && !controller.flightNameValid
+        font.pixelSize: 18
+        anchors.top: flightInput.bottom
+        anchors.left: flightInput.left
+        anchors.leftMargin: _toolsMargin
+        anchors.topMargin: _toolsMargin
+    }
+
+    // Ascent Lable
+    Text {
+        id: ascentLabel
+        text: `${qsTr("Ascent")}: ${controller.ascentNumber}`
+        font.pixelSize: 26
+        color: qgcPal.text
+        visible: controller.ascentNumber > 0
+        anchors.verticalCenter: flightInput.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: _toolsMargin
+        anchors.topMargin: _toolsMargin
+    }
+
+    // divider line
+    Rectangle {
+        width: parent.width - 2 * _toolsMargin
+        height: 1
+        color: qgcPal.text
+        anchors.top: flightNameError.bottom
+        anchors.left: parent.left
+        anchors.leftMargin: _toolsMargin
+        anchors.topMargin: _toolsMargin
     }
 
 }

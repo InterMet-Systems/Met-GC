@@ -22,8 +22,8 @@ import QGroundControl.ScreenTools   1.0
 
 Rectangle {
     id:                 metDataWindow
-    height:             500
-    width:              500
+    height:             700
+    width:              600
     color:              qgcPal.window
     radius:             ScreenTools.defaultFontPixelWidth / 2
 
