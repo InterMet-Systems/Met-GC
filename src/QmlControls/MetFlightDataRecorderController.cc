@@ -9,11 +9,12 @@
 
 #include "MetFlightDataRecorderController.h"
 #include "QGCCorePlugin.h"
-#include <cstdlib>
 #include <QSettings>
+// for test data only
+#include <cstdlib>
+#include <ctime>
 
 double generateRandomDouble(double lowerBound, double upperBound) {
-    srand(0);
     double randomValue = lowerBound + static_cast<double>(rand()) / (static_cast<double>(RAND_MAX/(upperBound-lowerBound)));
     return randomValue;
 }
@@ -22,7 +23,8 @@ MetFlightDataRecorderController::MetFlightDataRecorderController(QQuickItem* par
 {
 
     // test data
-    for(int i = 0; i < 5; i++) {
+    srand(time(nullptr));
+    for(int i = 0; i < 15; i++) {
         tempAltLevelMsg_t* tempAltLevelMsg = new tempAltLevelMsg_t();
         tempAltLevelMsg->altitude = generateRandomDouble(0, 1000);
         tempAltLevelMsg->time = generateRandomDouble(0, 2000);

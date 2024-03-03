@@ -58,6 +58,7 @@ Rectangle {
 
     Text {
         id: flightNameError
+        height: _fileNameTouched && !controller.flightNameValid ? 0 : undefined
         text: qsTr("Flight name is invalid")
         color: qgcPal.colorRed
         visible: _fileNameTouched && !controller.flightNameValid
@@ -93,140 +94,164 @@ Rectangle {
     }
 
     // altitude message data grid
-    GridLayout {
-        id: altitudeGrid
+    RowLayout {
+        id: almHeaders
         anchors.top: flightNameError.bottom
         anchors.left: parent.left
         anchors.leftMargin: _toolsMargin
         anchors.topMargin: _toolsMargin
-        columns: 7
-        rowSpacing: _toolsMargin
-        columnSpacing: _toolsMargin
 
-        Text {
-            text: qsTr("Alt (m)")
+        QGCLabel {
+            text: qsTr("Alt\n(m)")
             font.pixelSize: 26
             color: qgcPal.text
+            Layout.minimumWidth: _altMsgMinWidth
         }
         
-        Text {
-            text: qsTr("Time (s)")
+        QGCLabel {
+            text: qsTr("Time\n(s)")
             font.pixelSize: 26
             color: qgcPal.text
+            Layout.minimumWidth: _altMsgMinWidth
         }
 
-        Text {
-            text: qsTr("Press (mB)")
+        QGCLabel {
+            text: qsTr("Press\n(mB)")
             font.pixelSize: 26
             color: qgcPal.text
+            Layout.minimumWidth: _altMsgMinWidth
         }
 
-        Text {
-            text: qsTr("Temp (C)")
+        QGCLabel {
+            text: qsTr("Temp\n(C)")
             font.pixelSize: 26
             color: qgcPal.text
+            Layout.minimumWidth: _altMsgMinWidth
         }
 
-        Text {
-            text: qsTr("Rel Hum (%)")
+        QGCLabel {
+            text: qsTr("RelHum\n(%)")
             font.pixelSize: 26
             color: qgcPal.text
+            Layout.minimumWidth: _altMsgMinWidth
         }
 
-        Text {
-            text: qsTr("WSpeed (m/s)")
+        QGCLabel {
+            text: qsTr("WSpeed\n(m/s)")
             font.pixelSize: 26
             color: qgcPal.text
+            Layout.minimumWidth: _altMsgMinWidth
         }
 
-        Text {
-            text: qsTr("WDir (deg)")
+        QGCLabel {
+            text: qsTr("WDir\n(deg)")
             font.pixelSize: 26
             color: qgcPal.text
+            Layout.minimumWidth: _altMsgMinWidth
         }
+    }
+    Flickable {
+        id: altitudeFlickable
+        anchors.top: almHeaders.bottom
+        width: parent.width - 2 * _toolsMargin
+        height: Math.min(contentHeight, 200)
+        contentWidth: width
+        contentHeight: almGrid.implicitHeight
+        clip: true
+        flickableDirection: Flickable.VerticalFlick
+    
+        GridLayout {
+            id: almGrid
+            anchors.fill: parent
+            columns: 7
+            rowSpacing: _toolsMargin
+            columnSpacing: _toolsMargin
+        
+            Repeater {
+                model: controller.tempAltLevelMsgList.count
+                delegate: QGCLabel {
+                        Layout.row:         index
+                        Layout.column:      0
+                        Layout.minimumWidth: _altMsgMinWidth
+                        text: controller.tempAltLevelMsgList.get(index).altitude.toFixed(2)
+                        font.pixelSize: 26
+                        color: qgcPal.text
+                }
+            }
 
-        Repeater {
-            model: controller.tempAltLevelMsgList.count
-            delegate: QGCLabel {
-                    Layout.row:         index + 1
-                    Layout.column:      0
-                    Layout.minimumWidth: _altMsgMinWidth
-                    text: controller.tempAltLevelMsgList.get(index).altitude.toFixed(2)
-                    font.pixelSize: 26
-                    color: qgcPal.text
+            Repeater {
+                model: controller.tempAltLevelMsgList.count
+                delegate: QGCLabel {
+                        Layout.row:         index
+                        Layout.column:      1
+                        Layout.minimumWidth: _altMsgMinWidth
+                        text: controller.tempAltLevelMsgList.get(index).time.toFixed(2)
+                        font.pixelSize: 26
+                        color: qgcPal.text
+                }
+            }
+
+            Repeater {
+                model: controller.tempAltLevelMsgList.count
+                delegate: QGCLabel {
+                        Layout.row:         index
+                        Layout.column:      2
+                        Layout.minimumWidth: _altMsgMinWidth
+                        text: controller.tempAltLevelMsgList.get(index).pressure.toFixed(2)
+                        font.pixelSize: 26
+                        color: qgcPal.text
+                }
+            }
+
+            Repeater {
+                model: controller.tempAltLevelMsgList.count
+                delegate: QGCLabel {
+                        Layout.row:         index
+                        Layout.column:      3
+                        Layout.minimumWidth: _altMsgMinWidth
+                        text: controller.tempAltLevelMsgList.get(index).temperature.toFixed(2)
+                        font.pixelSize: 26
+                        color: qgcPal.text
+                }
+            }
+
+            Repeater {
+                model: controller.tempAltLevelMsgList.count
+                delegate: QGCLabel {
+                        Layout.row:         index
+                        Layout.column:      4
+                        Layout.minimumWidth: _altMsgMinWidth
+                        text: controller.tempAltLevelMsgList.get(index).relativeHumidity.toFixed(2)
+                        font.pixelSize: 26
+                        color: qgcPal.text
+                }
+            }
+
+            Repeater {
+                model: controller.tempAltLevelMsgList.count
+                delegate: QGCLabel {
+                        Layout.row:         index
+                        Layout.column:      5
+                        Layout.minimumWidth: _altMsgMinWidth
+                        text: controller.tempAltLevelMsgList.get(index).windSpeed.toFixed(2)
+                        font.pixelSize: 26
+                        color: qgcPal.text
+                }
+            }
+
+            Repeater {
+                model: controller.tempAltLevelMsgList.count
+                delegate: QGCLabel {
+                        Layout.row:         index
+                        Layout.column:      6
+                        Layout.minimumWidth: _altMsgMinWidth
+                        text: controller.tempAltLevelMsgList.get(index).windDirection.toFixed(2)
+                        font.pixelSize: 26
+                        color: qgcPal.text
+                }
             }
         }
 
-        Repeater {
-            model: controller.tempAltLevelMsgList.count
-            delegate: QGCLabel {
-                    Layout.row:         index + 1
-                    Layout.column:      1
-                    Layout.minimumWidth: _altMsgMinWidth
-                    text: controller.tempAltLevelMsgList.get(index).time.toFixed(2)
-                    font.pixelSize: 26
-                    color: qgcPal.text
-            }
-        }
-
-        Repeater {
-            model: controller.tempAltLevelMsgList.count
-            delegate: QGCLabel {
-                    Layout.row:         index + 1
-                    Layout.column:      2
-                    Layout.minimumWidth: _altMsgMinWidth
-                    text: controller.tempAltLevelMsgList.get(index).pressure.toFixed(2)
-                    font.pixelSize: 26
-                    color: qgcPal.text
-            }
-        }
-
-        Repeater {
-            model: controller.tempAltLevelMsgList.count
-            delegate: QGCLabel {
-                    Layout.row:         index + 1
-                    Layout.column:      3
-                    Layout.minimumWidth: _altMsgMinWidth
-                    text: controller.tempAltLevelMsgList.get(index).temperature.toFixed(2)
-                    font.pixelSize: 26
-                    color: qgcPal.text
-            }
-        }
-
-        Repeater {
-            model: controller.tempAltLevelMsgList.count
-            delegate: QGCLabel {
-                    Layout.row:         index + 1
-                    Layout.column:      4
-                    Layout.minimumWidth: _altMsgMinWidth
-                    text: controller.tempAltLevelMsgList.get(index).relativeHumidity.toFixed(2)
-                    font.pixelSize: 26
-                    color: qgcPal.text
-            }
-        }
-
-        Repeater {
-            model: controller.tempAltLevelMsgList.count
-            delegate: QGCLabel {
-                    Layout.row:         index + 1
-                    Layout.column:      5
-                    Layout.minimumWidth: _altMsgMinWidth
-                    text: controller.tempAltLevelMsgList.get(index).windSpeed.toFixed(2)
-                    font.pixelSize: 26
-                    color: qgcPal.text
-            }
-        }
-
-        Repeater {
-            model: controller.tempAltLevelMsgList.count
-            delegate: QGCLabel {
-                    Layout.row:         index + 1
-                    Layout.column:      6
-                    Layout.minimumWidth: _altMsgMinWidth
-                    text: controller.tempAltLevelMsgList.get(index).windDirection.toFixed(2)
-                    font.pixelSize: 26
-                    color: qgcPal.text
-            }
-        }
+        ScrollBar.vertical: ScrollBar { }
     }
 }
