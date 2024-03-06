@@ -58,7 +58,7 @@ Rectangle {
 
     Text {
         id: flightNameError
-        height: _fileNameTouched && !controller.flightNameValid ? 0 : undefined
+        height: (_fileNameTouched && !controller.flightNameValid) ? undefined : 0
         text: qsTr("Flight name is invalid")
         color: qgcPal.colorRed
         visible: _fileNameTouched && !controller.flightNameValid
@@ -153,20 +153,42 @@ Rectangle {
     Flickable {
         id: altitudeFlickable
         anchors.top: almHeaders.bottom
+        anchors.topMargin: _toolsMargin
+        anchors.leftMargin: _toolsMargin
         width: parent.width - 2 * _toolsMargin
-        height: Math.min(contentHeight, 200)
+        height: Math.min(contentHeight, 250)
+        boundsBehavior: Flickable.StopAtBounds
         contentWidth: width
         contentHeight: almGrid.implicitHeight
         clip: true
         flickableDirection: Flickable.VerticalFlick
     
+        MouseArea {
+            anchors.fill: parent
+
+            onWheel: {
+                // if(wheel.y > altitudeFlickable.height || wheel.y < 0) {
+                //     return
+                // }
+                altitudeFlickable.cancelFlick()
+                if (wheel.angleDelta.y > 0) {
+                    altitudeFlickable.flick(0, 500)
+                } else {
+                    altitudeFlickable.flick(0, -500)
+                }
+                wheel.accepted = true
+            }
+        }
+
         GridLayout {
             id: almGrid
             anchors.fill: parent
+            anchors.topMargin: _toolsMargin
+            anchors.leftMargin: _toolsMargin
             columns: 7
             rowSpacing: _toolsMargin
             columnSpacing: _toolsMargin
-        
+
             Repeater {
                 model: controller.tempAltLevelMsgList.count
                 delegate: QGCLabel {

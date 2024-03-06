@@ -36,14 +36,71 @@ Rectangle {
         anchors.top:    parent.top
     }
 
+    // divider line
     Rectangle {
-        color: qgcPal.window
-        width: parent.width
-        height: 250
+        width: parent.width - 2 * _toolsMargin
+        height: 1
+        color: qgcPal.text
+        anchors.bottom: valueArea.top
+        anchors.left: parent.left
+        anchors.leftMargin: _toolsMargin
+        anchors.topMargin: _toolsMargin
+    }
+
+    Rectangle {
+        id: valueAreaBackground
         anchors.bottom: parent.bottom
+        color: qgcPal.window
+        width: parent.width / 2
+        height: 250
         MetFactValueGrid {
             id:                     valueArea
             defaultSettingsGroup:   metDataDefaultSettingsGroup
+            anchors.fill: parent
+        }
+    }
+
+    QGCButton {
+        id:                             _rootButton
+        width:                          40 * 1.25
+        height:                         40
+        flat:                           true
+        anchors.bottom:                 parent.bottom
+        contentItem: Item {
+            id:                         _content
+            anchors.fill:               _rootButton
+            Row {
+                id:                     _edge
+                spacing:                ScreenTools.defaultFontPixelWidth * 0.25
+                anchors.left:           parent.left
+                anchors.leftMargin:     ScreenTools.defaultFontPixelWidth
+                anchors.verticalCenter: parent.verticalCenter
+                Repeater {
+                    model: [1,2,3]
+                    Rectangle {
+                        height:         ScreenTools.defaultFontPixelHeight
+                        width:          ScreenTools.defaultFontPixelWidth * 0.25
+                        color:          qgcPal.text
+                        opacity:        0.75
+                    }
+                }
+            }
+            Image {
+                id:                     _icon
+                height:                 _rootButton.height * 0.75
+                width:                  height
+                smooth:                 true
+                mipmap:                 true
+                antialiasing:           true
+                fillMode:               Image.PreserveAspectFit
+                source:                 "/InstrumentValueIcons/folder.svg"
+                sourceSize.height:      height
+                anchors.left:           _edge.right
+                anchors.leftMargin:     ScreenTools.defaultFontPixelWidth
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
+        background: Item {
             anchors.fill: parent
         }
     }
