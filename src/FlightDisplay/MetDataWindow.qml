@@ -36,20 +36,22 @@ Rectangle {
         anchors.top:    parent.top
     }
 
-    // divider line
-    Rectangle {
-        width: parent.width - 2 * _toolsMargin
-        height: 1
-        color: qgcPal.text
-        anchors.bottom: valueArea.top
-        anchors.left: parent.left
-        anchors.leftMargin: _toolsMargin
-        anchors.topMargin: _toolsMargin
-    }
+    // // divider line
+    // Rectangle {
+    //     width: parent.width - 2 * _toolsMargin
+    //     height: 1
+    //     color: qgcPal.text
+    //     anchors.top: metFlightData.top
+    //     anchors.topMargin: _toolsMargin
+    //     anchors.left: parent.left
+    //     anchors.leftMargin: _toolsMargin
+    // }
 
     Rectangle {
         id: valueAreaBackground
         anchors.bottom: parent.bottom
+        anchors.leftMargin: _toolsMargin
+        anchors.topMargin: _toolsMargin
         color: qgcPal.window
         width: parent.width / 2
         height: 250
@@ -60,48 +62,57 @@ Rectangle {
         }
     }
 
-    QGCButton {
-        id:                             _rootButton
-        width:                          40 * 1.25
-        height:                         40
-        flat:                           true
-        anchors.bottom:                 parent.bottom
-        contentItem: Item {
-            id:                         _content
-            anchors.fill:               _rootButton
-            Row {
-                id:                     _edge
-                spacing:                ScreenTools.defaultFontPixelWidth * 0.25
-                anchors.left:           parent.left
-                anchors.leftMargin:     ScreenTools.defaultFontPixelWidth
-                anchors.verticalCenter: parent.verticalCenter
-                Repeater {
-                    model: [1,2,3]
-                    Rectangle {
-                        height:         ScreenTools.defaultFontPixelHeight
-                        width:          ScreenTools.defaultFontPixelWidth * 0.25
-                        color:          qgcPal.text
-                        opacity:        0.75
-                    }
+    Rectangle {
+        id:                                 goToFileBackground
+        anchors.bottom:                     parent.bottom
+        anchors.bottomMargin:               _toolsMargin
+        anchors.right:                      parent.right
+        anchors.rightMargin:                _toolsMargin
+
+        width:                              parent.width / 2
+        height:                             valueAreaBackground.height
+
+        color:                              qgcPal.window
+
+        QGCButton {
+            id:                             goToFileButton
+            width:                          80 * 1.25
+            height:                         80
+            anchors.centerIn:               parent
+
+            contentItem: Item {
+                id:                         _content
+                anchors.fill:               goToFileButton
+
+                QGCColoredImage {
+                    id:                     icon
+                    source:                  "/InstrumentValueIcons/document.svg"
+                    height:                 goToFileLabel.height
+                    width:                  height
+                    color:                  goToFileLabel.color
+                    fillMode:               Image.PreserveAspectFit
+                    sourceSize.height:      height
+                    anchors.top:            parent.top
+                    anchors.topMargin:      _toolsMargin
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                QGCLabel {
+                    id:                         goToFileLabel
+                    font.pixelSize:             ScreenTools.defaultFontPixelHeight
+                    anchors.horizontalCenter:   parent.horizontalCenter
+                    anchors.bottom:             parent.bottom
+                    text:                       qsTr("Go to File")
+                    color:                      qgcPal.text
                 }
             }
-            Image {
-                id:                     _icon
-                height:                 _rootButton.height * 0.75
-                width:                  height
-                smooth:                 true
-                mipmap:                 true
-                antialiasing:           true
-                fillMode:               Image.PreserveAspectFit
-                source:                 "/InstrumentValueIcons/folder.svg"
-                sourceSize.height:      height
-                anchors.left:           _edge.right
-                anchors.leftMargin:     ScreenTools.defaultFontPixelWidth
-                anchors.verticalCenter: parent.verticalCenter
+            MouseArea {
+                anchors.fill:   parent
+                onClicked:      metFlightData.controller.goToFile()  
             }
-        }
-        background: Item {
-            anchors.fill: parent
+            background: Item {
+                anchors.fill: parent
+            }
         }
     }
 }

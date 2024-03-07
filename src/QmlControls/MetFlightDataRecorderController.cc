@@ -53,3 +53,11 @@ void MetFlightDataRecorderController::setFlightFileName(QString _flightFileName)
         emit flightNameValidChanged();
     }
 }
+
+void MetFlightDataRecorderController::goToFile()
+{
+    // open file explorer window
+    // system("explorer C:\\");
+
+    qDebug() << "Opening file explorer window";
+}

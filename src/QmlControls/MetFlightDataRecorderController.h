@@ -51,6 +51,8 @@ public:
     Q_PROPERTY(int ascentNumber MEMBER ascentNumber NOTIFY ascentNumberChanged)
     Q_PROPERTY(QmlObjectListModel* tempAltLevelMsgList READ tempAltLevelMsgList NOTIFY tempAltLevelMsgListChanged)
 
+    Q_INVOKABLE void goToFile();
+
     QString flightFileName;
     bool flightNameValid = false;
     int ascentNumber = 1;
