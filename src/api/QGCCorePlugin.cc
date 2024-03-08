@@ -314,9 +314,9 @@ void QGCCorePlugin::factValueGridCreateDefaultSettings(const QString& defaultSet
         QmlObjectListModel* column      = factValueGrid.columns()->value<QmlObjectListModel*>(0);
 
         InstrumentValueData* value = column->value<InstrumentValueData*>(rowIndex++);
-        value->setFact("Temperature", "temperature3");
+        //value->setFact("Temperature", "temperature3");
         /* TD test */
-        //value->setFact("Temperature", "temperature4");
+        value->setFact("Temperature", "temperature4");
         value->setIcon("");
         value->setText(value->fact()->shortDescription());
         value->setShowUnits(true);
