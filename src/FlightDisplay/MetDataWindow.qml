@@ -28,6 +28,7 @@ Rectangle {
     radius:             ScreenTools.defaultFontPixelWidth / 2
 
     property real   _toolsMargin:           ScreenTools.defaultFontPixelWidth * 0.75
+    property real _fontSize:              ScreenTools.defaultFontPointSize
 
     MetFlightDataRecorder {
         id:             metFlightData
@@ -99,7 +100,7 @@ Rectangle {
 
                 QGCLabel {
                     id:                         goToFileLabel
-                    font.pixelSize:             ScreenTools.defaultFontPixelHeight
+                    font.pointSize:             _fontSize
                     anchors.horizontalCenter:   parent.horizontalCenter
                     anchors.bottom:             parent.bottom
                     text:                       qsTr("Go to File")
@@ -108,7 +109,7 @@ Rectangle {
             }
             MouseArea {
                 anchors.fill:   parent
-                onClicked:      metFlightData.controller.goToFile()  
+                onClicked:      metFlightData.goToFile()  
             }
             background: Item {
                 anchors.fill: parent

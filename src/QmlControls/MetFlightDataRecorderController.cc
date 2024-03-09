@@ -7,8 +7,10 @@
  *
  ****************************************************************************/
 
+#include <AppSettings.h>
 #include "MetFlightDataRecorderController.h"
 #include "QGCCorePlugin.h"
+#include "SettingsManager.h"
 #include <QSettings>
 // for test data only
 #include <cstdlib>
@@ -60,4 +62,6 @@ void MetFlightDataRecorderController::goToFile()
     // system("explorer C:\\");
 
     qDebug() << "Opening file explorer window";
+    QString savePath = qgcApp()->toolbox()->settingsManager()->appSettings()->messagesRawSavePath();
+    QDesktopServices::openUrl(QUrl::fromLocalFile(savePath));
 }
