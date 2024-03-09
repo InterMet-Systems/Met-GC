@@ -447,6 +447,7 @@ HEADERS += \
     src/QmlControls/CustomAction.h \
     src/QmlControls/CustomActionManager.h \
     src/QmlControls/MetFactValueGrid.h \
+    src/QmlControls/MetFlightDataRecorderController.h \
     src/QmlControls/QmlUnitsConversion.h \
     src/Vehicle/DataBalancer.h \
     src/Vehicle/VehicleEscStatusFactGroup.h \
@@ -467,6 +468,7 @@ SOURCES += \
     src/QmlControls/CustomActionManager.cc \
     src/QmlControls/MetFactValueGrid.cc \
     src/Vehicle/DataBalancer.cc \
+    src/QmlControls/MetFlightDataRecorderController.cc \
     src/Vehicle/VehicleEscStatusFactGroup.cc \
     src/Vehicle/VehicleMETFactGroup.cc \
     src/api/QGCCorePlugin.cc \
