@@ -51,6 +51,7 @@
 #include "StandardModes.h"
 #include "VehicleGeneratorFactGroup.h"
 #include "VehicleEFIFactGroup.h"
+//#include "VehicleMETFactGroup.h" //findMe
 
 class Actuators;
 class EventHandler;
@@ -724,6 +725,7 @@ public:
     FactGroup* generatorFactGroup           () { return &_generatorFactGroup; }
     FactGroup* efiFactGroup                 () { return &_efiFactGroup; }
     QmlObjectListModel* batteries           () { return &_batteryFactGroupListModel; }
+    //FactGroup* METFactGroup                 () { return &_METFactGroup; }  //findMe
 
     MissionManager*                 missionManager      () { return _missionManager; }
     GeoFenceManager*                geoFenceManager     () { return _geoFenceManager; }
@@ -1430,6 +1432,7 @@ private:
     VehicleHygrometerFactGroup      _hygrometerFactGroup;
     VehicleGeneratorFactGroup       _generatorFactGroup;
     VehicleEFIFactGroup             _efiFactGroup;
+    //VehicleMETFactGroup             _METFactGroup;  //findMe
     TerrainFactGroup                _terrainFactGroup;
     QmlObjectListModel              _batteryFactGroupListModel;
 
@@ -1492,6 +1495,7 @@ private:
     static const char* _generatorFactGroupName;
     static const char* _efiFactGroupName;
     static const char* _terrainFactGroupName;
+    static const char* _METFactGroupName;
 
     static const int _vehicleUIUpdateRateMSecs      = 100;
 
