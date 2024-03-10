@@ -65,12 +65,14 @@ Rectangle {
 
     Text {
         id: flightNameError
+
         text: qsTr("Invalid Flight Name")
         color: qgcPal.colorRed
         visible: _fileNameTouched && !controller.flightNameValid
-        font.pointSize: _smallFontSize
+        font.pointSize: _fontSize
         anchors.verticalCenter: flightInput.verticalCenter
         anchors.left: flightInput.right
+
         anchors.leftMargin: _toolsMargin
         anchors.topMargin: _toolsMargin
     }

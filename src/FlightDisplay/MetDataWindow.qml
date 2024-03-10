@@ -27,6 +27,7 @@ Rectangle {
     color:              qgcPal.window
     radius:             ScreenTools.defaultFontPixelWidth / 2
 
+
     property real _toolsMargin:           ScreenTools.defaultFontPixelWidth
     property real _fontSize:              ScreenTools.defaultFontPointSize
 
@@ -36,6 +37,7 @@ Rectangle {
         anchors.top:    parent.top
         anchors.bottom: valueAreaBackground.top
         anchors.bottomMargin: _toolsMargin
+
     }
 
     Rectangle {
