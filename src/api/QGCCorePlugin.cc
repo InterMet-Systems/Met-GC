@@ -326,16 +326,16 @@ void QGCCorePlugin::factValueGridCreateDefaultSettings(const QString& defaultSet
         value->setShowUnits(true);
 
         value = column->value<InstrumentValueData*>(rowIndex++);
-        value->setFact("Temperature", "timeUAVBootMilliseconds");
+        value->setFact("Temperature", "latitudeDegrees");
         value->setIcon("");
-        value->setText("uav_b_ms:"/*value->fact()->shortDescription()*/);
+        value->setText("lat_deg:"/*value->fact()->shortDescription()*/);
         value->setShowUnits(true);
 
 
         value = column->value<InstrumentValueData*>(rowIndex++);
-        value->setFact("Temperature", "altitudeMillimetersMSL");
+        value->setFact("Temperature", "longitudeDegrees");
         // value->setIcon("");
-        value->setText("alt_mm:"/*value->fact()->shortDescription()*/);
+        value->setText("lon_deg:"/*value->fact()->shortDescription()*/);
         value->setShowUnits(true);
 
 
