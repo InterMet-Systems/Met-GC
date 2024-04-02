@@ -27,8 +27,8 @@ void MetDataLogManager::_initializeMetRawCsv()
 
     QTextStream stream(&_metRawCsvFile);
 
-    qCDebug(VehicleLog) << "Facts logged to csv:" << metFactHeaders;
-    stream << metFactHeaders.join(",") << "\r\n";
+    qCDebug(VehicleLog) << "Facts logged to csv:" << metRawFactHeaders;
+    stream << metRawFactHeaders.join(",") << "\r\n";
 }
 
 void MetDataLogManager::_writeMetRawCsvLine()
@@ -54,7 +54,7 @@ void MetDataLogManager::_writeMetRawCsvLine()
     }
 
     // Write timestamp to csv file
-    for (const auto &factName : metFactNames) {
+    for (const auto &factName : metRawFactNames) {
         if(!factGroup->factExists(factName)) {
             qCWarning(VehicleLog) << "Fact does not exist: " << factName;
             continue;

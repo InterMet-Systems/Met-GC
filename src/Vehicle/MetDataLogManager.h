@@ -20,7 +20,7 @@ class MetDataLogManager : public QObject
         QTimer              _metRawCsvTimer;
         QFile               _metRawCsvFile;
 
-        QStringList metFactHeaders = {
+        QStringList metAlmFactHeaders = {
             "Time (s)",
             "ASL (m)",
             "Pressure (mB)",
@@ -40,7 +40,7 @@ class MetDataLogManager : public QObject
             "Speed Over Ground (m/s)"
         };
 
-        QStringList metFactNames = {
+        QStringList metAlmFactNames = {
             "timeUnixSeconds",
             "altitudeMetersMSL",
             "absolutePressureMillibars",
@@ -58,6 +58,46 @@ class MetDataLogManager : public QObject
             "yawRateDegreesPerSecond",
             "zVelocityMetersPerSecond",
             "groundSpeedMetersPerSecond"
+        };
+
+        QStringList metRawFactHeaders = {
+            "Time (s)",
+            "ASL (m)",
+            "Pressure (mB)",
+            "Air Temp (C)",
+            "Rel Hum (%)",
+            "Latitude (deg)",
+            "Longitude (deg)",
+            "Roll (deg)",
+            "Roll Rate (deg/s)",
+            "Pitch (deg)",
+            "Pitch Rate (deg/s)",
+            "Yaw (deg)",
+            "Yaw Rate (deg/s)",
+            "Velocity North (m/s)",
+            "Velocity East (m/s)",
+            "Velocity Down (m/s)",
+            "Custom Mode"
+        };
+
+        QStringList metRawFactNames = {
+            "timeUnixSeconds",
+            "altitudeMetersMSL",
+            "absolutePressureMillibars",
+            "temperatureCelsius",
+            "relativeHumidity",
+            "latitudeDegrees",
+            "longitudeDegrees",
+            "rollDegrees",
+            "rollRateDegreesPerSecond",
+            "pitchDegrees",
+            "pitchRateDegreesPerSecond",
+            "yawDegrees",
+            "yawRateDegreesPerSecond",
+            "xVelocityMetersPerSecond",
+            "yVelocityMetersPerSecond",
+            "zVelocityMetersPerSecondInverted",
+            "heartBeatCustomMode"
         };
 
 };
