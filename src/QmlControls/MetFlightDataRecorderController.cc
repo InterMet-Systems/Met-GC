@@ -9,6 +9,7 @@
 
 #include <AppSettings.h>
 #include "MetFlightDataRecorderController.h"
+#include "MetDataLogManager.h"
 #include "QGCCorePlugin.h"
 #include "SettingsManager.h"
 #include <QSettings>
@@ -23,6 +24,8 @@ double generateRandomDouble(double lowerBound, double upperBound) {
 
 MetFlightDataRecorderController::MetFlightDataRecorderController(QQuickItem* parent)
 {
+
+    connect(this, &MetFlightDataRecorderController::flightFileNameChanged, qgcApp()->toolbox()->metDataLogManager(), &MetDataLogManager::setFlightFileName);
 
     // test data
     srand(time(nullptr));
@@ -53,6 +56,9 @@ void MetFlightDataRecorderController::setFlightFileName(QString _flightFileName)
     if(isValid != this->flightNameValid) {
         this->flightNameValid = isValid;
         emit flightNameValidChanged();
+    }
+    if(isValid) {
+        emit flightFileNameChanged(_flightFileName);
     }
 }
 

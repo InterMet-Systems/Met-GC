@@ -63,6 +63,7 @@ public slots:
 
 signals:
     void flightNameValidChanged();
+    void flightFileNameChanged(QString flightFileNameChanged);
     void ascentNumberChanged();
     void tempAltLevelMsgListChanged();
 

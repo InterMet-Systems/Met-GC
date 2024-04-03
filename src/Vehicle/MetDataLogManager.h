@@ -1,43 +1,74 @@
 #pragma once
+#include "QGCToolbox.h"
 #include <QObject>
 #include <QTime>
 #include "Vehicle.h"
 
-class MetDataLogManager : public QObject
+class MetDataLogManager : public QGCTool
 {
     Q_OBJECT
 
     public:
-        MetDataLogManager(QObject *parent = nullptr);
+        MetDataLogManager(QGCApplication* app, QGCToolbox* toolbox);
         ~MetDataLogManager();
+    
+    public slots:
+        void setFlightFileName(QString flightName);
 
     private:
 
         void _initializeMetRawCsv           ();
         void _writeMetRawCsvLine            ();
+        void _writeMetAlmCsvLine            ();
+        void _initializeMetAlmCsv           ();
 
         Vehicle*            _activeVehicle;
         QTimer              _metRawCsvTimer;
         QFile               _metRawCsvFile;
+        QFile               _metAlmCsvFile;
+
+        QString             _flightName = "unnamed flight";
+        int                 ascentNumber = 1;
+
 
         QStringList metAlmFactHeaders = {
-            "Time (s)",
-            "ASL (m)",
-            "Pressure (mB)",
-            "Air Temp (C)",
-            "Rel Hum (%)",
-            "Wind Speed (m/s)",
-            "Wind Direction (deg)",
-            "Latitude (deg)",
-            "Longitude (deg)",
-            "Roll (deg)",
-            "Roll Rate (deg/s)",
-            "Pitch (deg)",
-            "Pitch Rate (deg/s)",
-            "Yaw (deg)",
-            "Yaw Rate (deg/s)",
-            "Ascent Rate (m/s)",
-            "Speed Over Ground (m/s)"
+            "Time",
+            "ASL",
+            "Pressure",
+            "Air Temp",
+            "Rel Hum",
+            "Wind Speed",
+            "Wind Direction",
+            "Latitude",
+            "Longitude",
+            "Roll",
+            "Roll Rate",
+            "Pitch",
+            "Pitch Rate",
+            "Yaw",
+            "Yaw Rate",
+            "Ascent Rate",
+            "Speed Over Ground"
+        };
+
+        QStringList metAlmFactUnits = {
+            "s",
+            "m",
+            "mB",
+            "C",
+            "%",
+            "m/s",
+            "deg",
+            "deg",
+            "deg",
+            "deg",
+            "deg/s",
+            "deg",
+            "deg/s",
+            "deg",
+            "deg/s",
+            "m/s",
+            "m/s"
         };
 
         QStringList metAlmFactNames = {
@@ -61,23 +92,43 @@ class MetDataLogManager : public QObject
         };
 
         QStringList metRawFactHeaders = {
-            "Time (s)",
-            "ASL (m)",
-            "Pressure (mB)",
-            "Air Temp (C)",
-            "Rel Hum (%)",
-            "Latitude (deg)",
-            "Longitude (deg)",
-            "Roll (deg)",
-            "Roll Rate (deg/s)",
-            "Pitch (deg)",
-            "Pitch Rate (deg/s)",
-            "Yaw (deg)",
-            "Yaw Rate (deg/s)",
-            "Velocity North (m/s)",
-            "Velocity East (m/s)",
-            "Velocity Down (m/s)",
+            "Time",
+            "ASL",
+            "Pressure",
+            "Air Temp",
+            "Rel Hum",
+            "Latitude",
+            "Longitude",
+            "Roll",
+            "Roll Rate",
+            "Pitch",
+            "Pitch Rate",
+            "Yaw",
+            "Yaw Rate",
+            "Velocity North",
+            "Velocity East",
+            "Velocity Down",
             "Custom Mode"
+        };
+
+        QStringList metRawFactUnits = {
+            "s",
+            "m",
+            "mB",
+            "C",
+            "%",
+            "deg",
+            "deg",
+            "deg",
+            "deg/s",
+            "deg",
+            "deg/s",
+            "deg",
+            "deg/s",
+            "m/s",
+            "m/s",
+            "m/s",
+            ""
         };
 
         QStringList metRawFactNames = {
