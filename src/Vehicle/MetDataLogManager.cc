@@ -71,18 +71,26 @@ void MetDataLogManager::_writeMetRawCsvLine()
 
 void MetDataLogManager::setFlightFileName(QString flightName)
 {
+    // allow next logging to start with new flight name
+    if(_metAlmCsvFile.isOpen()) {
+        _metAlmCsvFile.close();
+    }
     _flightName = flightName;
 }
 
 void MetDataLogManager::_initializeMetAlmCsv()
 {
-    qDebug() << "Initializing ALM csv file";
-    // TODO: get flight name, and ascent number from the GUI, copy number by testing files in the directory
     int copyNumber = 1;
-
     QString metAlmFileName = QString("%1_%2_%3.csv").arg(_flightName).arg(copyNumber).arg(ascentNumber);
+
     QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesAltLevelSavePath());
     _metAlmCsvFile.setFileName(saveDir.absoluteFilePath(metAlmFileName));
+
+    while (_metAlmCsvFile.exists()) {
+        copyNumber++;
+        metAlmFileName = QString("%1_%2_%3.csv").arg(_flightName).arg(copyNumber).arg(ascentNumber);
+        _metAlmCsvFile.setFileName(saveDir.absoluteFilePath(metAlmFileName));
+    }
 
     if (!_metAlmCsvFile.open(QIODevice::Append)) {
         qCWarning(VehicleLog) << "unable to open ALM message file for csv logging, Stopping csv logging!";
