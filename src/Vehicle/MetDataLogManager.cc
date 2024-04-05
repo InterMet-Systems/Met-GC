@@ -98,8 +98,6 @@ void MetDataLogManager::_initializeMetAlmCsv()
 
 void MetDataLogManager::_writeMetAlmCsvLine()
 {
-    qDebug() << "Writing ALM csv line";
-    // Only save the logs after the the vehicle gets armed, unless "Save logs even if vehicle was not armed" is checked
     Vehicle* _activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
     if(!_metAlmCsvFile.isOpen() && _activeVehicle && _activeVehicle->armed()) {
         _initializeMetAlmCsv();
@@ -119,7 +117,6 @@ void MetDataLogManager::_writeMetAlmCsvLine()
         return;
     }
 
-    // Write timestamp to csv file
     for (const auto &factName : metAlmFactNames) {
         if(!factGroup->factExists(factName)) {
             qCWarning(VehicleLog) << "Fact does not exist: " << factName;

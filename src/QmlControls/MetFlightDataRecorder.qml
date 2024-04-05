@@ -168,7 +168,7 @@ Rectangle {
             anchors.bottom: parent.bottom
             boundsBehavior: Flickable.StopAtBounds
             contentWidth: width
-            contentHeight: almGrid.implicitHeight
+            contentHeight: almGrid.implicitHeight + 2 * _toolsMargin
             clip: true
             flickableDirection: Flickable.VerticalFlick
 
@@ -190,6 +190,7 @@ Rectangle {
                 id: almGrid
                 anchors.fill: parent
                 anchors.topMargin: _toolsMargin
+                anchors.bottomMargin: _toolsMargin
                 anchors.leftMargin: _toolsMargin
                 columns: 7
                 rowSpacing: _toolsMargin
@@ -201,7 +202,7 @@ Rectangle {
                             Layout.row:         index
                             Layout.column:      0
                             Layout.minimumWidth: _altMsgMinWidth
-                            text: controller.tempAltLevelMsgList.get(index).altitude.toFixed(2)
+                            text: controller.tempAltLevelMsgList.get(index).altitude
                             font.pointSize: _fontSize
                             color: qgcPal.text
                     }
@@ -213,7 +214,7 @@ Rectangle {
                             Layout.row:         index
                             Layout.column:      1
                             Layout.minimumWidth: _altMsgMinWidth
-                            text: controller.tempAltLevelMsgList.get(index).time.toFixed(2)
+                            text: controller.tempAltLevelMsgList.get(index).time
                             font.pointSize: _fontSize
                             color: qgcPal.text
                     }
@@ -225,7 +226,7 @@ Rectangle {
                             Layout.row:         index
                             Layout.column:      2
                             Layout.minimumWidth: _altMsgMinWidth
-                            text: controller.tempAltLevelMsgList.get(index).pressure.toFixed(2)
+                            text: controller.tempAltLevelMsgList.get(index).pressure
                             font.pointSize: _fontSize
                             color: qgcPal.text
                     }
@@ -237,7 +238,7 @@ Rectangle {
                             Layout.row:         index
                             Layout.column:      3
                             Layout.minimumWidth: _altMsgMinWidth
-                            text: controller.tempAltLevelMsgList.get(index).temperature.toFixed(2)
+                            text: controller.tempAltLevelMsgList.get(index).temperature
                             font.pointSize: _fontSize
                             color: qgcPal.text
                     }
@@ -249,7 +250,7 @@ Rectangle {
                             Layout.row:         index
                             Layout.column:      4
                             Layout.minimumWidth: _altMsgMinWidth
-                            text: controller.tempAltLevelMsgList.get(index).relativeHumidity.toFixed(2)
+                            text: controller.tempAltLevelMsgList.get(index).relativeHumidity
                             font.pointSize: _fontSize
                             color: qgcPal.text
                     }
@@ -261,7 +262,7 @@ Rectangle {
                             Layout.row:         index
                             Layout.column:      5
                             Layout.minimumWidth: _altMsgMinWidth
-                            text: controller.tempAltLevelMsgList.get(index).windSpeed.toFixed(2)
+                            text: controller.tempAltLevelMsgList.get(index).windSpeed
                             font.pointSize: _fontSize
                             color: qgcPal.text
                     }
@@ -273,7 +274,7 @@ Rectangle {
                             Layout.row:         index
                             Layout.column:      6
                             Layout.minimumWidth: _altMsgMinWidth
-                            text: controller.tempAltLevelMsgList.get(index).windDirection.toFixed(2)
+                            text: controller.tempAltLevelMsgList.get(index).windDirection
                             font.pointSize: _fontSize
                             color: qgcPal.text
                     }
