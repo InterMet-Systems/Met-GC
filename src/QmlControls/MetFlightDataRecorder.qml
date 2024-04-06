@@ -115,14 +115,14 @@ Rectangle {
                 text: qsTr("Alt\n(m)")
                 font.pointSize: _fontSize
                 color: qgcPal.text
-                Layout.minimumWidth: _altMsgMinWidth
+                Layout.minimumWidth: _altMsgMinWidth * 0.8
             }
 
             QGCLabel {
                 text: qsTr("Time\n(s)")
                 font.pointSize: _fontSize
                 color: qgcPal.text
-                Layout.minimumWidth: _altMsgMinWidth
+                Layout.minimumWidth: _altMsgMinWidth * 1.3
             }
 
             QGCLabel {
@@ -157,7 +157,7 @@ Rectangle {
                 text: qsTr("WDir\n(deg)")
                 font.pointSize: _fontSize
                 color: qgcPal.text
-                Layout.minimumWidth: _altMsgMinWidth
+                Layout.minimumWidth: _altMsgMinWidth * 0.9
             }
         }
         Flickable {
@@ -201,7 +201,7 @@ Rectangle {
                     delegate: QGCLabel {
                             Layout.row:         index
                             Layout.column:      0
-                            Layout.minimumWidth: _altMsgMinWidth
+                            Layout.minimumWidth: _altMsgMinWidth * 0.8
                             text: controller.tempAltLevelMsgList.get(index).altitude
                             font.pointSize: _fontSize
                             color: qgcPal.text
@@ -213,7 +213,7 @@ Rectangle {
                     delegate: QGCLabel {
                             Layout.row:         index
                             Layout.column:      1
-                            Layout.minimumWidth: _altMsgMinWidth
+                            Layout.minimumWidth: _altMsgMinWidth * 1.3
                             text: controller.tempAltLevelMsgList.get(index).time
                             font.pointSize: _fontSize
                             color: qgcPal.text
@@ -273,7 +273,7 @@ Rectangle {
                     delegate: QGCLabel {
                             Layout.row:         index
                             Layout.column:      6
-                            Layout.minimumWidth: _altMsgMinWidth
+                            Layout.minimumWidth: _altMsgMinWidth * 0.9
                             text: controller.tempAltLevelMsgList.get(index).windDirection
                             font.pointSize: _fontSize
                             color: qgcPal.text

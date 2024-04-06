@@ -24,12 +24,15 @@ class MetDataLogManager : public QGCTool
 
         Vehicle*            _activeVehicle;
         QTimer              _metRawCsvTimer;
+        QTimer              _metAlmCsvTimer;
         QFile               _metRawCsvFile;
         QFile               _metAlmCsvFile;
 
         QString             _flightName = "unnamed flight";
         int                 ascentNumber = 1;
 
+        QString             _latestRawTimestamp = "0";
+        QString             _latestAlmTimestamp = "0";
 
         QStringList metAlmFactHeaders = {
             "Time",

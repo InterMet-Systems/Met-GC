@@ -6,8 +6,9 @@
 MetDataLogManager::MetDataLogManager(QGCApplication* app, QGCToolbox* toolbox) : QGCTool(app, toolbox)
 {
     connect(&_metRawCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetRawCsvLine);
-    connect(&_metRawCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetAlmCsvLine);
-    _metRawCsvTimer.start(1000);
+    connect(&_metAlmCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetAlmCsvLine);
+    _metRawCsvTimer.start(90); // set below nyquist rate for 200ms balanced data update rate to ensure no data is missed
+    _metAlmCsvTimer.start(90); // timing for ALM messages might be the same as the raw messages?
 }
 
 MetDataLogManager::~MetDataLogManager()
@@ -57,7 +58,14 @@ void MetDataLogManager::_writeMetRawCsvLine()
         return;
     }
 
-    // Write timestamp to csv file
+    // make sure we're not logging the same data again
+    QString timestamp = factGroup->getFact("timeUnixSeconds")->rawValueString();
+    if (timestamp == _latestRawTimestamp) {
+        return;
+    } else {
+        _latestRawTimestamp = timestamp;
+    }
+
     for (const auto &factName : metRawFactNames) {
         if(!factGroup->factExists(factName)) {
             qCWarning(VehicleLog) << "Fact does not exist: " << factName;
@@ -123,6 +131,14 @@ void MetDataLogManager::_writeMetAlmCsvLine()
 
     if (!factGroup) {
         return;
+    }
+
+    // make sure we're not logging the same data again
+    QString timestamp = factGroup->getFact("timeUnixSeconds")->rawValueString();
+    if (timestamp == _latestAlmTimestamp) {
+        return;
+    } else {
+        _latestAlmTimestamp = timestamp;
     }
 
     for (const auto &factName : metAlmFactNames) {

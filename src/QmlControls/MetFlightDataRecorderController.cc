@@ -39,9 +39,15 @@ void MetFlightDataRecorderController::addAltLevelMsg()
         return;
     }
 
+    // // truncate time string to nearest second
+    QString time = factGroup->getFact("timeUnixSeconds")->rawValueString();
+    if(time.indexOf('.') != -1) {
+        time.truncate(time.indexOf('.'));
+    }
+
     tempAltLevelMsg_t* tempAltLevelMsg = new tempAltLevelMsg_t();
     tempAltLevelMsg->altitude         = factGroup->getFact("altitudeMetersMSL"        )->rawValueString();
-    tempAltLevelMsg->time             = factGroup->getFact("timeUAVSeconds"           )->rawValueString();
+    tempAltLevelMsg->time             = time;
     tempAltLevelMsg->pressure         = factGroup->getFact("absolutePressureMillibars")->rawValueString();
     tempAltLevelMsg->temperature      = factGroup->getFact("temperatureCelsius"       )->rawValueString();
     tempAltLevelMsg->relativeHumidity = factGroup->getFact("relativeHumidity"         )->rawValueString();
