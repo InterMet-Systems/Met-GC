@@ -6,14 +6,6 @@
 #include "mavlink_types.h"
 #include "FactGroup.h"
 
-/*  Deprecated */
-// typedef struct {
-//     uint32_t time; /* drone's frame of reference */
-//     /* cass sensor type 0 (iMet temp) */
-//     float iMetTemp;
-//     /* rest of variables... */
-// } BalancedDataRecord;
-
 typedef struct {
     /* Original data, either as calculated or directly from the mavlink messages */
     uint32_t timeUAVMilliseconds; /* Since UAV boot */
@@ -64,14 +56,48 @@ typedef struct {
     size_t ascents;
 } IMetData;
 
+/* The AltitudeLevelMessage differs from the IMetData primarily in that the IMetData curates data on the basis of A. Having at least one of everything,
+ * and B. a specified frequency (balancedDataFrequency). While the AltitudeLevelMessage curates data based on altitude (binSize). AltitudeLevelMessage is also less
+ * verbose, and only has the 17 members actually needed for the file output and GUI display, while IMetData has everything that could conceivably be useful.
+*/
+typedef struct {
+    float asl;
+    double time;
+    float pressure;
+    float airTemp;
+    float relHum;
+    float windSpeed;
+    float windDirection;
+    double latitude;
+    double longitude;
+    float roll;
+    float rollRate;
+    float pitch;
+    float pitchRate;
+    float yaw;
+    float yawRate;
+    float ascentRate;
+    float speedOverGround;
+} AltitudeLevelMessage;
+
 class DataBalancer{
+public:
+    enum ALMStatus {
+        SUCCESS = 0,
+        DATA_NOT_INITIALIZED = -1,
+        NOT_ASCENDING = -2,
+        ALTITUDE_CHANGE_TOO_SMALL = -3
+    };
+private:
     IMetData data;
     bool dataInit = false;
+    AltitudeLevelMessage alm;
 
     uint64_t UAVBootMilliseconds = 0; /* UAV boot time from Unix reference frame */    
     uint64_t lastUpdate = UINT64_MAX; /* time since last IMetDataRaw creation */
     uint32_t balancedDataFrequency = 200; /* min milliseconds between BalancedDataRecord creation */
 
+    /* IMetData helpers */
     size_t cassTemp0Count = 0;
     float cassTemp0Avg = .0f;
     size_t cassTemp1Count = 0;
@@ -110,6 +136,48 @@ class DataBalancer{
     float xVelocityAvg = .0f;
     size_t yVelocityCount = 0;
     float yVelocityAvg = .0f;
+
+    /* Altitude Level Message helpers */
+    int ALMInit = 0;
+    float lowBinAlt = .0f;
+    float lowBinTime = .0f;
+    float highBinTime = .0f;
+    float binSize = 5.0f;
+    size_t aslC = 0;
+    float aslA = .0f;
+    size_t timeC = 0;
+    double timeA = .0;
+    size_t pressureC = 0;
+    float pressureA = .0f;
+    size_t airTempC = 0;
+    float airTempA = .0f;
+    size_t relHumC = 0;
+    float relHumA = .0f;
+    size_t windSpeedC = 0;
+    float windSpeedA = .0f;
+    size_t windDirectionC = 0;
+    float windDirectionA = .0f;
+    size_t latitudeC = 0;
+    float latitudeA = .0f;
+    size_t longitudeC = 0;
+    float longitudeA = .0f;
+    size_t rollC = 0;
+    float rollA = .0f;
+    size_t rollRateC = 0;
+    float rollRateA = .0f;
+    size_t pitchC = 0;
+    float pitchA = .0f;
+    size_t pitchRateC = 0;
+    float pitchRateA = .0f;
+    size_t yawC = 0;
+    float yawA = .0f;
+    size_t yawRateC = 0;
+    float yawRateA = .0f;
+    size_t ascentRateC = 0;
+    float ascentRateA = .0f;
+    size_t speedOverGroundC = 0;
+    float speedOverGroundA = .0f;
+
 public:
     void update(const mavlink_message_t* m, Fact* timeUAVMilliseconds, Fact* timeUnixMilliseconds, Fact* timeUAVBootMilliseconds, Fact* altitudeMillimetersMSL,
                 Fact* absolutePressureMillibars, Fact* temperature0Kelvin, Fact* temperature1Kelvin, Fact* temperature2Kelvin, Fact* relativeHumidity,
@@ -120,6 +188,10 @@ public:
                 Fact* timeUnixSeconds, Fact* timeUAVBootSeconds, Fact* altitudeMetersMSL, Fact* temperatureCelsius, Fact* latitudeDegrees, Fact* longitudeDegrees,
                 Fact* rollDegrees, Fact* pitchDegrees, Fact* yawDegrees, Fact* rollRateDegreesPerSecond, Fact* pitchRateDegreesPerSecond,
                 Fact* yawRateDegreesPerSecond, Fact* zVelocityMetersPerSecond, Fact* lastState, Fact* ascents);
+
+    int updateALM();
+    void onALMUpdate(Fact* asl, Fact* time, Fact* pressure, Fact* airTemp, Fact* relHum, Fact* windSpeed, Fact* windDirection, Fact* latitude, Fact* longitude,
+                     Fact* roll, Fact* rollRate, Fact* pitch, Fact* pitchRate, Fact* yaw, Fact* yawRate, Fact* ascentRate, Fact* speedOverGround);
 private:
     static void calcWindProps(IMetData* d);
     static void calcGroundSpeed(IMetData* d);
