@@ -8,6 +8,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 #define DEGREES(radians) ((radians) * (180.0 / M_PI))
+#define EPSILON 1e-8
 
 void DataBalancer::calcWindProps(IMetData* d){
     float croll = cos(d->rollRadians);
@@ -286,4 +287,99 @@ void DataBalancer::update(const mavlink_message_t* m, Fact* timeUAVMilliseconds,
     lastUpdate = currentTime;
 }
 
+int DataBalancer::updateALM(){
+    int errorCode = DATA_NOT_INITIALIZED;
+    if (!dataInit) return errorCode;
+    errorCode = NOT_ASCENDING;
+    if (!data.ascending) return errorCode;
+
+    if (!ALMInit) {
+        ALMInit = 1;
+        lowBinAlt = data.altitudeMetersMSL;
+    }
+
+    aslA = ((aslA * aslC) + data.altitudeMetersMSL) / ++aslC;
+    timeA = ((timeA * timeC) + data.timeUnixSeconds) / ++timeC;
+    pressureA = ((pressureA * pressureC) + data.absolutePressureMillibars) / ++pressureC;
+    airTempA = ((airTempA * airTempC) + data.temperatureCelsius) / ++airTempC;
+    relHumA = ((relHumA * relHumC) + data.relativeHumidity) / ++relHumC;
+    windSpeedA = ((windSpeedA * windSpeedC) + data.windSpeedMetersPerSecond) / ++windSpeedC;
+    windDirectionA = ((windDirectionA * windDirectionC) + data.windBearingDegrees) / ++windDirectionC;
+    latitudeA = ((latitudeA * latitudeC) + data.latitudeDegrees) / ++latitudeC;
+    longitudeA = ((longitudeA * longitudeC) + data.longitudeDegrees) / ++longitudeC;
+    rollA = ((rollA * rollC) + data.rollDegrees) / ++rollC;
+    rollRateA = ((rollRateA * rollRateC) + data.rollRateDegreesPerSecond) / ++rollRateC;
+    pitchA = ((pitchA * pitchC) + data.pitchDegrees) / ++pitchC;
+    pitchRateA = ((pitchRateA * pitchRateC) + data.pitchRateDegreesPerSecond) / ++pitchRateC;
+    yawA = ((yawA * yawC) + data.yawDegrees) / ++yawC;
+    yawRateA = ((yawRateA * yawRateC) + data.yawRateDegreesPerSecond) / ++yawRateC;
+    ascentRateA = ((ascentRateA * ascentRateC) + data.zVelocityMetersPerSecond) / ++ascentRateC;
+    speedOverGroundA = ((speedOverGroundA * speedOverGroundC) + data.groundSpeedMetersPerSecond) / ++speedOverGroundC;
+
+    errorCode = ALTITUDE_CHANGE_TOO_SMALL;
+    if (!((data.altitudeMetersMSL - lowBinAlt) > binSize)) return errorCode;
+
+    alm.asl = (float)ceil(aslA / binSize) * binSize - binSize / 2;
+    alm.time = timeA;
+    alm.pressure = pressureA;
+    alm.airTemp = airTempA;
+    alm.relHum = relHumA;
+    alm.windSpeed = windSpeedA;
+    alm.windDirection = windDirectionA;
+    alm.latitude = latitudeA;
+    alm.longitude = longitudeA;
+    alm.roll = rollA;
+    alm.rollRate = rollRateA;
+    alm.pitch = pitchA;
+    alm.pitchRate = pitchRateA;
+    alm.yaw = yawA;
+    alm.yawRate = yawRateA;
+    alm.ascentRate = ascentRateA;
+    alm.speedOverGround = speedOverGroundA;
+
+    aslC = 0;
+    timeC = 0;
+    pressureC = 0;
+    airTempC = 0;
+    relHumC = 0;
+    windSpeedC = 0;
+    windDirectionC = 0;
+    latitudeC = 0;
+    longitudeC = 0;
+    rollC = 0;
+    rollRateC = 0;
+    pitchC = 0;
+    pitchRateC = 0;
+    yawC = 0;
+    yawRateC = 0;
+    ascentRateC = 0;
+    speedOverGroundC = 0;
+    lowBinAlt = data.altitudeMetersMSL;
+
+    /* Success */
+    return errorCode = SUCCESS;
+}
+
+void DataBalancer::onALMUpdate(Fact* asl, Fact* time, Fact* pressure, Fact* airTemp, Fact* relHum, Fact* windSpeed, Fact* windDirection, Fact* latitude, Fact* longitude,
+                               Fact* roll, Fact* rollRate, Fact* pitch, Fact* pitchRate, Fact* yaw, Fact* yawRate, Fact* ascentRate, Fact* speedOverGround){
+    asl->setRawValue(alm.asl);
+    time->setRawValue(alm.time);
+    pressure->setRawValue(alm.pressure);
+    airTemp->setRawValue(alm.airTemp);
+    relHum->setRawValue(alm.relHum);
+    windSpeed->setRawValue(alm.windSpeed);
+    windDirection->setRawValue(alm.windDirection);
+    latitude->setRawValue(alm.latitude);
+    longitude->setRawValue(alm.longitude);
+    roll->setRawValue(alm.roll);
+    rollRate->setRawValue(alm.rollRate);
+    pitch->setRawValue(alm.pitch);
+    pitchRate->setRawValue(alm.pitchRate);
+    yaw->setRawValue(alm.yaw);
+    yawRate->setRawValue(alm.yawRate);
+    ascentRate->setRawValue(alm.ascentRate);
+    speedOverGround->setRawValue(alm.speedOverGround);
+}
+
 #undef DEGREES
+#undef EPSILON
