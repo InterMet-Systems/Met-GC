@@ -298,26 +298,26 @@ int DataBalancer::updateALM(){
         lowBinAlt = data.altitudeMetersMSL;
     }
 
-    aslA = ((aslA * aslC) + data.altitudeMetersMSL) / ++aslC;
-    timeA = ((timeA * timeC) + data.timeUnixSeconds) / ++timeC;
-    pressureA = ((pressureA * pressureC) + data.absolutePressureMillibars) / ++pressureC;
-    airTempA = ((airTempA * airTempC) + data.temperatureCelsius) / ++airTempC;
-    relHumA = ((relHumA * relHumC) + data.relativeHumidity) / ++relHumC;
-    windSpeedA = ((windSpeedA * windSpeedC) + data.windSpeedMetersPerSecond) / ++windSpeedC;
-    windDirectionA = ((windDirectionA * windDirectionC) + data.windBearingDegrees) / ++windDirectionC;
-    latitudeA = ((latitudeA * latitudeC) + data.latitudeDegrees) / ++latitudeC;
-    longitudeA = ((longitudeA * longitudeC) + data.longitudeDegrees) / ++longitudeC;
-    rollA = ((rollA * rollC) + data.rollDegrees) / ++rollC;
-    rollRateA = ((rollRateA * rollRateC) + data.rollRateDegreesPerSecond) / ++rollRateC;
-    pitchA = ((pitchA * pitchC) + data.pitchDegrees) / ++pitchC;
-    pitchRateA = ((pitchRateA * pitchRateC) + data.pitchRateDegreesPerSecond) / ++pitchRateC;
-    yawA = ((yawA * yawC) + data.yawDegrees) / ++yawC;
-    yawRateA = ((yawRateA * yawRateC) + data.yawRateDegreesPerSecond) / ++yawRateC;
-    ascentRateA = ((ascentRateA * ascentRateC) + data.zVelocityMetersPerSecond) / ++ascentRateC;
-    speedOverGroundA = ((speedOverGroundA * speedOverGroundC) + data.groundSpeedMetersPerSecond) / ++speedOverGroundC;
+    aslA = ((aslA * aslC) + data.altitudeMetersMSL) / (aslC++ +1);
+    timeA = ((timeA * timeC) + data.timeUnixSeconds) / (timeC++ +1);
+    pressureA = ((pressureA * pressureC) + data.absolutePressureMillibars) / (pressureC++ +1);
+    airTempA = ((airTempA * airTempC) + data.temperatureCelsius) / (airTempC++ +1);
+    relHumA = ((relHumA * relHumC) + data.relativeHumidity) / (relHumC++ +1);
+    windSpeedA = ((windSpeedA * windSpeedC) + data.windSpeedMetersPerSecond) / (windSpeedC++ +1);
+    windDirectionA = ((windDirectionA * windDirectionC) + data.windBearingDegrees) / (windDirectionC++ +1);
+    latitudeA = ((latitudeA * latitudeC) + data.latitudeDegrees) / (latitudeC++ +1);
+    longitudeA = ((longitudeA * longitudeC) + data.longitudeDegrees) / (longitudeC++ +1);
+    rollA = ((rollA * rollC) + data.rollDegrees) / (rollC++ +1);
+    rollRateA = ((rollRateA * rollRateC) + data.rollRateDegreesPerSecond) / (rollRateC++ +1);
+    pitchA = ((pitchA * pitchC) + data.pitchDegrees) / (pitchC++ +1);
+    pitchRateA = ((pitchRateA * pitchRateC) + data.pitchRateDegreesPerSecond) / (pitchRateC++ +1);
+    yawA = ((yawA * yawC) + data.yawDegrees) / (yawC++ +1);
+    yawRateA = ((yawRateA * yawRateC) + data.yawRateDegreesPerSecond) / (yawRateC++ +1);
+    ascentRateA = ((ascentRateA * ascentRateC) + data.zVelocityMetersPerSecond) / (ascentRateC++ +1);
+    speedOverGroundA = ((speedOverGroundA * speedOverGroundC) + data.groundSpeedMetersPerSecond) / (speedOverGroundC++ +1);
 
     errorCode = ALTITUDE_CHANGE_TOO_SMALL;
-    if (!((data.altitudeMetersMSL - lowBinAlt) > binSize)) return errorCode;
+    if (abs(data.altitudeMetersMSL - lowBinAlt) < binSize) return errorCode;
 
     alm.asl = (float)ceil(aslA / binSize) * binSize - binSize / 2;
     alm.time = timeA;
@@ -357,11 +357,13 @@ int DataBalancer::updateALM(){
     lowBinAlt = data.altitudeMetersMSL;
 
     /* Success */
-    return errorCode = SUCCESS;
+    errorCode = SUCCESS;
+    return errorCode;
 }
 
 void DataBalancer::onALMUpdate(Fact* asl, Fact* time, Fact* pressure, Fact* airTemp, Fact* relHum, Fact* windSpeed, Fact* windDirection, Fact* latitude, Fact* longitude,
-                               Fact* roll, Fact* rollRate, Fact* pitch, Fact* pitchRate, Fact* yaw, Fact* yawRate, Fact* ascentRate, Fact* speedOverGround){
+                               Fact* roll, Fact* rollRate, Fact* pitch, Fact* pitchRate, Fact* yaw, Fact* yawRate, Fact* ascentRate, Fact* speedOverGround,
+                               Fact* ALMIsProcessed){
     asl->setRawValue(alm.asl);
     time->setRawValue(alm.time);
     pressure->setRawValue(alm.pressure);
@@ -379,6 +381,8 @@ void DataBalancer::onALMUpdate(Fact* asl, Fact* time, Fact* pressure, Fact* airT
     yawRate->setRawValue(alm.yawRate);
     ascentRate->setRawValue(alm.ascentRate);
     speedOverGround->setRawValue(alm.speedOverGround);
+
+    ALMIsProcessed->setRawValue(false);
 }
 
 #undef DEGREES

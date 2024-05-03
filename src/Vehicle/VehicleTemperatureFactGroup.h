@@ -87,6 +87,8 @@ public:
     Q_PROPERTY(Fact* yawRate            READ yawRate            CONSTANT)
     Q_PROPERTY(Fact* ascentRate         READ ascentRate         CONSTANT)
     Q_PROPERTY(Fact* speedOverGround    READ speedOverGround    CONSTANT)
+    /* Used by MetFlightDataRecorderController and DataBalancer::onALMUpdate to determine if a given ALM has been sent to the GUI or not */
+    Q_PROPERTY(Fact* ALMIsProcessed     READ ALMIsProcessed     CONSTANT)
 
     Fact* temperature1 ()                       { return &_temperature1Fact; }
     Fact* temperature2 ()                       { return &_temperature2Fact; }
@@ -155,6 +157,7 @@ public:
     Fact* yawRate ()                            { return &_yawRateFact; }
     Fact* ascentRate ()                         { return &_ascentRateFact; }
     Fact* speedOverGround ()                    { return &_speedOverGroundFact; }
+    Fact* ALMIsProcessed ()                     { return &_ALMIsProcessedFact; }
 
     // Overrides from FactGroup
     void handleMessage(Vehicle* vehicle, mavlink_message_t& message) override;
@@ -226,6 +229,7 @@ public:
     static const char* _yawRateFactName;
     static const char* _ascentRateFactName;
     static const char* _speedOverGroundFactName;
+    static const char* _ALMIsProcessedFactName;
 
     static const char* _settingsGroup;
 
@@ -306,4 +310,5 @@ private:
     Fact            _yawRateFact;
     Fact            _ascentRateFact;
     Fact            _speedOverGroundFact;
+    Fact            _ALMIsProcessedFact;
 };

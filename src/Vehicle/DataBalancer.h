@@ -191,7 +191,8 @@ public:
 
     int updateALM();
     void onALMUpdate(Fact* asl, Fact* time, Fact* pressure, Fact* airTemp, Fact* relHum, Fact* windSpeed, Fact* windDirection, Fact* latitude, Fact* longitude,
-                     Fact* roll, Fact* rollRate, Fact* pitch, Fact* pitchRate, Fact* yaw, Fact* yawRate, Fact* ascentRate, Fact* speedOverGround);
+                     Fact* roll, Fact* rollRate, Fact* pitch, Fact* pitchRate, Fact* yaw, Fact* yawRate, Fact* ascentRate, Fact* speedOverGround,
+                     Fact* ALMIsProcessed);
 private:
     static void calcWindProps(IMetData* d);
     static void calcGroundSpeed(IMetData* d);
