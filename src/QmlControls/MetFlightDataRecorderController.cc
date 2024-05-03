@@ -43,9 +43,11 @@ void MetFlightDataRecorderController::addAltLevelMsg()
 
     //QString s = factGroup->getFact("ALMIsProcessed")->rawValueString();
     //QString s = almfact->rawValueString();
-    const char* c_str = factGroup->getFact("ALMIsProcessed")->rawValueString().toStdString().c_str();
+    //QString s = factGroup->getFact("ALMIsProcessed")->rawValueString();
 
-    if (strcmp(c_str, "true") == 0){
+    QString s = factGroup->getFact("update")->rawValueString();
+
+    if (s != QString("1")){
         return;
     }
 
@@ -63,6 +65,7 @@ void MetFlightDataRecorderController::addAltLevelMsg()
     tempAltLevelMsg->temperature      = factGroup->getFact("airTemp"       )->rawValueString();
     tempAltLevelMsg->relativeHumidity = factGroup->getFact("relHum"         )->rawValueString();
     tempAltLevelMsg->windSpeed        = factGroup->getFact("windSpeed" )->rawValueString();
+    //tempAltLevelMsg->windSpeed        =s;
     tempAltLevelMsg->windDirection    = factGroup->getFact("windDirection"       )->rawValueString();
     _tempAltLevelMsgList.append(tempAltLevelMsg);
 
@@ -70,7 +73,7 @@ void MetFlightDataRecorderController::addAltLevelMsg()
 
 
 
-    //almfact->setRawValue(QVariant(true));
+    factGroup->getFact("update")->setRawValue(0);
 
     emit tempAltLevelMsgListChanged();
 }

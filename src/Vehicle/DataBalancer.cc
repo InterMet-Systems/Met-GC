@@ -363,7 +363,7 @@ int DataBalancer::updateALM(){
 
 void DataBalancer::onALMUpdate(Fact* asl, Fact* time, Fact* pressure, Fact* airTemp, Fact* relHum, Fact* windSpeed, Fact* windDirection, Fact* latitude, Fact* longitude,
                                Fact* roll, Fact* rollRate, Fact* pitch, Fact* pitchRate, Fact* yaw, Fact* yawRate, Fact* ascentRate, Fact* speedOverGround,
-                               Fact* ALMIsProcessed){
+                               Fact* update){
     asl->setRawValue(alm.asl);
     time->setRawValue(alm.time);
     pressure->setRawValue(alm.pressure);
@@ -382,7 +382,7 @@ void DataBalancer::onALMUpdate(Fact* asl, Fact* time, Fact* pressure, Fact* airT
     ascentRate->setRawValue(alm.ascentRate);
     speedOverGround->setRawValue(alm.speedOverGround);
 
-    ALMIsProcessed->setRawValue(false);
+    update->setRawValue(1);
 }
 
 #undef DEGREES

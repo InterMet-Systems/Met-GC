@@ -79,6 +79,7 @@ const char* VehicleTemperatureFactGroup::_yawRateFactName =                     
 const char* VehicleTemperatureFactGroup::_ascentRateFactName =                          "ascentRate";
 const char* VehicleTemperatureFactGroup::_speedOverGroundFactName =                     "speedOverGround";
 const char* VehicleTemperatureFactGroup::_ALMIsProcessedFactName =                      "ALMIsProcessed";
+const char* VehicleTemperatureFactGroup::_updateFactName =                             "update";
 
 VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
     : FactGroup(1000, ":/json/Vehicle/TemperatureFact.json", parent)
@@ -150,6 +151,7 @@ VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
     , _ascentRateFact    (0, _ascentRateFactName,     FactMetaData::valueTypeFloat)
     , _speedOverGroundFact    (0, _speedOverGroundFactName,     FactMetaData::valueTypeFloat)
     , _ALMIsProcessedFact    (0, _ALMIsProcessedFactName,     FactMetaData::valueTypeBool)
+    , _updateFact    (0, _updateFactName,     FactMetaData::valueTypeInt32)
 {
     _addFact(&_temperature1Fact,       _temperature1FactName);
     _addFact(&_temperature2Fact,       _temperature2FactName);
@@ -219,6 +221,7 @@ VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
     _addFact(&_ascentRateFact,       _ascentRateFactName);
     _addFact(&_speedOverGroundFact,       _speedOverGroundFactName);
     _addFact(&_ALMIsProcessedFact,       _ALMIsProcessedFactName);
+    _addFact(&_updateFact,       _updateFactName);
 
     // Start out as not available "--.--"
     _temperature1Fact.setRawValue      (qQNaN());
@@ -289,6 +292,7 @@ VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
     _ascentRateFact.setRawValue      (qQNaN());
     _speedOverGroundFact.setRawValue      (qQNaN());
     _ALMIsProcessedFact.setRawValue      (true);
+    _updateFact.setRawValue      (std::numeric_limits<signed int>::quiet_NaN());
 }
 
 void VehicleTemperatureFactGroup::handleMessage(Vehicle* /* vehicle */, mavlink_message_t& message)
@@ -310,7 +314,7 @@ void VehicleTemperatureFactGroup::handleMessage(Vehicle* /* vehicle */, mavlink_
         break;
     case DataBalancer::SUCCESS:
         balancer.onALMUpdate(asl(), time(), pressure(), airTemp(), relHum(), windSpeed(), windDirection(), latitude(), longitude(),
-                             roll(), rollRate(), pitch(), pitchRate(), yaw(), yawRate(), ascentRate(), speedOverGround(), ALMIsProcessed());
+                             roll(), rollRate(), pitch(), pitchRate(), yaw(), yawRate(), ascentRate(), speedOverGround(), update());
         break;
     }
 
