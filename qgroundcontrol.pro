@@ -457,8 +457,7 @@ HEADERS += \
     src/api/QGCOptions.h \
     src/api/QGCSettings.h \
     src/api/QmlComponentInfo.h \
-    src/GPS/Drivers/src/base_station.h \
-    src/qgcunittest/NetCdfTest.h
+    src/GPS/Drivers/src/base_station.h
 
 contains (DEFINES, QGC_ENABLE_PAIRING) {
     HEADERS += \
@@ -476,8 +475,7 @@ SOURCES += \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \
     src/api/QGCSettings.cc \
-    src/api/QmlComponentInfo.cc \
-    src/qgcunittest/NetCdfTest.cc
+    src/api/QmlComponentInfo.cc
 
 contains (DEFINES, QGC_ENABLE_PAIRING) {
     SOURCES += \
@@ -542,6 +540,7 @@ DebugBuild { PX4FirmwarePlugin { PX4FirmwarePluginFactory { APMFirmwarePlugin { 
         #src/qgcunittest/FileManagerTest.h \
         #src/qgcunittest/MainWindowTest.h \
         #src/qgcunittest/MessageBoxTest.h \
+        src/qgcunittest/NetCdfTest.h
 
     SOURCES += \
         src/Audio/AudioOutputTest.cc \
@@ -592,6 +591,7 @@ DebugBuild { PX4FirmwarePlugin { PX4FirmwarePluginFactory { APMFirmwarePlugin { 
         #src/qgcunittest/FileManagerTest.cc \
         #src/qgcunittest/MainWindowTest.cc \
         #src/qgcunittest/MessageBoxTest.cc \
+        src/qgcunittest/NetCdfTest.cc
 
 } } } } } }
 
