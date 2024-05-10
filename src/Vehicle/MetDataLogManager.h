@@ -3,6 +3,11 @@
 #include <QObject>
 #include <QTime>
 #include "Vehicle.h"
+#include <libs/netcdf-cxx4/cxx4/netcdf>
+
+using namespace std;
+using namespace netCDF;
+using namespace netCDF::exceptions;
 
 class MetDataLogManager : public QGCTool
 {
@@ -22,18 +27,26 @@ class MetDataLogManager : public QGCTool
         void _writeMetRawCsvLine            ();
         void _writeMetAlmCsvLine            ();
         void _initializeMetAlmCsv           ();
+        void _initializeMetNetCdf           ();
+        void _writeMetNetCdfLine            ();
 
         Vehicle*            _activeVehicle;
         QTimer              _metRawCsvTimer;
         QTimer              _metAlmCsvTimer;
+        QTimer              _metNetCdfTimer;
         QFile               _metRawCsvFile;
         QFile               _metAlmCsvFile;
+        NcFile              _metNetCdfFile = NcFile();
+
+        QString             _openNetCdfFile = "";
 
         QString             _flightName = "unnamed flight";
         int                 _ascentNumber = 0;
 
         QString             _latestRawTimestamp = "0";
         QString             _latestAlmTimestamp = "0";
+
+        bool                netCdfFileInitialized = false;
 
         QStringList metAlmFactHeaders = {
             "ASL",
@@ -166,5 +179,28 @@ class MetDataLogManager : public QGCTool
             "zVelocityMetersPerSecondInverted",
             "heartBeatCustomMode"
         };
+
+
+        vector<size_t> startp;
+
+        // NetCdf Variables
+        NcVar altitude;
+        NcVar time;
+        NcVar pressure;
+        NcVar airTemp;
+        NcVar relHum;
+        NcVar windSpeed;
+        NcVar windDirection;
+        NcVar latitude;
+        NcVar longitude;
+        NcVar roll;
+        NcVar rollRate;
+        NcVar pitch;
+        NcVar pitchRate;
+        NcVar yaw;
+        NcVar yawRate;
+        NcVar speedOverGround;
+        NcVar speedOverGroundUp;
+        NcVar mixRatio;
 
 };
