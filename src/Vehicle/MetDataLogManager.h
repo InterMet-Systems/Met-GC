@@ -14,6 +14,7 @@ class MetDataLogManager : public QGCTool
     
     public slots:
         void setFlightFileName(QString flightName);
+        void setAscentNumber(int ascentNumber);
 
     private:
 
@@ -29,7 +30,7 @@ class MetDataLogManager : public QGCTool
         QFile               _metAlmCsvFile;
 
         QString             _flightName = "unnamed flight";
-        int                 ascentNumber = 1;
+        int                 _ascentNumber = 0;
 
         QString             _latestRawTimestamp = "0";
         QString             _latestAlmTimestamp = "0";
