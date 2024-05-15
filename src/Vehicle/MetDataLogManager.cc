@@ -99,7 +99,6 @@ void MetDataLogManager::_initializeMetAlmCsv()
 {
     int copyNumber = 1;
     QString metAlmFileName = QString("%1_%2_%3.txt").arg(_flightName).arg(copyNumber).arg(_ascentNumber);
-
     QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesAltLevelSavePath());
     _metAlmCsvFile.setFileName(saveDir.absoluteFilePath(metAlmFileName));
 
@@ -113,7 +112,6 @@ void MetDataLogManager::_initializeMetAlmCsv()
         qCWarning(VehicleLog) << "unable to open ALM message file for text logging, Stopping text logging!";
         return;
     }
-
     QTextStream stream(&_metAlmCsvFile);
 
     qCDebug(VehicleLog) << "Facts logged to csv:" << metAlmFactHeaders;
@@ -125,7 +123,7 @@ void MetDataLogManager::_writeMetAlmCsvLine()
 {
     FactGroup* factGroup = nullptr;
     Vehicle* _activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
-    if(!_metAlmCsvFile.isOpen() || !_activeVehicle || !_activeVehicle->armed()) {
+    if(!_activeVehicle || !_activeVehicle->armed()) {
         return;
     }
     factGroup = _activeVehicle->getFactGroup("temperature");
@@ -147,7 +145,7 @@ void MetDataLogManager::_writeMetAlmCsvLine()
         return;
     }
 
-    if(!_metAlmCsvFile.isOpen() && _activeVehicle && _activeVehicle->armed()) {
+    if(!_metAlmCsvFile.isOpen()) {
         _initializeMetAlmCsv();
     }
 
