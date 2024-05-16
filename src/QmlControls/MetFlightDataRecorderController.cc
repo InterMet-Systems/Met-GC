@@ -50,6 +50,12 @@ void MetFlightDataRecorderController::addAltLevelMsg()
         return;
     }
 
+    //update ascent number
+    if(factGroup->getFact("ascents")->rawValue().toInt() != ascentNumber) {
+        ascentNumber = factGroup->getFact("ascents")->rawValue().toInt();
+        emit ascentNumberChanged();
+    }
+
     // store exact time to compare with previous time, skip logging if same
     QString time = factGroup->getFact("time")->rawValueString();
     if(QString::compare(prevTime, time) == 0) {

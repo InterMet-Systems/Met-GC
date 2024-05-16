@@ -1,7 +1,6 @@
 #include "QGCApplication.h"
 #include "MetDataLogManager.h"
 #include "SettingsManager.h"
-#include "MetFlightDataRecorderController.h"
 
 MetDataLogManager::MetDataLogManager(QGCApplication* app, QGCToolbox* toolbox) : QGCTool(app, toolbox)
 {

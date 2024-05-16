@@ -223,6 +223,7 @@ void DataBalancer::update(const mavlink_message_t* m, Fact* timeUAVMilliseconds,
 
     data.lastState = data.ascending;
 
+    ascents->setRawValue(data.ascents);
     timeUAVMilliseconds->setRawValue(data.timeUAVMilliseconds);
     timeUnixMilliseconds->setRawValue(data.timeUnixMilliseconds);
     timeUAVBootMilliseconds->setRawValue(data.timeUAVBootMilliseconds);

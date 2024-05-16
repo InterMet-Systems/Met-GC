@@ -55,7 +55,7 @@ public:
 
     QString flightFileName;
     bool flightNameValid = false;
-    int ascentNumber = 1;
+    int ascentNumber;
     QString prevTime = "0";
     QmlObjectListModel* tempAltLevelMsgList() { return &_tempAltLevelMsgList; }
 
