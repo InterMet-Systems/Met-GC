@@ -36,8 +36,8 @@ class MetDataLogManager : public QGCTool
         QString             _latestAlmTimestamp = "0";
 
         QStringList metAlmFactHeaders = {
-            "Time",
             "ASL",
+            "Time",
             "Pressure",
             "Air Temp",
             "Rel Hum",
@@ -56,8 +56,8 @@ class MetDataLogManager : public QGCTool
         };
 
         QStringList metAlmFactUnits = {
-            "s",
             "m",
+            "s",
             "mB",
             "C",
             "%",
@@ -76,8 +76,8 @@ class MetDataLogManager : public QGCTool
         };
 
         QStringList metAlmFactNames = {
-            "timeUnixSeconds",
             "altitudeMetersMSL",
+            "timeUnixSeconds",
             "absolutePressureMillibars",
             "temperatureCelsius",
             "relativeHumidity",

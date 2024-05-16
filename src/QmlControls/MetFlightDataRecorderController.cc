@@ -54,6 +54,8 @@ void MetFlightDataRecorderController::addAltLevelMsg()
     if(factGroup->getFact("ascents")->rawValue().toInt() != ascentNumber) {
         ascentNumber = factGroup->getFact("ascents")->rawValue().toInt();
         emit ascentNumberChanged();
+        // clear previous data points
+        _tempAltLevelMsgList.clear();
     }
 
     // store exact time to compare with previous time, skip logging if same
