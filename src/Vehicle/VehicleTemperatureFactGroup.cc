@@ -82,7 +82,7 @@ const char* VehicleTemperatureFactGroup::_ALMIsProcessedFactName =              
 const char* VehicleTemperatureFactGroup::_updateFactName =                             "update";
 
 VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
-    : FactGroup(1000, ":/json/Vehicle/TemperatureFact.json", parent)
+    : FactGroup(1000, ":/json/Vehicle/TemperatureFact.json", parent, true)
     , _temperature1Fact    (0, _temperature1FactName,     FactMetaData::valueTypeDouble)
     , _temperature2Fact    (0, _temperature2FactName,     FactMetaData::valueTypeDouble)
     , _temperature3Fact    (0, _temperature3FactName,     FactMetaData::valueTypeDouble)
