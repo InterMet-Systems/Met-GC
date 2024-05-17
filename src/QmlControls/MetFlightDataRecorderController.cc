@@ -40,11 +40,6 @@ void MetFlightDataRecorderController::addAltLevelMsg()
         return;
     }
     /* TAD 4/24/24 break if the current ALM has already been processed */
-
-    //QString s = factGroup->getFact("ALMIsProcessed")->rawValueString();
-    //QString s = almfact->rawValueString();
-    //QString s = factGroup->getFact("ALMIsProcessed")->rawValueString();
-
     QString s = factGroup->getFact("update")->rawValueString();
 
     if (s != QString("1")){

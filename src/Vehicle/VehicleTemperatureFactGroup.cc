@@ -303,7 +303,8 @@ void VehicleTemperatureFactGroup::handleMessage(Vehicle* /* vehicle */, mavlink_
                     rollRateRadiansPerSecond(), pitchRateRadiansPerSecond(), yawRateRadiansPerSecond(), zVelocityMetersPerSecondInverted(), xVelocityMetersPerSecond(),
                     yVelocityMetersPerSecond(), groundSpeedMetersPerSecond(), heartBeatCustomMode(), ascending(), timeUAVSeconds(), timeUnixSeconds(),
                     timeUAVBootSeconds(), altitudeMetersMSL(), temperatureCelsius(), latitudeDegrees(), longitudeDegrees(), rollDegrees(), pitchDegrees(),
-                    yawDegrees(), rollRateDegreesPerSecond(), pitchRateDegreesPerSecond(), yawRateDegreesPerSecond(), zVelocityMetersPerSecond(), lastState(), ascents());
+                    yawDegrees(), rollRateDegreesPerSecond(), pitchRateDegreesPerSecond(), yawRateDegreesPerSecond(), zVelocityMetersPerSecond(), lastState(),
+                    ascents());
 
     switch(balancer.updateALM()){
     case DataBalancer::DATA_NOT_INITIALIZED:
