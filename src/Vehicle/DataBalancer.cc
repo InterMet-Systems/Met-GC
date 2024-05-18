@@ -19,33 +19,8 @@ void DataBalancer::calcWindProps(IMetData* d){
     float cyaw = cos(d->yawRadians);
     float syaw = sin(d->yawRadians);
 
-    //double R[3][3] = {
-    //    {cpitch * cyaw,                             cpitch * -syaw,                             -spitch         },
-    //    {sroll * spitch * cyaw + croll * syaw,      sroll * spitch * -syaw + croll * cyaw,      sroll * cpitch  },
-    //    {croll * spitch * cyaw + -sroll * syaw,     croll * spitch * -syaw + -sroll * cyaw,     croll * cpitch  }
-    //};
-    /* Previous array was the rotation matrix in XYZ order, this is from ZYX order */
-
-
-    double R[3][3] = {
-        {cpitch * cyaw,                         -syaw * croll - sroll * -spitch * cyaw, -syaw * sroll -spitch * cyaw * croll    },
-        {cpitch * syaw,                         croll * cyaw -sroll * -spitch * syaw,   cyaw * sroll -spitch * syaw * croll     },
-        {spitch,                                -sroll * cpitch,                        cpitch * croll                          }
-    };
-
-    //float windAzimuth = atan2(R[1][2], R[0][2]);
-
-    //windAzimuth = windAzimuth > 0 ? windAzimuth : windAzimuth + 2 * M_PI;
-    //assert(windAzimuth <= 2 * M_PI);
-
-    //float headingGlobalDegrees = d->headingGlobalCentidegrees != UINT16_MAX ? d->headingGlobalCentidegrees / 100.f : 0.f;
-    //float windAzimuthGlobalDegrees = DEGREES(windAzimuth) + headingGlobalDegrees;
-
-    //d->windBearingDegrees = windAzimuthGlobalDegrees <= 360.f ? windAzimuthGlobalDegrees : windAzimuthGlobalDegrees - 360.f;
-
-
-    d->windBearingDegrees = d->yawDegrees;
-    d->windSpeedMetersPerSecond = fmaxf(0.f, 39.4f * sqrt(tan(acos(R[2][2]))) - 5.71f);
+    d->windBearingDegrees = fmodf(DEGREES(atan2(-croll * spitch * syaw + sroll * cyaw, -sroll * syaw - croll * spitch * cyaw)) + 360.f, 360.f);
+    d->windSpeedMetersPerSecond = fmaxf(0.f, 39.4f * sqrt(tan(acos(croll * cpitch))) - 5.71f);
 }
 
 void DataBalancer::calcGroundSpeed(IMetData* d){
