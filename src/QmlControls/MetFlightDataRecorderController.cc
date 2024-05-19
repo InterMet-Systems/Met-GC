@@ -23,7 +23,7 @@ MetFlightDataRecorderController::MetFlightDataRecorderController(QQuickItem* par
 {
     connect(this, &MetFlightDataRecorderController::flightFileNameChanged, qgcApp()->toolbox()->metDataLogManager(), &MetDataLogManager::setFlightFileName);
     connect(&_altLevelMsgTimer, &QTimer::timeout, this, &MetFlightDataRecorderController::addAltLevelMsg);
-    _altLevelMsgTimer.start(90); // below nyquist rate for 200ms balanced data update rate to ensure no data is missed
+    _altLevelMsgTimer.start(20); // below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
 }
 
 void MetFlightDataRecorderController::addAltLevelMsg()
@@ -70,13 +70,13 @@ void MetFlightDataRecorderController::addAltLevelMsg()
         displayTime.truncate(time.indexOf('.'));
     }
     tempAltLevelMsg_t* tempAltLevelMsg = new tempAltLevelMsg_t();
-    tempAltLevelMsg->altitude         = factGroup->getFact("asl"        )->rawValueString();
+    tempAltLevelMsg->altitude         = factGroup->getFact("asl"          )->rawValueString();
     tempAltLevelMsg->time             = displayTime;
-    tempAltLevelMsg->pressure         = factGroup->getFact("pressure")->rawValueString();
-    tempAltLevelMsg->temperature      = factGroup->getFact("airTemp"       )->rawValueString();
-    tempAltLevelMsg->relativeHumidity = factGroup->getFact("relHum"         )->rawValueString();
-    tempAltLevelMsg->windSpeed        = factGroup->getFact("windSpeed" )->rawValueString();
-    tempAltLevelMsg->windDirection    = factGroup->getFact("windDirection"       )->rawValueString();
+    tempAltLevelMsg->pressure         = factGroup->getFact("pressure"     )->rawValueString();
+    tempAltLevelMsg->temperature      = factGroup->getFact("airTemp"      )->rawValueString();
+    tempAltLevelMsg->relativeHumidity = factGroup->getFact("relHum"       )->rawValueString();
+    tempAltLevelMsg->windSpeed        = factGroup->getFact("windSpeed"    )->rawValueString();
+    tempAltLevelMsg->windDirection    = factGroup->getFact("windDirection")->rawValueString();
     _tempAltLevelMsgList.append(tempAltLevelMsg);
 
     /* record that we processed the current ALM */

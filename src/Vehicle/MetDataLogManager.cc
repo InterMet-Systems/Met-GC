@@ -6,8 +6,8 @@ MetDataLogManager::MetDataLogManager(QGCApplication* app, QGCToolbox* toolbox) :
 {
     connect(&_metRawCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetRawCsvLine);
     connect(&_metAlmCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetAlmCsvLine);
-    _metRawCsvTimer.start(90); // set below nyquist rate for 200ms balanced data update rate to ensure no data is missed
-    _metAlmCsvTimer.start(90); // timing for ALM messages might be the same as the raw messages?
+    _metRawCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
+    _metAlmCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
 }
 
 MetDataLogManager::~MetDataLogManager()
@@ -132,7 +132,7 @@ void MetDataLogManager::_writeMetAlmCsvLine()
     }
 
     // make sure we're not logging the same data again
-    QString timestamp = factGroup->getFact("timeUnixSeconds")->rawValueString();
+    QString timestamp = factGroup->getFact("time")->rawValueString();
     if (timestamp == _latestAlmTimestamp) {
         return;
     } else {

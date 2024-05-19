@@ -76,23 +76,23 @@ class MetDataLogManager : public QGCTool
         };
 
         QStringList metAlmFactNames = {
-            "altitudeMetersMSL",
-            "timeUnixSeconds",
-            "absolutePressureMillibars",
-            "temperatureCelsius",
-            "relativeHumidity",
-            "windSpeedMetersPerSecond",
-            "windBearingDegrees",
-            "latitudeDegrees",
-            "longitudeDegrees",
-            "rollDegrees",
-            "rollRateDegreesPerSecond",
-            "pitchDegrees",
-            "pitchRateDegreesPerSecond",
-            "yawDegrees",
-            "yawRateDegreesPerSecond",
-            "zVelocityMetersPerSecond",
-            "groundSpeedMetersPerSecond"
+            "asl",
+            "time",
+            "pressure",
+            "airTemp",
+            "relHum",
+            "windSpeed",
+            "windDirection",
+            "latitude",
+            "longitude",
+            "roll",
+            "rollRate",
+            "pitch",
+            "pitchRate",
+            "yaw",
+            "yawRate",
+            "ascentRate",
+            "speedOverGround"
         };
 
         QStringList metRawFactHeaders = {
