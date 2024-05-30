@@ -11,6 +11,7 @@ import QtQuick          2.3
 import QtQuick.Controls 2.15
 import QtQuick.Layouts  1.15
 import QtQuick.Dialogs  1.3
+import QtQuick.Window   2.11
 
 import QGroundControl               1.0
 import QGroundControl.Controls      1.0
@@ -25,11 +26,13 @@ Rectangle {
     color:              qgcPal.window
     radius:             ScreenTools.defaultFontPixelWidth / 2
 
+    property real _scale:                 Window.width > 1920 ? 1 : 0.75
     property real _toolsMargin:           ScreenTools.defaultFontPixelWidth
-    property real _altMsgMinWidth:        ScreenTools.defaultFontPixelWidth * 10
     property bool _fileNameTouched:       false
     property real _fontSize:              ScreenTools.defaultFontPointSize
-    property real _smallFontSize:         ScreenTools.defaultFontPointSize * 0.8
+    property real _tableFontSize:         ScreenTools.defaultFontPointSize * _scale
+    property real _altMsgMinWidth:        _tableFontSize * 10
+    property real _smallFontSize:         ScreenTools.defaultFontPointSize * 0.75
     MetFlightDataRecorderController { id: controller; }
 
     // make goToFile function available outside of this file
@@ -53,7 +56,7 @@ Rectangle {
         anchors.left: flightLabel.right
         anchors.leftMargin: _toolsMargin
         anchors.topMargin: _toolsMargin
-        width: 400
+        width: 380 * _scale
         showHelp: false
         placeholderText:  qsTr("Enter Flight Name")
         text: controller.flightFileName
@@ -69,7 +72,7 @@ Rectangle {
         text: qsTr("Invalid Flight Name")
         color: qgcPal.colorRed
         visible: _fileNameTouched && !controller.flightNameValid
-        font.pointSize: _fontSize
+        font.pointSize: _smallFontSize
         anchors.verticalCenter: flightInput.verticalCenter
         anchors.left: flightInput.right
 
@@ -113,49 +116,49 @@ Rectangle {
 
             QGCLabel {
                 text: qsTr("Alt\n(m)")
-                font.pointSize: _fontSize
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
                 Layout.minimumWidth: _altMsgMinWidth * 0.8
             }
 
             QGCLabel {
                 text: qsTr("Time\n(s)")
-                font.pointSize: _fontSize
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
                 Layout.minimumWidth: _altMsgMinWidth * 1.3
             }
 
             QGCLabel {
                 text: qsTr("Press\n(mB)")
-                font.pointSize: _fontSize
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
                 Layout.minimumWidth: _altMsgMinWidth
             }
 
             QGCLabel {
                 text: qsTr("Temp\n(C)")
-                font.pointSize: _fontSize
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
                 Layout.minimumWidth: _altMsgMinWidth
             }
 
             QGCLabel {
                 text: qsTr("RelHum\n(%)")
-                font.pointSize: _fontSize
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
                 Layout.minimumWidth: _altMsgMinWidth
             }
 
             QGCLabel {
                 text: qsTr("WSpeed\n(m/s)")
-                font.pointSize: _fontSize
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
                 Layout.minimumWidth: _altMsgMinWidth
             }
 
             QGCLabel {
                 text: qsTr("WDir\n(deg)")
-                font.pointSize: _fontSize
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
                 Layout.minimumWidth: _altMsgMinWidth * 0.9
             }
@@ -203,7 +206,7 @@ Rectangle {
                             Layout.column:      0
                             Layout.minimumWidth: _altMsgMinWidth * 0.8
                             text: controller.tempAltLevelMsgList.get(index).altitude
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
                     }
                 }
@@ -215,7 +218,7 @@ Rectangle {
                             Layout.column:      1
                             Layout.minimumWidth: _altMsgMinWidth * 1.3
                             text: controller.tempAltLevelMsgList.get(index).time
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
                     }
                 }
@@ -227,7 +230,7 @@ Rectangle {
                             Layout.column:      2
                             Layout.minimumWidth: _altMsgMinWidth
                             text: controller.tempAltLevelMsgList.get(index).pressure
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
                     }
                 }
@@ -239,7 +242,7 @@ Rectangle {
                             Layout.column:      3
                             Layout.minimumWidth: _altMsgMinWidth
                             text: controller.tempAltLevelMsgList.get(index).temperature
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
                     }
                 }
@@ -251,7 +254,7 @@ Rectangle {
                             Layout.column:      4
                             Layout.minimumWidth: _altMsgMinWidth
                             text: controller.tempAltLevelMsgList.get(index).relativeHumidity
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
                     }
                 }
@@ -263,7 +266,7 @@ Rectangle {
                             Layout.column:      5
                             Layout.minimumWidth: _altMsgMinWidth
                             text: controller.tempAltLevelMsgList.get(index).windSpeed
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
                     }
                 }
@@ -275,7 +278,7 @@ Rectangle {
                             Layout.column:      6
                             Layout.minimumWidth: _altMsgMinWidth * 0.9
                             text: controller.tempAltLevelMsgList.get(index).windDirection
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
                     }
                 }

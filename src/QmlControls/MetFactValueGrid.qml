@@ -39,7 +39,7 @@ T.MetFactValueGrid {
         RowLayout {
             RowLayout {
                 id:         labelValueColumnLayout
-                spacing:    ScreenTools.defaultFontPixelWidth * 1.25
+                spacing:    ScreenTools.defaultFontPixelWidth
 
                 Repeater {
                     model: _root.columns
