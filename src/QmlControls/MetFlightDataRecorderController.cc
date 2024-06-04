@@ -28,7 +28,6 @@ MetFlightDataRecorderController::MetFlightDataRecorderController(QQuickItem* par
 
 void MetFlightDataRecorderController::addAltLevelMsg()
 {
-
     Vehicle* _activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
     if(!_activeVehicle || !_activeVehicle->armed()) {
         return;
