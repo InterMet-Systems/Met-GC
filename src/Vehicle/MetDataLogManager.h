@@ -45,6 +45,7 @@ class MetDataLogManager : public QGCTool
 
         QString             _latestRawTimestamp = "0";
         QString             _latestAlmTimestamp = "0";
+        QString            _latestNetCdfTimestamp = "0";
 
         bool                netCdfFileInitialized = false;
 

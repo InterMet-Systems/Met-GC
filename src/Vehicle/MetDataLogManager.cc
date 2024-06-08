@@ -22,7 +22,14 @@ MetDataLogManager::MetDataLogManager(QGCApplication* app, QGCToolbox* toolbox) :
 MetDataLogManager::~MetDataLogManager()
 {
     _metRawCsvFile.close();
-    _metAlmCsvFile.close();
+
+    if(_metAlmCsvFile.isOpen()) {
+        _metAlmCsvFile.close();
+    }
+
+    if(!_metNetCdfFile.isNull()) {
+        _metNetCdfFile.close();
+    }
 }
 
 void MetDataLogManager::_initializeMetRawCsv()
@@ -91,6 +98,10 @@ void MetDataLogManager::setAscentNumber(int number)
     if(_metAlmCsvFile.isOpen()) {
         _metAlmCsvFile.close();
     }
+
+    if(!_metNetCdfFile.isNull()) {
+        _metNetCdfFile.close();
+    }
 }
 
 void MetDataLogManager::setFlightFileName(QString flightName)
@@ -99,6 +110,11 @@ void MetDataLogManager::setFlightFileName(QString flightName)
     if(_metAlmCsvFile.isOpen()) {
         _metAlmCsvFile.close();
     }
+
+    if(!_metNetCdfFile.isNull()) {
+        _metNetCdfFile.close();
+    }
+
     _flightName = flightName;
     setAscentNumber(1);
 }
@@ -150,6 +166,9 @@ void MetDataLogManager::_writeMetAlmCsvLine()
 
     // only capture ALM data during ascent
     if(factGroup->getFact("ascending")->rawValue().toBool() == false) {
+        if(_metAlmCsvFile.isOpen()) {
+            _metAlmCsvFile.close();
+        }
         return;
     }
 
@@ -176,14 +195,14 @@ void MetDataLogManager::_writeMetAlmCsvLine()
 void MetDataLogManager::_initializeMetNetCdf()
 {
     int copyNumber = 1;
-    QString netCdfFileName = QString("%1_%2_%3.nc").arg(_flightName).arg(copyNumber).arg(ascentNumber);
+    QString netCdfFileName = QString("%1_%2_%3.nc").arg(_flightName).arg(copyNumber).arg(_ascentNumber);
     // TODO: change the save path to the NetCDF save path
-    QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesAltLevelSavePath());
+    QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesNetCdfSavePath());
     QString _netCdfFullFilePath = saveDir.absoluteFilePath(netCdfFileName);
 
     while (QFile(_netCdfFullFilePath).exists()) {
         copyNumber++;
-        netCdfFileName = QString("%1_%2_%3.nc").arg(_flightName).arg(copyNumber).arg(ascentNumber);
+        netCdfFileName = QString("%1_%2_%3.nc").arg(_flightName).arg(copyNumber).arg(_ascentNumber);
         _netCdfFullFilePath = saveDir.absoluteFilePath(netCdfFileName);
     }
 
@@ -191,30 +210,30 @@ void MetDataLogManager::_initializeMetNetCdf()
     _metNetCdfFile.open(_netCdfFullFilePath.toStdString(), NcFile::replace);
 
     // Define the dimensions.
-    NcDim obsDim = _metNetCdfFile.addDim("obs", 18);
+    NcDim obsDim = _metNetCdfFile.addDim("obs");
     vector<NcDim> dims;
     dims.push_back(obsDim);
 
     // Define the variables.
 
-    altitude = _metNetCdfFile.addVar("altitude", ncFloat, dims);
-    time = _metNetCdfFile.addVar("time", ncDouble, dims);
-    pressure = _metNetCdfFile.addVar("air_pressure", ncFloat, dims);
-    airTemp = _metNetCdfFile.addVar("air_temperature", ncFloat, dims);
-    relHum = _metNetCdfFile.addVar("relative_humidity", ncFloat, dims);
-    windSpeed = _metNetCdfFile.addVar("wind_speed", ncFloat, dims);
-    windDirection = _metNetCdfFile.addVar("wind_direction", ncFloat, dims);
-    latitude = _metNetCdfFile.addVar("lat", ncDouble, dims);
-    longitude = _metNetCdfFile.addVar("lon", ncDouble, dims);
-    roll = _metNetCdfFile.addVar("platform_roll", ncFloat, dims);
-    rollRate = _metNetCdfFile.addVar("platform_roll_rate", ncFloat, dims);
-    pitch = _metNetCdfFile.addVar("platform_pitch", ncFloat, dims);
-    pitchRate = _metNetCdfFile.addVar("platform_pitch_rate", ncFloat, dims);
-    yaw = _metNetCdfFile.addVar("platform_yaw", ncFloat, dims);
-    yawRate = _metNetCdfFile.addVar("platform_yaw_rate", ncFloat, dims);
-    speedOverGround = _metNetCdfFile.addVar("platform_speed_wrt_ground", ncFloat, dims);
-    speedOverGroundUp = _metNetCdfFile.addVar("platform_speed_wrt_ground_upward", ncFloat, dims);
-    mixRatio = _metNetCdfFile.addVar("Humidity_mixing_ratio", ncFloat, dims);
+    altitude             = _metNetCdfFile.addVar("altitude", ncFloat, dims);
+    time                 = _metNetCdfFile.addVar("time", ncDouble, dims);
+    pressure             = _metNetCdfFile.addVar("air_pressure", ncFloat, dims);
+    airTemp              = _metNetCdfFile.addVar("air_temperature", ncFloat, dims);
+    relHum               = _metNetCdfFile.addVar("relative_humidity", ncFloat, dims);
+    windSpeed            = _metNetCdfFile.addVar("wind_speed", ncFloat, dims);
+    windDirection        = _metNetCdfFile.addVar("wind_direction", ncFloat, dims);
+    latitude             = _metNetCdfFile.addVar("lat", ncDouble, dims);
+    longitude            = _metNetCdfFile.addVar("lon", ncDouble, dims);
+    roll                 = _metNetCdfFile.addVar("platform_roll", ncFloat, dims);
+    rollRate             = _metNetCdfFile.addVar("platform_roll_rate", ncFloat, dims);
+    pitch                = _metNetCdfFile.addVar("platform_pitch", ncFloat, dims);
+    pitchRate            = _metNetCdfFile.addVar("platform_pitch_rate", ncFloat, dims);
+    yaw                  = _metNetCdfFile.addVar("platform_yaw", ncFloat, dims);
+    yawRate              = _metNetCdfFile.addVar("platform_yaw_rate", ncFloat, dims);
+    speedOverGround      = _metNetCdfFile.addVar("platform_speed_wrt_ground", ncFloat, dims);
+    speedOverGroundUp    = _metNetCdfFile.addVar("platform_speed_wrt_ground_upward", ncFloat, dims);
+    mixRatio             = _metNetCdfFile.addVar("Humidity_mixing_ratio", ncFloat, dims);
 
     // add attributes to each variable
     altitude.putAtt("units", "m ASL");
@@ -306,32 +325,36 @@ void MetDataLogManager::_initializeMetNetCdf()
 
 void MetDataLogManager::_writeMetNetCdfLine()
 {
-    Vehicle* _activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
-    if(!netCdfFileInitialized && _activeVehicle && _activeVehicle->armed()) {
-        _initializeMetNetCdf();
-        netCdfFileInitialized = true;
-    }
-
-    if(!netCdfFileInitialized || !_activeVehicle || !_activeVehicle->armed()) {
-        return;
-    }
-
-    QStringList metFactValues;
-    QTextStream stream(&_metAlmCsvFile);
 
     FactGroup* factGroup = nullptr;
+    Vehicle* _activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
+    if(!_activeVehicle || !_activeVehicle->armed()) {
+        return;
+    }
     factGroup = _activeVehicle->getFactGroup("temperature");
 
     if (!factGroup) {
         return;
     }
-    
+
     // make sure we're not logging the same data again
     QString timestamp = factGroup->getFact("timeUnixSeconds")->rawValueString();
-    if (timestamp == _latestAlmTimestamp) {
+    if (timestamp == _latestNetCdfTimestamp) {
         return;
     } else {
-        _latestAlmTimestamp = timestamp;
+        _latestNetCdfTimestamp = timestamp;
+    }
+
+    // only capture netcdf data during ascent
+    if(factGroup->getFact("ascending")->rawValue().toBool() == false) {
+        if(!_metNetCdfFile.isNull()) {
+            _metNetCdfFile.close();
+        }
+        return;
+    }
+
+    if(_metNetCdfFile.isNull()) {
+        _initializeMetNetCdf();
     }
 
     altitude.putVar(startp, factGroup->getFact("altitudeMetersMSL")->rawValue().toFloat());
