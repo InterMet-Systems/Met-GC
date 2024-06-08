@@ -3,6 +3,7 @@
 #include "SettingsManager.h"
 #include "MetFlightDataRecorderController.h"
 #include "Vehicle.h"
+#include <QtMath>
 #include <libs/netcdf-cxx4/cxx4/netcdf>
 
 using namespace std;
@@ -196,7 +197,6 @@ void MetDataLogManager::_initializeMetNetCdf()
 {
     int copyNumber = 1;
     QString netCdfFileName = QString("%1_%2_%3.nc").arg(_flightName).arg(copyNumber).arg(_ascentNumber);
-    // TODO: change the save path to the NetCDF save path
     QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesNetCdfSavePath());
     QString _netCdfFullFilePath = saveDir.absoluteFilePath(netCdfFileName);
 
@@ -338,7 +338,7 @@ void MetDataLogManager::_writeMetNetCdfLine()
     }
 
     // make sure we're not logging the same data again
-    QString timestamp = factGroup->getFact("timeUnixSeconds")->rawValueString();
+    QString timestamp = factGroup->getFact("time")->rawValueString();
     if (timestamp == _latestNetCdfTimestamp) {
         return;
     } else {
@@ -357,28 +357,39 @@ void MetDataLogManager::_writeMetNetCdfLine()
         _initializeMetNetCdf();
     }
 
-    altitude.putVar(startp, factGroup->getFact("altitudeMetersMSL")->rawValue().toFloat());
-    time.putVar(startp, factGroup->getFact("timeUnixSeconds")->rawValue().toDouble());
-    //TODO: check if the pressure is in millibars or pascals
-    pressure.putVar(startp, factGroup->getFact("absolutePressureMillibars")->rawValue().toFloat());
-    //TODO: check if the temperature is in Celsius or Kelvin
-    airTemp.putVar(startp, factGroup->getFact("temperatureCelsius")->rawValue().toFloat());
-    relHum.putVar(startp, factGroup->getFact("relativeHumidity")->rawValue().toFloat());
-    windSpeed.putVar(startp, factGroup->getFact("windSpeedMetersPerSecond")->rawValue().toFloat());
-    windDirection.putVar(startp, factGroup->getFact("windBearingDegrees")->rawValue().toFloat());
-    latitude.putVar(startp, factGroup->getFact("latitudeDegrees")->rawValue().toDouble());
-    longitude.putVar(startp, factGroup->getFact("longitudeDegrees")->rawValue().toDouble());
-    roll.putVar(startp, factGroup->getFact("rollDegrees")->rawValue().toFloat());
-    rollRate.putVar(startp, factGroup->getFact("rollRateDegreesPerSecond")->rawValue().toFloat());
-    pitch.putVar(startp, factGroup->getFact("pitchDegrees")->rawValue().toFloat());
-    pitchRate.putVar(startp, factGroup->getFact("pitchRateDegreesPerSecond")->rawValue().toFloat());
-    yaw.putVar(startp, factGroup->getFact("yawDegrees")->rawValue().toFloat());
-    yawRate.putVar(startp, factGroup->getFact("yawRateDegreesPerSecond")->rawValue().toFloat());
-    speedOverGround.putVar(startp, factGroup->getFact("zVelocityMetersPerSecond")->rawValue().toFloat());
-    speedOverGroundUp.putVar(startp, factGroup->getFact("zVelocityMetersPerSecondInverted")->rawValue().toFloat());
-    //TODO: put in the real fact for mix ratio
-    mixRatio.putVar(startp, factGroup->getFact("zVelocityMetersPerSecond")->rawValue().toFloat());
-    qDebug() << "Wrote line to NetCDF file at index: " << startp[0] << "\n";
+    // calculate the humidity mixing ratio
+    float tempValC = factGroup->getFact("airTemp")->rawValue().toFloat();
+    float tempValK = tempValC + 273.15;
+    float relHumValPercent = factGroup->getFact("relHum")->rawValue().toFloat();
+    float relHumValDec = relHumValPercent * 0.01;
+
+    float airPressureValMb = factGroup->getFact("pressure")->rawValue().toFloat();
+    float airPressureValPa = airPressureValMb * 100;
+    float airPressureValKPa = airPressureValPa * 0.001;
+
+    float satPressureValKPa = 6.112 * qExp((17.62 * tempValC) / (243.12 + tempValC));
+
+    float mixRatioValue = 0.6219743 * relHumValDec * airPressureValKPa / (airPressureValKPa -  satPressureValKPa);
+
+    altitude.putVar(         startp, factGroup->getFact("asl")->rawValue().toFloat());
+    time.putVar(             startp, factGroup->getFact("time")->rawValue().toDouble());
+    pressure.putVar(         startp, airPressureValPa);
+    airTemp.putVar(          startp, tempValK);
+    relHum.putVar(           startp, relHumValPercent);
+    windSpeed.putVar(        startp, factGroup->getFact("windSpeed"      )->rawValue().toFloat());
+    windDirection.putVar(    startp, factGroup->getFact("windDirection"  )->rawValue().toFloat());
+    latitude.putVar(         startp, factGroup->getFact("latitude"       )->rawValue().toDouble());
+    longitude.putVar(        startp, factGroup->getFact("longitude"      )->rawValue().toDouble());
+    roll.putVar(             startp, factGroup->getFact("roll"           )->rawValue().toFloat());
+    rollRate.putVar(         startp, factGroup->getFact("rollRate"       )->rawValue().toFloat());
+    pitch.putVar(            startp, factGroup->getFact("pitch"          )->rawValue().toFloat());
+    pitchRate.putVar(        startp, factGroup->getFact("pitchRate"      )->rawValue().toFloat());
+    yaw.putVar(              startp, factGroup->getFact("yaw"            )->rawValue().toFloat());
+    yawRate.putVar(          startp, factGroup->getFact("yawRate"        )->rawValue().toFloat());
+    speedOverGround.putVar(  startp, factGroup->getFact("speedOverGround")->rawValue().toFloat());
+    speedOverGroundUp.putVar(startp, factGroup->getFact("ascentRate"     )->rawValue().toFloat());
+    mixRatio.putVar(         startp, mixRatioValue);
+
     // increment the index vector unlimited dimension
     startp[0]++;
     return;
