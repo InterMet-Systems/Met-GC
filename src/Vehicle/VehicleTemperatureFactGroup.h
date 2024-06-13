@@ -30,9 +30,9 @@ public:
     Q_PROPERTY(Fact* timeUAVBootMilliseconds            READ timeUAVBootMilliseconds            CONSTANT)
     Q_PROPERTY(Fact* altitudeMillimetersMSL             READ altitudeMillimetersMSL             CONSTANT)
     Q_PROPERTY(Fact* absolutePressureMillibars          READ absolutePressureMillibars          CONSTANT)
-    Q_PROPERTY(Fact* temperature0Kelvin                 READ temperature0Kelvin                 CONSTANT)
-    Q_PROPERTY(Fact* temperature1Kelvin                 READ temperature1Kelvin                 CONSTANT)
-    Q_PROPERTY(Fact* temperature2Kelvin                 READ temperature2Kelvin                 CONSTANT)
+    Q_PROPERTY(Fact* temperature0Celsius                 READ temperature0Celsius                 CONSTANT)
+    Q_PROPERTY(Fact* temperature1Celsius                 READ temperature1Celsius                 CONSTANT)
+    Q_PROPERTY(Fact* temperature2Celsius                 READ temperature2Celsius                 CONSTANT)
     Q_PROPERTY(Fact* relativeHumidity                   READ relativeHumidity                   CONSTANT)
     Q_PROPERTY(Fact* relativeHumidity0                  READ relativeHumidity0                  CONSTANT)
     Q_PROPERTY(Fact* relativeHumidity1                  READ relativeHumidity1                  CONSTANT)
@@ -101,9 +101,9 @@ public:
     Fact* timeUAVBootMilliseconds ()            { return &_timeUAVBootMillisecondsFact; }
     Fact* altitudeMillimetersMSL ()             { return &_altitudeMillimetersMSLFact; }
     Fact* absolutePressureMillibars ()          { return &_absolutePressureMillibarsFact; }
-    Fact* temperature0Kelvin ()                 { return &_temperature0KelvinFact; }
-    Fact* temperature1Kelvin ()                 { return &_temperature1KelvinFact; }
-    Fact* temperature2Kelvin ()                 { return &_temperature2KelvinFact; }
+    Fact* temperature0Celsius ()                 { return &_temperature0CelsiusFact; }
+    Fact* temperature1Celsius ()                 { return &_temperature1CelsiusFact; }
+    Fact* temperature2Celsius ()                 { return &_temperature2CelsiusFact; }
     Fact* relativeHumidity ()                   { return &_relativeHumidityFact; }
     Fact* relativeHumidity0 ()                  { return &_relativeHumidity0Fact; }
     Fact* relativeHumidity1 ()                  { return &_relativeHumidity1Fact; }
@@ -174,9 +174,9 @@ public:
     static const char* _timeUAVBootMillisecondsFactName;
     static const char* _altitudeMillimetersMSLFactName;
     static const char* _absolutePressureMillibarsFactName;
-    static const char* _temperature0KelvinFactName;
-    static const char* _temperature1KelvinFactName;
-    static const char* _temperature2KelvinFactName;
+    static const char* _temperature0CelsiusFactName;
+    static const char* _temperature1CelsiusFactName;
+    static const char* _temperature2CelsiusFactName;
     static const char* _relativeHumidityFactName;
     static const char* _relativeHumidity0FactName;
     static const char* _relativeHumidity1FactName;
@@ -256,9 +256,9 @@ private:
     Fact            _timeUAVBootMillisecondsFact;
     Fact            _altitudeMillimetersMSLFact;
     Fact            _absolutePressureMillibarsFact;
-    Fact            _temperature0KelvinFact;
-    Fact            _temperature1KelvinFact;
-    Fact            _temperature2KelvinFact;
+    Fact            _temperature0CelsiusFact;
+    Fact            _temperature1CelsiusFact;
+    Fact            _temperature2CelsiusFact;
     Fact            _relativeHumidityFact;
     Fact            _relativeHumidity0Fact;
     Fact            _relativeHumidity1Fact;
