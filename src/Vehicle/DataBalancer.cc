@@ -29,7 +29,7 @@ void DataBalancer::calcGroundSpeed(IMetData* d){
 }
 
 void DataBalancer::update(const mavlink_message_t* m, Fact* timeUAVMilliseconds, Fact* timeUnixMilliseconds, Fact* timeUAVBootMilliseconds, Fact* altitudeMillimetersMSL,
-                          Fact* absolutePressureMillibars, Fact* temperature0Kelvin, Fact* temperature1Kelvin, Fact* temperature2Kelvin, Fact* relativeHumidity,
+                          Fact* absolutePressureMillibars, Fact* temperature0Celsius, Fact* temperature1Celsius, Fact* temperature2Celsius, Fact* relativeHumidity,
                           Fact* relativeHumidity0, Fact* relativeHumidity1, Fact* relativeHumidity2, Fact* windSpeedMetersPerSecond, Fact* windBearingDegrees,
                           Fact* latitudeDegreesE7, Fact* longitudeDegreesE7, Fact* rollRadians, Fact* pitchRadians, Fact* yawRadians, Fact* rollRateRadiansPerSecond,
                           Fact* pitchRateRadiansPerSecond, Fact* yawRateRadiansPerSecond, Fact* zVelocityMetersPerSecondInverted, Fact* xVelocityMetersPerSecond,
@@ -169,9 +169,9 @@ void DataBalancer::update(const mavlink_message_t* m, Fact* timeUAVMilliseconds,
     data.altitudeMillimetersMSL = altMmA;
     data.altitudeMetersMSL = (double)altMmA / 1000;
     data.absolutePressureMillibars = absolutePressureMillibarsA;
-    data.temperature0Kelvin = cassTemp0A;
-    data.temperature1Kelvin = cassTemp1A;
-    data.temperature2Kelvin = cassTemp2A;
+    data.temperature0Celsius = cassTemp0A - 273.15;
+    data.temperature1Celsius = cassTemp1A - 273.15;
+    data.temperature2Celsius = cassTemp2A - 273.15;
     data.temperatureCelsius = ((cassTemp0A + cassTemp1A + cassTemp2A) / 3) - 273.15;
     data.relativeHumidity0 = cassRH0A;
     data.relativeHumidity1 = cassRH1A;
@@ -227,9 +227,9 @@ void DataBalancer::update(const mavlink_message_t* m, Fact* timeUAVMilliseconds,
     timeUAVBootMilliseconds->setRawValue(data.timeUAVBootMilliseconds);
     altitudeMillimetersMSL->setRawValue(data.altitudeMillimetersMSL);
     absolutePressureMillibars->setRawValue(data.absolutePressureMillibars);
-    temperature0Kelvin->setRawValue(data.temperature0Kelvin);
-    temperature1Kelvin->setRawValue(data.temperature1Kelvin);
-    temperature2Kelvin->setRawValue(data.temperature2Kelvin);
+    temperature0Celsius->setRawValue(data.temperature0Celsius);
+    temperature1Celsius->setRawValue(data.temperature1Celsius);
+    temperature2Celsius->setRawValue(data.temperature2Celsius);
     relativeHumidity->setRawValue(data.relativeHumidity);
     relativeHumidity0->setRawValue(data.relativeHumidity0);
     relativeHumidity1->setRawValue(data.relativeHumidity1);

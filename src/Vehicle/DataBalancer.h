@@ -13,9 +13,9 @@ typedef struct {
     uint64_t timeUAVBootMilliseconds; /* UAV boot time from Unix reference frame */
     int32_t altitudeMillimetersMSL;
     float absolutePressureMillibars; /* mB == hPa */
-    float temperature0Kelvin; /* msg 227 type 0 element 0 */
-    float temperature1Kelvin; /* msg 227 type 0 element 1 */
-    float temperature2Kelvin; /* msg 227 type 0 element 2 */
+    float temperature0Celsius; /* msg 227 type 0 element 0 */
+    float temperature1Celsius; /* msg 227 type 0 element 1 */
+    float temperature2Celsius; /* msg 227 type 0 element 2 */
     float relativeHumidity; /* average of msg 227 type 1 elements 0, 1, and 2 */
     float relativeHumidity0; /* msg 227 type 1 element 0 */
     float relativeHumidity1; /* msg 227 type 1 element 1 */
@@ -183,7 +183,7 @@ private:
 
 public:
     void update(const mavlink_message_t* m, Fact* timeUAVMilliseconds, Fact* timeUnixMilliseconds, Fact* timeUAVBootMilliseconds, Fact* altitudeMillimetersMSL,
-                Fact* absolutePressureMillibars, Fact* temperature0Kelvin, Fact* temperature1Kelvin, Fact* temperature2Kelvin, Fact* relativeHumidity,
+                Fact* absolutePressureMillibars, Fact* temperature0Celsius, Fact* temperature1Celsius, Fact* temperature2Celsius, Fact* relativeHumidity,
                 Fact* relativeHumidity0, Fact* relativeHumidity1, Fact* relativeHumidity2, Fact* windSpeedMetersPerSecond, Fact* windBearingDegrees,
                 Fact* latitudeDegreesE7, Fact* longitudeDegreesE7, Fact* rollRadians, Fact* pitchRadians, Fact* yawRadians, Fact* rollRateRadiansPerSecond,
                 Fact* pitchRateRadiansPerSecond, Fact* yawRateRadiansPerSecond, Fact* zVelocityMetersPerSecondInverted, Fact* xVelocityMetersPerSecond,
