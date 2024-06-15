@@ -299,7 +299,7 @@ void QGCCorePlugin::factValueGridCreateDefaultSettings(const QString& defaultSet
 
     // temporary setup until correct MET facts are available
     if(defaultSettingsGroup == MetFactValueGrid::metDataDefaultSettingsGroup) {
-        factValueGrid.setFontSize(FactValueGrid::MediumFontSize);
+        factValueGrid.setFontSize(FactValueGrid::SmallFontSize);
 
         factValueGrid.appendColumn();
         // need to append row for each item after the first

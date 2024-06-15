@@ -11,6 +11,7 @@ import QtQuick          2.3
 import QtQuick.Controls 2.15
 import QtQuick.Layouts  1.15
 import QtQuick.Dialogs  1.3
+import QtQuick.Window   2.11
 
 import QGroundControl               1.0
 import QGroundControl.Controls      1.0
@@ -25,11 +26,13 @@ Rectangle {
     color:              qgcPal.window
     radius:             ScreenTools.defaultFontPixelWidth / 2
 
+    property real _scale:                 Window.width > 1920 ? 1 : 0.75
     property real _toolsMargin:           ScreenTools.defaultFontPixelWidth
-    property real _altMsgMinWidth:        ScreenTools.defaultFontPixelWidth * 10
     property bool _fileNameTouched:       false
     property real _fontSize:              ScreenTools.defaultFontPointSize
-    property real _smallFontSize:         ScreenTools.defaultFontPointSize * 0.8
+    property real _tableFontSize:         ScreenTools.defaultFontPointSize * _scale
+    property real _altMsgMinWidth:        _tableFontSize * 10
+    property real _smallFontSize:         ScreenTools.defaultFontPointSize * 0.75
     MetFlightDataRecorderController { id: controller; }
 
     // make goToFile function available outside of this file
@@ -53,7 +56,7 @@ Rectangle {
         anchors.left: flightLabel.right
         anchors.leftMargin: _toolsMargin
         anchors.topMargin: _toolsMargin
-        width: 400
+        width: 380 * _scale
         showHelp: false
         placeholderText:  qsTr("Enter Flight Name")
         text: controller.flightFileName
@@ -69,7 +72,7 @@ Rectangle {
         text: qsTr("Invalid Flight Name")
         color: qgcPal.colorRed
         visible: _fileNameTouched && !controller.flightNameValid
-        font.pointSize: _fontSize
+        font.pointSize: _smallFontSize
         anchors.verticalCenter: flightInput.verticalCenter
         anchors.left: flightInput.right
 
@@ -95,15 +98,17 @@ Rectangle {
         color: qgcPal.windowShade
         anchors.top: flightInput.bottom
         anchors.left: parent.left
+        anchors.right: parent.right
         anchors.topMargin: _toolsMargin * 2
         anchors.bottom: parent.bottom
         width: parent.width
-        Layout.fillWidth: true
+        // Layout.fillWidth: true
 
         GridLayout {
             id: almHeaders
             anchors.top: parent.top
             anchors.left: parent.left
+            anchors.right: parent.right
             anchors.leftMargin: _toolsMargin
             anchors.topMargin: _toolsMargin
             width: parent.width
@@ -113,57 +118,80 @@ Rectangle {
 
             QGCLabel {
                 text: qsTr("Alt\n(m)")
-                font.pointSize: _fontSize
+                horizontalAlignment: Text.AlignRight
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
-                Layout.minimumWidth: _altMsgMinWidth * 0.8
+                Layout.preferredWidth: _altMsgMinWidth * 0.9
+                Layout.row: 0
+                Layout.column: 0
             }
 
             QGCLabel {
                 text: qsTr("Time\n(s)")
-                font.pointSize: _fontSize
+                horizontalAlignment: Text.AlignRight
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
-                Layout.minimumWidth: _altMsgMinWidth * 1.3
+                Layout.preferredWidth: _altMsgMinWidth * 1.3
+                Layout.row: 0
+                Layout.column: 1
             }
 
             QGCLabel {
                 text: qsTr("Press\n(mB)")
-                font.pointSize: _fontSize
+                horizontalAlignment: Text.AlignRight
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
-                Layout.minimumWidth: _altMsgMinWidth
+                Layout.preferredWidth: _altMsgMinWidth * 0.9
+                Layout.row: 0
+                Layout.column: 2
             }
 
             QGCLabel {
                 text: qsTr("Temp\n(C)")
-                font.pointSize: _fontSize
+                horizontalAlignment: Text.AlignRight
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
-                Layout.minimumWidth: _altMsgMinWidth
+                Layout.preferredWidth: _altMsgMinWidth
+                Layout.row: 0
+                Layout.column: 3
             }
 
             QGCLabel {
                 text: qsTr("RelHum\n(%)")
-                font.pointSize: _fontSize
+                horizontalAlignment: Text.AlignRight
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
-                Layout.minimumWidth: _altMsgMinWidth
+                Layout.preferredWidth: _altMsgMinWidth
+                Layout.row: 0
+                Layout.column: 4
             }
 
             QGCLabel {
                 text: qsTr("WSpeed\n(m/s)")
-                font.pointSize: _fontSize
+                horizontalAlignment: Text.AlignRight
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
-                Layout.minimumWidth: _altMsgMinWidth
+                Layout.preferredWidth: _altMsgMinWidth
+                Layout.row: 0
+                Layout.column: 5
             }
 
             QGCLabel {
                 text: qsTr("WDir\n(deg)")
-                font.pointSize: _fontSize
+                horizontalAlignment: Text.AlignRight
+                font.pointSize: _tableFontSize
                 color: qgcPal.text
-                Layout.minimumWidth: _altMsgMinWidth * 0.9
+                Layout.preferredWidth: _altMsgMinWidth * 0.9
+                Layout.row: 0
+                Layout.column: 6
             }
         }
+
         Flickable {
             id: altitudeFlickable
             anchors.top: almHeaders.bottom
             anchors.left: parent.left
+            anchors.right: parent.right
             width: parent.width
             anchors.bottom: parent.bottom
             boundsBehavior: Flickable.StopAtBounds
@@ -201,10 +229,11 @@ Rectangle {
                     delegate: QGCLabel {
                             Layout.row:         index
                             Layout.column:      0
-                            Layout.minimumWidth: _altMsgMinWidth * 0.8
+                            Layout.preferredWidth: _altMsgMinWidth * 0.9
                             text: controller.tempAltLevelMsgList.get(index).altitude
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
+                            horizontalAlignment: Text.AlignRight
                     }
                 }
 
@@ -213,10 +242,11 @@ Rectangle {
                     delegate: QGCLabel {
                             Layout.row:         index
                             Layout.column:      1
-                            Layout.minimumWidth: _altMsgMinWidth * 1.3
+                            Layout.preferredWidth: _altMsgMinWidth * 1.3
                             text: controller.tempAltLevelMsgList.get(index).time
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
+                            horizontalAlignment: Text.AlignRight
                     }
                 }
 
@@ -225,10 +255,11 @@ Rectangle {
                     delegate: QGCLabel {
                             Layout.row:         index
                             Layout.column:      2
-                            Layout.minimumWidth: _altMsgMinWidth
+                            Layout.preferredWidth: _altMsgMinWidth * 0.9
                             text: controller.tempAltLevelMsgList.get(index).pressure
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
+                            horizontalAlignment: Text.AlignRight
                     }
                 }
 
@@ -237,10 +268,11 @@ Rectangle {
                     delegate: QGCLabel {
                             Layout.row:         index
                             Layout.column:      3
-                            Layout.minimumWidth: _altMsgMinWidth
+                            Layout.preferredWidth: _altMsgMinWidth
                             text: controller.tempAltLevelMsgList.get(index).temperature
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
+                            horizontalAlignment: Text.AlignRight
                     }
                 }
 
@@ -249,10 +281,11 @@ Rectangle {
                     delegate: QGCLabel {
                             Layout.row:         index
                             Layout.column:      4
-                            Layout.minimumWidth: _altMsgMinWidth
+                            Layout.preferredWidth: _altMsgMinWidth
                             text: controller.tempAltLevelMsgList.get(index).relativeHumidity
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
+                            horizontalAlignment: Text.AlignRight
                     }
                 }
 
@@ -261,10 +294,11 @@ Rectangle {
                     delegate: QGCLabel {
                             Layout.row:         index
                             Layout.column:      5
-                            Layout.minimumWidth: _altMsgMinWidth
+                            Layout.preferredWidth: _altMsgMinWidth
                             text: controller.tempAltLevelMsgList.get(index).windSpeed
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
+                            horizontalAlignment: Text.AlignRight
                     }
                 }
 
@@ -273,15 +307,16 @@ Rectangle {
                     delegate: QGCLabel {
                             Layout.row:         index
                             Layout.column:      6
-                            Layout.minimumWidth: _altMsgMinWidth * 0.9
+                            Layout.preferredWidth: _altMsgMinWidth * 0.9
                             text: controller.tempAltLevelMsgList.get(index).windDirection
-                            font.pointSize: _fontSize
+                            font.pointSize: _tableFontSize
                             color: qgcPal.text
+                            horizontalAlignment: Text.AlignRight
                     }
                 }
             }
 
-            ScrollBar.vertical: ScrollBar { }
+            ScrollBar.vertical: ScrollBar { id: vScrollBar }
         }
     }
 }
