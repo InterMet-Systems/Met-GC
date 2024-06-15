@@ -22,9 +22,9 @@ const char* VehicleTemperatureFactGroup::_timeUnixMillisecondsFactName =        
 const char* VehicleTemperatureFactGroup::_timeUAVBootMillisecondsFactName =             "timeUAVBootMilliseconds";
 const char* VehicleTemperatureFactGroup::_altitudeMillimetersMSLFactName =              "altitudeMillimetersMSL";
 const char* VehicleTemperatureFactGroup::_absolutePressureMillibarsFactName =           "absolutePressureMillibars";
-const char* VehicleTemperatureFactGroup::_temperature0KelvinFactName =                  "temperature0Kelvin";
-const char* VehicleTemperatureFactGroup::_temperature1KelvinFactName =                  "temperature1Kelvin";
-const char* VehicleTemperatureFactGroup::_temperature2KelvinFactName =                  "temperature2Kelvin";
+const char* VehicleTemperatureFactGroup::_temperature0CelsiusFactName =                  "temperature0Celsius";
+const char* VehicleTemperatureFactGroup::_temperature1CelsiusFactName =                  "temperature1Celsius";
+const char* VehicleTemperatureFactGroup::_temperature2CelsiusFactName =                  "temperature2Celsius";
 const char* VehicleTemperatureFactGroup::_relativeHumidityFactName =                    "relativeHumidity";
 const char* VehicleTemperatureFactGroup::_relativeHumidity0FactName =                   "relativeHumidity0";
 const char* VehicleTemperatureFactGroup::_relativeHumidity1FactName =                   "relativeHumidity1";
@@ -94,9 +94,9 @@ VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
     , _timeUAVBootMillisecondsFact              (0, _timeUAVBootMillisecondsFactName,               FactMetaData::valueTypeUint64)
     , _altitudeMillimetersMSLFact               (0, _altitudeMillimetersMSLFactName,                FactMetaData::valueTypeInt32)
     , _absolutePressureMillibarsFact            (0, _absolutePressureMillibarsFactName,             FactMetaData::valueTypeFloat)
-    , _temperature0KelvinFact                   (0, _temperature0KelvinFactName,                    FactMetaData::valueTypeFloat)
-    , _temperature1KelvinFact                   (0, _temperature1KelvinFactName,                    FactMetaData::valueTypeFloat)
-    , _temperature2KelvinFact                   (0, _temperature2KelvinFactName,                    FactMetaData::valueTypeFloat)
+    , _temperature0CelsiusFact                   (0, _temperature0CelsiusFactName,                    FactMetaData::valueTypeFloat)
+    , _temperature1CelsiusFact                   (0, _temperature1CelsiusFactName,                    FactMetaData::valueTypeFloat)
+    , _temperature2CelsiusFact                   (0, _temperature2CelsiusFactName,                    FactMetaData::valueTypeFloat)
     , _relativeHumidityFact                     (0, _relativeHumidityFactName,                      FactMetaData::valueTypeFloat)
     , _relativeHumidity0Fact                    (0, _relativeHumidity0FactName,                     FactMetaData::valueTypeFloat)
     , _relativeHumidity1Fact                    (0, _relativeHumidity1FactName,                     FactMetaData::valueTypeFloat)
@@ -164,9 +164,9 @@ VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
     _addFact(&_timeUAVBootMillisecondsFact,       _timeUAVBootMillisecondsFactName);
     _addFact(&_altitudeMillimetersMSLFact,       _altitudeMillimetersMSLFactName);
     _addFact(&_absolutePressureMillibarsFact,       _absolutePressureMillibarsFactName);
-    _addFact(&_temperature0KelvinFact,       _temperature0KelvinFactName);
-    _addFact(&_temperature1KelvinFact,       _temperature1KelvinFactName);
-    _addFact(&_temperature2KelvinFact,       _temperature2KelvinFactName);
+    _addFact(&_temperature0CelsiusFact,       _temperature0CelsiusFactName);
+    _addFact(&_temperature1CelsiusFact,       _temperature1CelsiusFactName);
+    _addFact(&_temperature2CelsiusFact,       _temperature2CelsiusFactName);
     _addFact(&_relativeHumidityFact,       _relativeHumidityFactName);
     _addFact(&_relativeHumidity0Fact,       _relativeHumidity0FactName);
     _addFact(&_relativeHumidity1Fact,       _relativeHumidity1FactName);
@@ -235,9 +235,9 @@ VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
     _timeUAVBootMillisecondsFact.setRawValue      (std::numeric_limits<unsigned int>::quiet_NaN());
     _altitudeMillimetersMSLFact.setRawValue      (std::numeric_limits<signed int>::quiet_NaN());
     _absolutePressureMillibarsFact.setRawValue      (qQNaN());
-    _temperature0KelvinFact.setRawValue      (qQNaN());
-    _temperature1KelvinFact.setRawValue      (qQNaN());
-    _temperature2KelvinFact.setRawValue      (qQNaN());
+    _temperature0CelsiusFact.setRawValue      (qQNaN());
+    _temperature1CelsiusFact.setRawValue      (qQNaN());
+    _temperature2CelsiusFact.setRawValue      (qQNaN());
     _relativeHumidityFact.setRawValue      (qQNaN());
     _relativeHumidity0Fact.setRawValue      (qQNaN());
     _relativeHumidity1Fact.setRawValue      (qQNaN());
@@ -299,7 +299,7 @@ VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
 void VehicleTemperatureFactGroup::handleMessage(Vehicle* /* vehicle */, mavlink_message_t& message)
 {
     balancer.update(&message, timeUAVMilliseconds(), timeUnixMilliseconds(), timeUAVBootMilliseconds(), altitudeMillimetersMSL(), absolutePressureMillibars(),
-                    temperature0Kelvin(), temperature1Kelvin(), temperature2Kelvin(), relativeHumidity(), relativeHumidity0(), relativeHumidity1(), relativeHumidity2(),
+                    temperature0Celsius(), temperature1Celsius(), temperature2Celsius(), relativeHumidity(), relativeHumidity0(), relativeHumidity1(), relativeHumidity2(),
                     windSpeedMetersPerSecond(), windBearingDegrees(), latitudeDegreesE7(), longitudeDegreesE7(), rollRadians(), pitchRadians(), yawRadians(),
                     rollRateRadiansPerSecond(), pitchRateRadiansPerSecond(), yawRateRadiansPerSecond(), zVelocityMetersPerSecondInverted(), xVelocityMetersPerSecond(),
                     yVelocityMetersPerSecond(), groundSpeedMetersPerSecond(), heartBeatCustomMode(), ascending(), timeUAVSeconds(), timeUnixSeconds(),
