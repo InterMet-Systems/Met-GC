@@ -20,6 +20,7 @@ import QGroundControl.Palette       1.0
 ColumnLayout {
     property var    instrumentValueData:            null
 
+    property var    fontSizeOverride:           null
     property bool   _verticalOrientation:       instrumentValueData.factValueGrid.orientation === FactValueGrid.VerticalOrientation
     property var    _rgFontSizes:               [ ScreenTools.defaultFontPointSize, ScreenTools.smallFontPointSize, ScreenTools.mediumFontPointSize, ScreenTools.largeFontPointSize ]
     property var    _rgFontSizeRatios:          [ 1, ScreenTools.smallFontPointRatio, ScreenTools.mediumFontPointRatio, ScreenTools.largeFontPointRatio ]
@@ -29,7 +30,7 @@ ColumnLayout {
     property real   _tightHeight:               _rgFontSizeTightHeights[instrumentValueData.factValueGrid.fontSize]
     property bool   _iconVisible:               instrumentValueData.rangeType === InstrumentValueData.IconSelectRange || instrumentValueData.icon
     property var    _color:                     instrumentValueData.isValidColor(instrumentValueData.currentColor) ? instrumentValueData.currentColor : qgcPal.text
-    property real   _fontSize:                      _rgFontSizes[instrumentValueData.factValueGrid.fontSize]
+    property real   _fontSize:                  fontSizeOverride || _rgFontSizes[instrumentValueData.factValueGrid.fontSize]
 
     QGCPalette { id: qgcPal; colorGroupEnabled: enabled }
 

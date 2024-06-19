@@ -46,14 +46,18 @@ class MetFlightDataRecorderController : public QObject
 public:
     MetFlightDataRecorderController(QQuickItem *parent = nullptr);
 
-    Q_PROPERTY(QString flightFileName MEMBER flightFileName WRITE setFlightFileName)
-    Q_PROPERTY(bool flightNameValid MEMBER flightNameValid NOTIFY flightNameValidChanged)
-    Q_PROPERTY(int ascentNumber MEMBER ascentNumber NOTIFY ascentNumberChanged)
-    Q_PROPERTY(QmlObjectListModel* tempAltLevelMsgList READ tempAltLevelMsgList NOTIFY tempAltLevelMsgListChanged)
+    Q_PROPERTY(QString flightFileName MEMBER flightFileName WRITE setFlightFileName);
+    Q_PROPERTY(QString operatorId MEMBER operatorId WRITE setOperatorId);
+    Q_PROPERTY(QString airframeId MEMBER airframeId WRITE setAirframeId);
+    Q_PROPERTY(bool flightNameValid MEMBER flightNameValid NOTIFY flightNameValidChanged);
+    Q_PROPERTY(int ascentNumber MEMBER ascentNumber NOTIFY ascentNumberChanged);
+    Q_PROPERTY(QmlObjectListModel* tempAltLevelMsgList READ tempAltLevelMsgList NOTIFY tempAltLevelMsgListChanged);
 
     Q_INVOKABLE void goToFile();
 
     QString flightFileName;
+    QString operatorId;
+    QString airframeId;
     bool flightNameValid = false;
     int ascentNumber = 0;
     QString prevTime = "0";
@@ -61,10 +65,14 @@ public:
 
 public slots:
     void setFlightFileName(QString flightFileName);
+    void setOperatorId(QString operatorId);
+    void setAirframeId(QString airframeId);
 
 signals:
     void flightNameValidChanged();
     void flightFileNameChanged(QString flightFileNameChanged);
+    void operatorIdChanged(QString operatorIdChanged);
+    void airframeIdChanged(QString airframeIdChanged);
     void ascentNumberChanged();
     void tempAltLevelMsgListChanged();
 

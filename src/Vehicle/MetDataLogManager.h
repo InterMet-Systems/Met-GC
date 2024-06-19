@@ -19,6 +19,8 @@ class MetDataLogManager : public QGCTool
     
     public slots:
         void setFlightFileName(QString flightName);
+        void setOperatorId(QString operatorId);
+        void setAirframeId(QString airframeId);
         void setAscentNumber(int ascentNumber);
 
     private:
@@ -40,7 +42,13 @@ class MetDataLogManager : public QGCTool
 
         QString             _openNetCdfFile = "";
 
+        QString             DEFAULT_OPERATOR_ID = "operatorid";
+        QString             DEFAULT_AIRFRAME_ID = "airframeid";
+
         QString             _flightName = "unnamed flight";
+        QString             _operatorId = DEFAULT_OPERATOR_ID;
+        QString             _airframeId = DEFAULT_AIRFRAME_ID;
+
         int                 _ascentNumber = 0;
 
         QString             _latestRawTimestamp = "0";

@@ -120,6 +120,30 @@ void MetDataLogManager::setFlightFileName(QString flightName)
     setAscentNumber(1);
 }
 
+void MetDataLogManager::setOperatorId(QString operatorId)
+{
+    if(!_metNetCdfFile.isNull()) {
+        _metNetCdfFile.close();
+    }
+    if(!(operatorId.trimmed().length() > 0)) {
+        operatorId = DEFAULT_OPERATOR_ID;
+    }
+    qDebug() << "Operator ID: " << operatorId;
+    _operatorId = operatorId;
+}
+
+void MetDataLogManager::setAirframeId(QString airframeId)
+{
+    if(!_metNetCdfFile.isNull()) {
+        _metNetCdfFile.close();
+    }
+    if(!(airframeId.trimmed().length() > 0)) {
+        airframeId = DEFAULT_AIRFRAME_ID;
+    }
+    qDebug() << "Airframe ID: " << airframeId;
+    _airframeId = airframeId;
+}
+
 void MetDataLogManager::_initializeMetAlmCsv()
 {
     int copyNumber = 1;
@@ -195,19 +219,20 @@ void MetDataLogManager::_writeMetAlmCsvLine()
 
 void MetDataLogManager::_initializeMetNetCdf()
 {
-    int copyNumber = 1;
-    QString netCdfFileName = QString("%1_%2_%3.nc").arg(_flightName).arg(copyNumber).arg(_ascentNumber);
+    QString nowUtcString = QDateTime::currentDateTimeUtc().toString("yyyyMMddHHmmssZ");
+    QString netCdfFileName = QString("UASDC_%1_%2_%3.nc").arg(_operatorId, _airframeId, nowUtcString);
     QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesNetCdfSavePath());
     QString _netCdfFullFilePath = saveDir.absoluteFilePath(netCdfFileName);
 
-    while (QFile(_netCdfFullFilePath).exists()) {
-        copyNumber++;
-        netCdfFileName = QString("%1_%2_%3.nc").arg(_flightName).arg(copyNumber).arg(_ascentNumber);
-        _netCdfFullFilePath = saveDir.absoluteFilePath(netCdfFileName);
-    }
-
     // Create the file.
     _metNetCdfFile.open(_netCdfFullFilePath.toStdString(), NcFile::replace);
+
+    // Add global attributes
+    _metNetCdfFile.putAtt("Conventions", "CF-1.8, WMO-CF-1.0");
+    _metNetCdfFile.putAtt("wmo__cf_profile", "FM 303-2024");
+    _metNetCdfFile.putAtt("featureType", "trajectory");
+    _metNetCdfFile.putAtt("platform_name", "CopterSonde 3");
+    _metNetCdfFile.putAtt("processing_level", "c1");
 
     // Define the dimensions.
     NcDim obsDim = _metNetCdfFile.addDim("obs");
@@ -233,7 +258,7 @@ void MetDataLogManager::_initializeMetNetCdf()
     yawRate              = _metNetCdfFile.addVar("platform_yaw_rate", ncFloat, dims);
     speedOverGround      = _metNetCdfFile.addVar("platform_speed_wrt_ground", ncFloat, dims);
     speedOverGroundUp    = _metNetCdfFile.addVar("platform_speed_wrt_ground_upward", ncFloat, dims);
-    mixRatio             = _metNetCdfFile.addVar("Humidity_mixing_ratio", ncFloat, dims);
+    mixRatio             = _metNetCdfFile.addVar("humidity_mixing_ratio", ncFloat, dims);
 
     // add attributes to each variable
     altitude.putAtt("units", "m ASL");
@@ -365,11 +390,10 @@ void MetDataLogManager::_writeMetNetCdfLine()
 
     float airPressureValMb = factGroup->getFact("pressure")->rawValue().toFloat();
     float airPressureValPa = airPressureValMb * 100;
-    float airPressureValKPa = airPressureValPa * 0.001;
 
-    float satPressureValKPa = 6.112 * qExp((17.62 * tempValC) / (243.12 + tempValC));
+    float satPressureValMb = 6.112 * qExp((17.62 * tempValC) / (243.12 + tempValC));
 
-    float mixRatioValue = 0.6219743 * relHumValDec * airPressureValKPa / (airPressureValKPa -  satPressureValKPa);
+    float mixRatioValue = 0.6219743 * relHumValDec * airPressureValMb / (airPressureValMb -  satPressureValMb);
 
     altitude.putVar(         startp, factGroup->getFact("asl")->rawValue().toFloat());
     time.putVar(             startp, factGroup->getFact("time")->rawValue().toDouble());

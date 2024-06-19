@@ -276,6 +276,13 @@
     "type":             "float",
     "decimalPlaces":    1,
     "units":            "m/s"
+},
+{
+    "name":             "blankFact",
+    "shortDesc":        "",
+    "type":             "string",
+    "default":          "",
+    "units":            ""
 }
 ]
 }
