@@ -258,7 +258,7 @@ void MetDataLogManager::_initializeMetNetCdf()
     yawRate              = _metNetCdfFile.addVar("platform_yaw_rate", ncFloat, dims);
     speedOverGround      = _metNetCdfFile.addVar("platform_speed_wrt_ground", ncFloat, dims);
     speedOverGroundUp    = _metNetCdfFile.addVar("platform_speed_wrt_ground_upward", ncFloat, dims);
-    mixRatio             = _metNetCdfFile.addVar("humidity_mixing_ratio", ncFloat, dims);
+    mixRatio             = _metNetCdfFile.addVar("humidity_mixing_ratio", ncDouble, dims);
 
     // add attributes to each variable
     altitude.putAtt("units", "m ASL");
@@ -266,7 +266,7 @@ void MetDataLogManager::_initializeMetNetCdf()
     altitude.putAtt("long_name", "Altitude (height)");
     altitude.putAtt("axis", "Z");
 
-    time.putAtt("units", "seconds since UNIX epoch");
+    time.putAtt("units", "seconds since 1970-01-01T00:00:00");
     time.putAtt("standard_name", "Time");
     time.putAtt("long_name", "Time");
     time.putAtt("axis", "T");
@@ -384,16 +384,15 @@ void MetDataLogManager::_writeMetNetCdfLine()
 
     // calculate the humidity mixing ratio
     float tempValC = factGroup->getFact("airTemp")->rawValue().toFloat();
-    float tempValK = tempValC + 273.15;
     float relHumValPercent = factGroup->getFact("relHum")->rawValue().toFloat();
     float relHumValDec = relHumValPercent * 0.01;
-
     float airPressureValMb = factGroup->getFact("pressure")->rawValue().toFloat();
-    float airPressureValPa = airPressureValMb * 100;
-
     float satPressureValMb = 6.112 * qExp((17.62 * tempValC) / (243.12 + tempValC));
+    double mixRatioValue = 0.6219743 * relHumValDec * satPressureValMb / (airPressureValMb -  satPressureValMb);
 
-    float mixRatioValue = 0.6219743 * relHumValDec * airPressureValMb / (airPressureValMb -  satPressureValMb);
+    // other netcdf conversions
+    float tempValK = tempValC + 273.15;
+    float airPressureValPa = airPressureValMb * 100;
 
     altitude.putVar(         startp, factGroup->getFact("asl")->rawValue().toFloat());
     time.putVar(             startp, factGroup->getFact("time")->rawValue().toDouble());
