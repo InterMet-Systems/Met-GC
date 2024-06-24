@@ -75,6 +75,7 @@ public:
     Q_PROPERTY(QString missionSavePath          READ missionSavePath            NOTIFY savePathsChanged)
     Q_PROPERTY(QString messagesRawSavePath      READ messagesRawSavePath        NOTIFY savePathsChanged)
     Q_PROPERTY(QString messagesAltLevelSavePath READ messagesAltLevelSavePath   NOTIFY savePathsChanged)
+    Q_PROPERTY(QString messagesNetCdfSavePath   READ messagesNetCdfSavePath     NOTIFY savePathsChanged)
     Q_PROPERTY(QString parameterSavePath        READ parameterSavePath          NOTIFY savePathsChanged)
     Q_PROPERTY(QString telemetrySavePath        READ telemetrySavePath          NOTIFY savePathsChanged)
     Q_PROPERTY(QString logSavePath              READ logSavePath                NOTIFY savePathsChanged)
@@ -96,6 +97,7 @@ public:
     QString missionSavePath       ();
     QString messagesRawSavePath   ();
     QString messagesAltLevelSavePath  ();
+    QString messagesNetCdfSavePath();
     QString parameterSavePath     ();
     QString telemetrySavePath     ();
     QString logSavePath           ();
@@ -129,6 +131,7 @@ public:
     static const char* messagesDirectory;
     static const char* messagesRawDirectory;
     static const char* messagesAltLevelDirectory;
+    static const char* messagesNetCdfDirectory;
     static const char* logDirectory;
     static const char* videoDirectory;
     static const char* photoDirectory;

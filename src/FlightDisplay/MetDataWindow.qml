@@ -32,7 +32,7 @@ Rectangle {
     radius:             ScreenTools.defaultFontPixelWidth / 2
 
     property real _toolsMargin:           ScreenTools.defaultFontPixelWidth
-    property real _fontSize:              ScreenTools.defaultFontPointSize
+    property real _fontSize:              ScreenTools.defaultFontPointSize * _scale
 
     // mouse area to prevent clicks from going through to the map
     MouseArea {
@@ -46,7 +46,7 @@ Rectangle {
         anchors.top:    parent.top
         anchors.bottom: valueAreaBackground.top
         anchors.bottomMargin: _toolsMargin
-
+        textScale:      _scale
     }
 
     Rectangle {
@@ -64,22 +64,16 @@ Rectangle {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.leftMargin: _toolsMargin
+            textScale: _scale
         }
     }
-
-    // QGCLabel {
-    //     id:                             titleLabel
-    //     anchors.bottom:                 parent.bottom
-    //     anchors.right:                  goToFileButton.left
-    //     anchors.margins:                _toolsMargin
-    //     text:                           `Width: ${Number(metDataWindow.width).toFixed(0)}\nHeight: ${Number(metDataWindow.height).toFixed(0)}\nfontpixelwidth: ${Number(ScreenTools.defaultFontPixelWidth).toFixed(1)}\nscale: ${Screen.devicePixelRatio}`
-    // }
 
     QGCButton {
         id:                             goToFileButton
         anchors.right:                  parent.right
         anchors.bottom:                 parent.bottom
         anchors.margins:                _toolsMargin
+        pointSize:                      _fontSize
         text:                           qsTr("Go to File")
         onClicked:                      metFlightData.goToFile()  
     }

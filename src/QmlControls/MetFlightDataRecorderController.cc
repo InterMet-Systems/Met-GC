@@ -22,6 +22,8 @@ double generateRandomDouble(double lowerBound, double upperBound) {
 MetFlightDataRecorderController::MetFlightDataRecorderController(QQuickItem* parent)
 {
     connect(this, &MetFlightDataRecorderController::flightFileNameChanged, qgcApp()->toolbox()->metDataLogManager(), &MetDataLogManager::setFlightFileName);
+    connect(this, &MetFlightDataRecorderController::operatorIdChanged, qgcApp()->toolbox()->metDataLogManager(), &MetDataLogManager::setOperatorId);
+    connect(this, &MetFlightDataRecorderController::airframeIdChanged, qgcApp()->toolbox()->metDataLogManager(), &MetDataLogManager::setAirframeId);
     connect(&_altLevelMsgTimer, &QTimer::timeout, this, &MetFlightDataRecorderController::addAltLevelMsg);
     _altLevelMsgTimer.start(20); // below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
 }
@@ -102,6 +104,18 @@ void MetFlightDataRecorderController::setFlightFileName(QString _flightFileName)
     if(isValid) {
         emit flightFileNameChanged(_flightFileName);
     }
+}
+
+void MetFlightDataRecorderController::setOperatorId(QString _operatorId)
+{
+    this->operatorId = _operatorId;
+    emit operatorIdChanged(_operatorId);
+}
+
+void MetFlightDataRecorderController::setAirframeId(QString _airframeId)
+{
+    this->airframeId = _airframeId;
+    emit airframeIdChanged(_airframeId);
 }
 
 void MetFlightDataRecorderController::goToFile()

@@ -11,6 +11,7 @@ import QtQuick          2.12
 import QtQuick.Layouts  1.2
 import QtQuick.Controls 2.5
 import QtQml            2.12
+import QtQuick.Window   2.11
 
 import QGroundControl.Templates     1.0 as T
 import QGroundControl.Controls      1.0
@@ -27,6 +28,9 @@ T.MetFactValueGrid {
     Layout.preferredWidth:  topLayout.width
     Layout.preferredHeight: topLayout.height
 
+    property var textScale
+    property real _factFontSize:         ScreenTools.defaultFontPointSize * textScale
+
     property real   _margins:               ScreenTools.defaultFontPixelWidth * 0.75
     property int    _rowMax:                2
 
@@ -39,7 +43,7 @@ T.MetFactValueGrid {
         RowLayout {
             RowLayout {
                 id:         labelValueColumnLayout
-                spacing:    ScreenTools.defaultFontPixelWidth
+                spacing:    ScreenTools.defaultFontPixelWidth * 1.25
 
                 Repeater {
                     model: _root.columns
@@ -59,6 +63,7 @@ T.MetFactValueGrid {
                                 Layout.fillHeight:      true
                                 Layout.alignment:       Qt.AlignLeft
                                 instrumentValueData:    object
+                                fontSizeOverride:       _factFontSize
                             }
                         }
 
@@ -83,6 +88,7 @@ T.MetFactValueGrid {
                                 Layout.alignment:       Qt.AlignLeft
                                 Layout.preferredWidth:  valueRepeater.maxWidth
                                 instrumentValueData:    object
+                                fontSizeOverride:       _factFontSize
 
                                 property real lastContentWidth
 

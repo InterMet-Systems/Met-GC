@@ -26,12 +26,11 @@ Rectangle {
     color:              qgcPal.window
     radius:             ScreenTools.defaultFontPixelWidth / 2
 
-    property real _scale:                 Window.width > 1920 ? 1 : 0.75
+    property var textScale
     property real _toolsMargin:           ScreenTools.defaultFontPixelWidth
     property bool _fileNameTouched:       false
-    property real _fontSize:              ScreenTools.defaultFontPointSize
-    property real _tableFontSize:         ScreenTools.defaultFontPointSize * _scale
-    property real _altMsgMinWidth:        _tableFontSize * 10
+    property real _fontSize:              ScreenTools.defaultFontPointSize * textScale
+    property real _altMsgMinWidth:        _fontSize * 10
     property real _smallFontSize:         ScreenTools.defaultFontPointSize * 0.75
     MetFlightDataRecorderController { id: controller; }
 
@@ -40,63 +39,153 @@ Rectangle {
         controller.goToFile()
     }
 
-    Text {
-        id: flightLabel
-        text: "Flight:"
-        font.pointSize: _fontSize
-        color: qgcPal.text
-        anchors.verticalCenter: flightInput.verticalCenter
-        anchors.left: parent.left
-        anchors.leftMargin: _toolsMargin
-    }
+    GridLayout {
+        id: textInputs
+        width: parent.width
+        columns: 2
+        rows: 2
+        rowSpacing: 25
 
-    QGCTextField {
-        id: flightInput
-        anchors.top: parent.top
-        anchors.left: flightLabel.right
-        anchors.leftMargin: _toolsMargin
-        anchors.topMargin: _toolsMargin
-        width: 380 * _scale
-        showHelp: false
-        placeholderText:  qsTr("Enter Flight Name")
-        text: controller.flightFileName
-        onTextChanged: {
-            controller.flightFileName = text
-            _fileNameTouched = true
+        Item {
+            Layout.row: 0
+            Layout.column: 0
+            Layout.fillWidth: true
+            height: flightInput.height
+
+            Text {
+                id: flightLabel
+                text: "Flight:"
+                font.pointSize: _fontSize
+                color: qgcPal.text
+                anchors.verticalCenter: flightInput.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: _toolsMargin
+            }
+
+            TextField {
+                id: flightInput
+                anchors.top: parent.top
+                anchors.left: flightLabel.right
+                anchors.right: parent.right
+                anchors.leftMargin: _toolsMargin
+                anchors.topMargin: _toolsMargin
+                font.pointSize: _fontSize
+                width: parent.width - flightLabel.width - _toolsMargin
+                //showHelp: false
+                placeholderText:  qsTr("Enter Flight Name")
+                color: qgcPal.textFieldText
+                text: controller.flightFileName
+                onTextChanged: {
+                    controller.flightFileName = text
+                    _fileNameTouched = true
+                }
+            }
         }
-    }
 
-    Text {
-        id: flightNameError
+        Item {
+            Layout.row: 0
+            Layout.column: 1
+            Layout.fillWidth: true
 
-        text: qsTr("Invalid Flight Name")
-        color: qgcPal.colorRed
-        visible: _fileNameTouched && !controller.flightNameValid
-        font.pointSize: _smallFontSize
-        anchors.verticalCenter: flightInput.verticalCenter
-        anchors.left: flightInput.right
+            Text {
+                id: flightNameError
 
-        anchors.leftMargin: _toolsMargin
-        anchors.topMargin: _toolsMargin
-    }
+                text: qsTr("Invalid Flight Name")
+                color: qgcPal.colorRed
+                visible: _fileNameTouched && !controller.flightNameValid
+                font.pointSize: _smallFontSize
 
-    // Ascent Lable
-    Text {
-        id: ascentLabel
-        text: `${qsTr("Ascent")}: ${controller.ascentNumber}`
-        font.pointSize: _fontSize
-        color: qgcPal.text
-        visible: controller.ascentNumber > 0
-        anchors.verticalCenter: flightInput.verticalCenter
-        anchors.right: parent.right
-        anchors.rightMargin: _toolsMargin
-        anchors.topMargin: _toolsMargin
+                anchors.leftMargin: _toolsMargin
+                anchors.topMargin: _toolsMargin
+            }
+
+            // Ascent Label
+            Text {
+                id: ascentLabel
+                text: `${qsTr("Ascent")}: ${controller.ascentNumber}`
+                font.pointSize: _fontSize
+                color: qgcPal.text
+                visible: controller.ascentNumber > 0
+                anchors.right: parent.right
+                anchors.rightMargin: _toolsMargin
+            }
+        }
+
+        Item {
+            Layout.row: 1
+            Layout.column: 0
+            Layout.fillWidth: true
+            anchors.topMargin: _toolsMargin
+            height: opInput.height
+
+            Text {
+                id: opLabel
+                text: "Operator ID:"
+                font.pointSize: _fontSize
+                color: qgcPal.text
+                anchors.verticalCenter: opInput.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: _toolsMargin
+            }
+
+            TextField {
+                id: opInput
+                anchors.top: parent.top
+                anchors.left: opLabel.right
+                anchors.right: parent.right
+                anchors.leftMargin: _toolsMargin
+                font.pointSize: _fontSize
+
+                placeholderText:  qsTr("Enter Operator ID")
+                color: qgcPal.textFieldText
+                text: controller.operatorId
+                onTextChanged: {
+                    controller.operatorId = text
+                }
+            }
+        }
+
+        Item {
+            Layout.row: 1
+            Layout.column: 1
+            Layout.fillWidth: true
+            height: craftInput.height
+            anchors.topMargin: _toolsMargin
+
+            Text {
+                id: craftLabel
+                text: "Airframe ID:"
+                font.pointSize: _fontSize
+                color: qgcPal.text
+                anchors.verticalCenter: craftInput.verticalCenter
+                anchors.left: parent.left
+                anchors.rightMargin: _toolsMargin
+            }
+
+            TextField {
+                id: craftInput
+                anchors.top: parent.top
+                anchors.left: craftLabel.right
+                anchors.leftMargin: _toolsMargin
+                anchors.right: parent.right
+                anchors.rightMargin: _toolsMargin
+                font.pointSize: _fontSize
+
+                width: parent.width - craftLabel.width - _toolsMargin * 2
+                placeholderText: qsTr("Enter Airframe ID")
+                color: qgcPal.textFieldText
+                text: controller.airframeId
+                onTextChanged: {
+                    controller.airframeId = text
+                }
+            }
+        }
     }
 
     // altitude message data grid
     Rectangle {
         color: qgcPal.windowShade
-        anchors.top: flightInput.bottom
+        anchors.top: textInputs.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.topMargin: _toolsMargin * 2
@@ -119,7 +208,7 @@ Rectangle {
             QGCLabel {
                 text: qsTr("Alt\n(m)")
                 horizontalAlignment: Text.AlignRight
-                font.pointSize: _tableFontSize
+                font.pointSize: _fontSize
                 color: qgcPal.text
                 Layout.preferredWidth: _altMsgMinWidth * 0.9
                 Layout.row: 0
@@ -129,7 +218,7 @@ Rectangle {
             QGCLabel {
                 text: qsTr("Time\n(s)")
                 horizontalAlignment: Text.AlignRight
-                font.pointSize: _tableFontSize
+                font.pointSize: _fontSize
                 color: qgcPal.text
                 Layout.preferredWidth: _altMsgMinWidth * 1.3
                 Layout.row: 0
@@ -139,7 +228,7 @@ Rectangle {
             QGCLabel {
                 text: qsTr("Press\n(mB)")
                 horizontalAlignment: Text.AlignRight
-                font.pointSize: _tableFontSize
+                font.pointSize: _fontSize
                 color: qgcPal.text
                 Layout.preferredWidth: _altMsgMinWidth * 0.9
                 Layout.row: 0
@@ -149,7 +238,7 @@ Rectangle {
             QGCLabel {
                 text: qsTr("Temp\n(C)")
                 horizontalAlignment: Text.AlignRight
-                font.pointSize: _tableFontSize
+                font.pointSize: _fontSize
                 color: qgcPal.text
                 Layout.preferredWidth: _altMsgMinWidth
                 Layout.row: 0
@@ -159,7 +248,7 @@ Rectangle {
             QGCLabel {
                 text: qsTr("RelHum\n(%)")
                 horizontalAlignment: Text.AlignRight
-                font.pointSize: _tableFontSize
+                font.pointSize: _fontSize
                 color: qgcPal.text
                 Layout.preferredWidth: _altMsgMinWidth
                 Layout.row: 0
@@ -169,7 +258,7 @@ Rectangle {
             QGCLabel {
                 text: qsTr("WSpeed\n(m/s)")
                 horizontalAlignment: Text.AlignRight
-                font.pointSize: _tableFontSize
+                font.pointSize: _fontSize
                 color: qgcPal.text
                 Layout.preferredWidth: _altMsgMinWidth
                 Layout.row: 0
@@ -179,7 +268,7 @@ Rectangle {
             QGCLabel {
                 text: qsTr("WDir\n(deg)")
                 horizontalAlignment: Text.AlignRight
-                font.pointSize: _tableFontSize
+                font.pointSize: _fontSize
                 color: qgcPal.text
                 Layout.preferredWidth: _altMsgMinWidth * 0.9
                 Layout.row: 0
@@ -231,7 +320,7 @@ Rectangle {
                             Layout.column:      0
                             Layout.preferredWidth: _altMsgMinWidth * 0.9
                             text: controller.tempAltLevelMsgList.get(index).altitude
-                            font.pointSize: _tableFontSize
+                            font.pointSize: _fontSize
                             color: qgcPal.text
                             horizontalAlignment: Text.AlignRight
                     }
@@ -244,7 +333,7 @@ Rectangle {
                             Layout.column:      1
                             Layout.preferredWidth: _altMsgMinWidth * 1.3
                             text: controller.tempAltLevelMsgList.get(index).time
-                            font.pointSize: _tableFontSize
+                            font.pointSize: _fontSize
                             color: qgcPal.text
                             horizontalAlignment: Text.AlignRight
                     }
@@ -257,7 +346,7 @@ Rectangle {
                             Layout.column:      2
                             Layout.preferredWidth: _altMsgMinWidth * 0.9
                             text: controller.tempAltLevelMsgList.get(index).pressure
-                            font.pointSize: _tableFontSize
+                            font.pointSize: _fontSize
                             color: qgcPal.text
                             horizontalAlignment: Text.AlignRight
                     }
@@ -270,7 +359,7 @@ Rectangle {
                             Layout.column:      3
                             Layout.preferredWidth: _altMsgMinWidth
                             text: controller.tempAltLevelMsgList.get(index).temperature
-                            font.pointSize: _tableFontSize
+                            font.pointSize: _fontSize
                             color: qgcPal.text
                             horizontalAlignment: Text.AlignRight
                     }
@@ -283,7 +372,7 @@ Rectangle {
                             Layout.column:      4
                             Layout.preferredWidth: _altMsgMinWidth
                             text: controller.tempAltLevelMsgList.get(index).relativeHumidity
-                            font.pointSize: _tableFontSize
+                            font.pointSize: _fontSize
                             color: qgcPal.text
                             horizontalAlignment: Text.AlignRight
                     }
@@ -296,7 +385,7 @@ Rectangle {
                             Layout.column:      5
                             Layout.preferredWidth: _altMsgMinWidth
                             text: controller.tempAltLevelMsgList.get(index).windSpeed
-                            font.pointSize: _tableFontSize
+                            font.pointSize: _fontSize
                             color: qgcPal.text
                             horizontalAlignment: Text.AlignRight
                     }
@@ -309,7 +398,7 @@ Rectangle {
                             Layout.column:      6
                             Layout.preferredWidth: _altMsgMinWidth * 0.9
                             text: controller.tempAltLevelMsgList.get(index).windDirection
-                            font.pointSize: _tableFontSize
+                            font.pointSize: _fontSize
                             color: qgcPal.text
                             horizontalAlignment: Text.AlignRight
                     }

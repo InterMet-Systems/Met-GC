@@ -22,13 +22,14 @@ ColumnLayout {
     property bool   settingsUnlocked:               false
     property alias  contentWidth:                   label.contentWidth
 
+    property var    fontSizeOverride:               null
     property var    _rgFontSizes:                   [ ScreenTools.defaultFontPointSize, ScreenTools.smallFontPointSize, ScreenTools.mediumFontPointSize, ScreenTools.largeFontPointSize ]
     property var    _rgFontSizeRatios:              [ 1, ScreenTools.smallFontPointRatio, ScreenTools.mediumFontPointRatio, ScreenTools.largeFontPointRatio ]
     property real   _doubleDescent:                 ScreenTools.defaultFontDescent * 2
     property real   _tightDefaultFontHeight:        ScreenTools.defaultFontPixelHeight - _doubleDescent
     property var    _rgFontSizeTightHeights:        [ _tightDefaultFontHeight * _rgFontSizeRatios[0] + 2, _tightDefaultFontHeight * _rgFontSizeRatios[1] + 2, _tightDefaultFontHeight * _rgFontSizeRatios[2] + 2, _tightDefaultFontHeight * _rgFontSizeRatios[3] + 2 ]
     property real   _tightHeight:                   _rgFontSizeTightHeights[instrumentValueData.factValueGrid.fontSize]
-    property real   _fontSize:                      _rgFontSizes[instrumentValueData.factValueGrid.fontSize]
+    property real   _fontSize:                      fontSizeOverride || _rgFontSizes[instrumentValueData.factValueGrid.fontSize]
     property real   _horizontalLabelSpacing:        ScreenTools.defaultFontPixelWidth
     property real   _width:                         0
     property real   _height:                        0
@@ -49,7 +50,7 @@ ColumnLayout {
                 }
                 return instrumentValueData.fact.enumOrValueString + (instrumentValueData.showUnits ? " " + instrumentValueData.fact.units : "")
             } else {
-                return qsTr("--.--")
+                return qsTr("")
             }
         }
     }
