@@ -299,12 +299,9 @@ void QGCCorePlugin::factValueGridCreateDefaultSettings(const QString& defaultSet
 
     // temporary setup until correct MET facts are available
     if(defaultSettingsGroup == MetFactValueGrid::metDataDefaultSettingsGroup) {
-        factValueGrid.setFontSize(FactValueGrid::SmallFontSize);
-
+        factValueGrid.appendColumn();
         factValueGrid.appendColumn();
         // need to append row for each item after the first
-        factValueGrid.appendRow();
-        factValueGrid.appendRow();
         factValueGrid.appendRow();
         factValueGrid.appendRow();
 
@@ -334,7 +331,8 @@ void QGCCorePlugin::factValueGridCreateDefaultSettings(const QString& defaultSet
         value->setShowRawValue(true);
         value->setShowUnits(true);
 
-
+        column = factValueGrid.columns()->value<QmlObjectListModel*>(1);
+        rowIndex = 0;
         value = column->value<InstrumentValueData*>(rowIndex++);
         value->setFact("Temperature", "windSpeedMetersPerSecond");
         // value->setIcon("");
@@ -349,6 +347,10 @@ void QGCCorePlugin::factValueGridCreateDefaultSettings(const QString& defaultSet
         value->setText(value->fact()->shortDescription());
         value->setShowRawValue(true);
         value->setShowUnits(true);
+
+        value = column->value<InstrumentValueData*>(rowIndex++);
+        value->setFact("Temperature", "blankFact");
+        value->setText("");
 
     } else {
         factValueGrid.setFontSize(FactValueGrid::LargeFontSize);

@@ -1,19 +1,36 @@
 #include "QGCApplication.h"
 #include "MetDataLogManager.h"
 #include "SettingsManager.h"
+#include "MetFlightDataRecorderController.h"
+#include "Vehicle.h"
+#include <QtMath>
+#include <libs/netcdf-cxx4/cxx4/netcdf>
+
+using namespace std;
+using namespace netCDF;
+using namespace netCDF::exceptions;
 
 MetDataLogManager::MetDataLogManager(QGCApplication* app, QGCToolbox* toolbox) : QGCTool(app, toolbox)
 {
     connect(&_metRawCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetRawCsvLine);
     connect(&_metAlmCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetAlmCsvLine);
+    connect(&_metNetCdfTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetNetCdfLine);
     _metRawCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
     _metAlmCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
+    _metNetCdfTimer.start(20); // timing for NetCDF messages should always be the same as the ALM messages
 }
 
 MetDataLogManager::~MetDataLogManager()
 {
     _metRawCsvFile.close();
-    _metAlmCsvFile.close();
+
+    if(_metAlmCsvFile.isOpen()) {
+        _metAlmCsvFile.close();
+    }
+
+    if(!_metNetCdfFile.isNull()) {
+        _metNetCdfFile.close();
+    }
 }
 
 void MetDataLogManager::_initializeMetRawCsv()
@@ -82,6 +99,10 @@ void MetDataLogManager::setAscentNumber(int number)
     if(_metAlmCsvFile.isOpen()) {
         _metAlmCsvFile.close();
     }
+
+    if(!_metNetCdfFile.isNull()) {
+        _metNetCdfFile.close();
+    }
 }
 
 void MetDataLogManager::setFlightFileName(QString flightName)
@@ -90,8 +111,37 @@ void MetDataLogManager::setFlightFileName(QString flightName)
     if(_metAlmCsvFile.isOpen()) {
         _metAlmCsvFile.close();
     }
+
+    if(!_metNetCdfFile.isNull()) {
+        _metNetCdfFile.close();
+    }
+
     _flightName = flightName;
     setAscentNumber(1);
+}
+
+void MetDataLogManager::setOperatorId(QString operatorId)
+{
+    if(!_metNetCdfFile.isNull()) {
+        _metNetCdfFile.close();
+    }
+    if(!(operatorId.trimmed().length() > 0)) {
+        operatorId = DEFAULT_OPERATOR_ID;
+    }
+    qDebug() << "Operator ID: " << operatorId;
+    _operatorId = operatorId;
+}
+
+void MetDataLogManager::setAirframeId(QString airframeId)
+{
+    if(!_metNetCdfFile.isNull()) {
+        _metNetCdfFile.close();
+    }
+    if(!(airframeId.trimmed().length() > 0)) {
+        airframeId = DEFAULT_AIRFRAME_ID;
+    }
+    qDebug() << "Airframe ID: " << airframeId;
+    _airframeId = airframeId;
 }
 
 void MetDataLogManager::_initializeMetAlmCsv()
@@ -141,6 +191,9 @@ void MetDataLogManager::_writeMetAlmCsvLine()
 
     // only capture ALM data during ascent
     if(factGroup->getFact("ascending")->rawValue().toBool() == false) {
+        if(_metAlmCsvFile.isOpen()) {
+            _metAlmCsvFile.close();
+        }
         return;
     }
 
@@ -162,5 +215,206 @@ void MetDataLogManager::_writeMetAlmCsvLine()
     }
 
     stream << metFactValues.join(",") << "\r\n";
+}
+
+void MetDataLogManager::_initializeMetNetCdf()
+{
+    QString nowUtcString = QDateTime::currentDateTimeUtc().toString("yyyyMMddHHmmssZ");
+    QString netCdfFileName = QString("UASDC_%1_%2_%3.nc").arg(_operatorId, _airframeId, nowUtcString);
+    QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesNetCdfSavePath());
+    QString _netCdfFullFilePath = saveDir.absoluteFilePath(netCdfFileName);
+
+    // Create the file.
+    _metNetCdfFile.open(_netCdfFullFilePath.toStdString(), NcFile::replace);
+
+    // Add global attributes
+    _metNetCdfFile.putAtt("Conventions", "CF-1.8, WMO-CF-1.0");
+    _metNetCdfFile.putAtt("wmo__cf_profile", "FM 303-2024");
+    _metNetCdfFile.putAtt("featureType", "trajectory");
+    _metNetCdfFile.putAtt("platform_name", "CopterSonde 3");
+    _metNetCdfFile.putAtt("processing_level", "c1");
+
+    // Define the dimensions.
+    NcDim obsDim = _metNetCdfFile.addDim("obs");
+    vector<NcDim> dims;
+    dims.push_back(obsDim);
+
+    // Define the variables.
+
+    altitude             = _metNetCdfFile.addVar("altitude", ncFloat, dims);
+    time                 = _metNetCdfFile.addVar("time", ncDouble, dims);
+    pressure             = _metNetCdfFile.addVar("air_pressure", ncFloat, dims);
+    airTemp              = _metNetCdfFile.addVar("air_temperature", ncFloat, dims);
+    relHum               = _metNetCdfFile.addVar("relative_humidity", ncFloat, dims);
+    windSpeed            = _metNetCdfFile.addVar("wind_speed", ncFloat, dims);
+    windDirection        = _metNetCdfFile.addVar("wind_direction", ncFloat, dims);
+    latitude             = _metNetCdfFile.addVar("lat", ncDouble, dims);
+    longitude            = _metNetCdfFile.addVar("lon", ncDouble, dims);
+    roll                 = _metNetCdfFile.addVar("platform_roll", ncFloat, dims);
+    rollRate             = _metNetCdfFile.addVar("platform_roll_rate", ncFloat, dims);
+    pitch                = _metNetCdfFile.addVar("platform_pitch", ncFloat, dims);
+    pitchRate            = _metNetCdfFile.addVar("platform_pitch_rate", ncFloat, dims);
+    yaw                  = _metNetCdfFile.addVar("platform_yaw", ncFloat, dims);
+    yawRate              = _metNetCdfFile.addVar("platform_yaw_rate", ncFloat, dims);
+    speedOverGround      = _metNetCdfFile.addVar("platform_speed_wrt_ground", ncFloat, dims);
+    speedOverGroundUp    = _metNetCdfFile.addVar("platform_speed_wrt_ground_upward", ncFloat, dims);
+    mixRatio             = _metNetCdfFile.addVar("humidity_mixing_ratio", ncDouble, dims);
+
+    // add attributes to each variable
+    altitude.putAtt("units", "m ASL");
+    altitude.putAtt("standard_name", "Altitude");
+    altitude.putAtt("long_name", "Altitude (height)");
+    altitude.putAtt("axis", "Z");
+
+    time.putAtt("units", "seconds since 1970-01-01T00:00:00");
+    time.putAtt("standard_name", "Time");
+    time.putAtt("long_name", "Time");
+    time.putAtt("axis", "T");
+
+    pressure.putAtt("units", "Pa");
+    pressure.putAtt("standard_name", "Air Pressure");
+    pressure.putAtt("long_name", "Air Pressure");
+    pressure.putAtt("axis", "Z");
+
+    airTemp.putAtt("units", "K");
+    airTemp.putAtt("standard_name", "Air Temperature");
+    airTemp.putAtt("long_name", "Air Temperature");
+
+    relHum.putAtt("units", "%");
+    relHum.putAtt("standard_name", "Relative Humidity");
+    relHum.putAtt("long_name", "Relative Humidity");
+
+    windSpeed.putAtt("units", "m/s");
+    windSpeed.putAtt("standard_name", "Wind Speed");
+    windSpeed.putAtt("long_name", "Wind Speed");
+
+    windDirection.putAtt("units", "deg");
+    windDirection.putAtt("standard_name", "Wind Direction");
+    windDirection.putAtt("long_name", "Wind Direction");
+
+    latitude.putAtt("units", "deg");
+    latitude.putAtt("standard_name", "Latitude");
+    latitude.putAtt("long_name", "Latitude");
+    latitude.putAtt("axis", "Y");
+
+    longitude.putAtt("units", "deg");
+    longitude.putAtt("standard_name", "Longitude");
+    longitude.putAtt("long_name", "Longitude");
+    longitude.putAtt("axis", "X");
+
+    roll.putAtt("units", "deg");
+    roll.putAtt("standard_name", "Roll");
+    roll.putAtt("long_name", "Roll");
+
+    rollRate.putAtt("units", "deg/s");
+    rollRate.putAtt("standard_name", "Roll Rate");
+    rollRate.putAtt("long_name", "Roll Rate");
+
+    pitch.putAtt("units", "deg");
+    pitch.putAtt("standard_name", "Pitch");
+    pitch.putAtt("long_name", "Pitch");
+
+    pitchRate.putAtt("units", "deg/s");
+    pitchRate.putAtt("standard_name", "Pitch Rate");
+    pitchRate.putAtt("long_name", "Pitch Rate");
+
+    yaw.putAtt("units", "deg");
+    yaw.putAtt("standard_name", "Yaw");
+    yaw.putAtt("long_name", "Yaw");
+
+    yawRate.putAtt("units", "deg/s");
+    yawRate.putAtt("standard_name", "Yaw Rate");
+    yawRate.putAtt("long_name", "Yaw Rate");
+
+    speedOverGround.putAtt("units", "m/s");
+    speedOverGround.putAtt("standard_name", "Speed Over Ground");
+    speedOverGround.putAtt("long_name", "Speed Over Ground");
+
+    speedOverGroundUp.putAtt("units", "m/s");
+    speedOverGroundUp.putAtt("standard_name", "Ascent Rate");
+    speedOverGroundUp.putAtt("long_name", "Ascent Rate");
+
+    mixRatio.putAtt("units", "kg/kg");
+    mixRatio.putAtt("standard_name", "Mixing Ratio");
+    mixRatio.putAtt("long_name", "Humidity Mixing Ratio");
+
+    // reset the index vector
+    if(startp.size() == 0) {
+        startp.push_back(0);
+    } else {
+        startp[0] = 0;
+    }
+
+    return;
+}
+
+void MetDataLogManager::_writeMetNetCdfLine()
+{
+
+    FactGroup* factGroup = nullptr;
+    Vehicle* _activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
+    if(!_activeVehicle || !_activeVehicle->armed()) {
+        return;
+    }
+    factGroup = _activeVehicle->getFactGroup("temperature");
+
+    if (!factGroup) {
+        return;
+    }
+
+    // make sure we're not logging the same data again
+    QString timestamp = factGroup->getFact("time")->rawValueString();
+    if (timestamp == _latestNetCdfTimestamp) {
+        return;
+    } else {
+        _latestNetCdfTimestamp = timestamp;
+    }
+
+    // only capture netcdf data during ascent
+    if(factGroup->getFact("ascending")->rawValue().toBool() == false) {
+        if(!_metNetCdfFile.isNull()) {
+            _metNetCdfFile.close();
+        }
+        return;
+    }
+
+    if(_metNetCdfFile.isNull()) {
+        _initializeMetNetCdf();
+    }
+
+    // calculate the humidity mixing ratio
+    float tempValC = factGroup->getFact("airTemp")->rawValue().toFloat();
+    float relHumValPercent = factGroup->getFact("relHum")->rawValue().toFloat();
+    float relHumValDec = relHumValPercent * 0.01;
+    float airPressureValMb = factGroup->getFact("pressure")->rawValue().toFloat();
+    float satPressureValMb = 6.112 * qExp((17.62 * tempValC) / (243.12 + tempValC));
+    double mixRatioValue = 0.6219743 * relHumValDec * satPressureValMb / (airPressureValMb -  satPressureValMb);
+
+    // other netcdf conversions
+    float tempValK = tempValC + 273.15;
+    float airPressureValPa = airPressureValMb * 100;
+
+    altitude.putVar(         startp, factGroup->getFact("asl")->rawValue().toFloat());
+    time.putVar(             startp, factGroup->getFact("time")->rawValue().toDouble());
+    pressure.putVar(         startp, airPressureValPa);
+    airTemp.putVar(          startp, tempValK);
+    relHum.putVar(           startp, relHumValPercent);
+    windSpeed.putVar(        startp, factGroup->getFact("windSpeed"      )->rawValue().toFloat());
+    windDirection.putVar(    startp, factGroup->getFact("windDirection"  )->rawValue().toFloat());
+    latitude.putVar(         startp, factGroup->getFact("latitude"       )->rawValue().toDouble());
+    longitude.putVar(        startp, factGroup->getFact("longitude"      )->rawValue().toDouble());
+    roll.putVar(             startp, factGroup->getFact("roll"           )->rawValue().toFloat());
+    rollRate.putVar(         startp, factGroup->getFact("rollRate"       )->rawValue().toFloat());
+    pitch.putVar(            startp, factGroup->getFact("pitch"          )->rawValue().toFloat());
+    pitchRate.putVar(        startp, factGroup->getFact("pitchRate"      )->rawValue().toFloat());
+    yaw.putVar(              startp, factGroup->getFact("yaw"            )->rawValue().toFloat());
+    yawRate.putVar(          startp, factGroup->getFact("yawRate"        )->rawValue().toFloat());
+    speedOverGround.putVar(  startp, factGroup->getFact("speedOverGround")->rawValue().toFloat());
+    speedOverGroundUp.putVar(startp, factGroup->getFact("ascentRate"     )->rawValue().toFloat());
+    mixRatio.putVar(         startp, mixRatioValue);
+
+    // increment the index vector unlimited dimension
+    startp[0]++;
+    return;
 }
 
