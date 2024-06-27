@@ -29,7 +29,7 @@ class MetDataLogManager : public QGCTool
         void _writeMetRawCsvLine            ();
         void _writeMetAlmCsvLine            ();
         void _initializeMetAlmCsv           ();
-        void _initializeMetNetCdf           ();
+        void _initializeMetNetCdf           (double timestamp);
         void _writeMetNetCdfLine            ();
 
         Vehicle*            _activeVehicle;
