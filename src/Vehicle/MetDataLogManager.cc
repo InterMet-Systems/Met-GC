@@ -217,9 +217,12 @@ void MetDataLogManager::_writeMetAlmCsvLine()
     stream << metFactValues.join(",") << "\r\n";
 }
 
-void MetDataLogManager::_initializeMetNetCdf()
+void MetDataLogManager::_initializeMetNetCdf(double timestamp)
 {
-    QString nowUtcString = QDateTime::currentDateTimeUtc().toString("yyyyMMddHHmmssZ");
+    qint64 timestampInt = (qint64) timestamp;
+    QDateTime datetime = QDateTime::fromSecsSinceEpoch(timestampInt);
+    QString nowUtcString = datetime.toUTC().toString("yyyyMMddHHmmssZ");
+
     QString netCdfFileName = QString("UASDC_%1_%2_%3.nc").arg(_operatorId, _airframeId, nowUtcString);
     QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesNetCdfSavePath());
     QString _netCdfFullFilePath = saveDir.absoluteFilePath(netCdfFileName);
@@ -354,6 +357,10 @@ void MetDataLogManager::_writeMetNetCdfLine()
     FactGroup* factGroup = nullptr;
     Vehicle* _activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
     if(!_activeVehicle || !_activeVehicle->armed()) {
+        // ensure that file is closed at the end of the flight
+        if(!_metNetCdfFile.isNull()) {
+            _metNetCdfFile.close();
+        }
         return;
     }
     factGroup = _activeVehicle->getFactGroup("temperature");
@@ -378,8 +385,10 @@ void MetDataLogManager::_writeMetNetCdfLine()
         return;
     }
 
+    double timeDouble = factGroup->getFact("time")->rawValue().toDouble();
+
     if(_metNetCdfFile.isNull()) {
-        _initializeMetNetCdf();
+        _initializeMetNetCdf(timeDouble);
     }
 
     // calculate the humidity mixing ratio
@@ -395,7 +404,7 @@ void MetDataLogManager::_writeMetNetCdfLine()
     float airPressureValPa = airPressureValMb * 100;
 
     altitude.putVar(         startp, factGroup->getFact("asl")->rawValue().toFloat());
-    time.putVar(             startp, factGroup->getFact("time")->rawValue().toDouble());
+    time.putVar(             startp, timeDouble);
     pressure.putVar(         startp, airPressureValPa);
     airTemp.putVar(          startp, tempValK);
     relHum.putVar(           startp, relHumValPercent);
