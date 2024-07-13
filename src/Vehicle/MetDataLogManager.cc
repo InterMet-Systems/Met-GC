@@ -22,7 +22,9 @@ MetDataLogManager::MetDataLogManager(QGCApplication* app, QGCToolbox* toolbox) :
 
 MetDataLogManager::~MetDataLogManager()
 {
-    _metRawCsvFile.close();
+    if(_metRawCsvFile.isOpen()) {
+        _metRawCsvFile.close();
+    }
 
     if(_metAlmCsvFile.isOpen()) {
         _metAlmCsvFile.close();
@@ -59,6 +61,12 @@ void MetDataLogManager::_writeMetRawCsvLine()
         _initializeMetRawCsv();
     }
 
+    // close file if there is no active vehicle (simulate by closing telemetry replay)
+    if(!_activeVehicle && _metRawCsvFile.isOpen()) {
+        _metRawCsvFile.close();
+    }
+
+    // only record data when active vehcile is armed
     if(!_metRawCsvFile.isOpen() || !_activeVehicle || !_activeVehicle->armed()) {
         return;
     }
