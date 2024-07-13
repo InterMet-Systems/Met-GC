@@ -36,7 +36,7 @@ MetDataLogManager::~MetDataLogManager()
 void MetDataLogManager::_initializeMetRawCsv()
 {
     QString now = QDateTime::currentDateTime().toString("MM-dd-yyyy_hh-mm-ss");
-    QString metRawFileName = QString("RAW_%1.txt").arg(now);
+    QString metRawFileName = QString("RAW_%1.csv").arg(now);
     QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesRawSavePath());
     _metRawCsvFile.setFileName(saveDir.absoluteFilePath(metRawFileName));
 
@@ -147,13 +147,13 @@ void MetDataLogManager::setAirframeId(QString airframeId)
 void MetDataLogManager::_initializeMetAlmCsv()
 {
     int copyNumber = 1;
-    QString metAlmFileName = QString("%1_%2_%3.txt").arg(_flightName).arg(copyNumber).arg(_ascentNumber);
+    QString metAlmFileName = QString("%1_%2_%3.csv").arg(_flightName).arg(copyNumber).arg(_ascentNumber);
     QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesAltLevelSavePath());
     _metAlmCsvFile.setFileName(saveDir.absoluteFilePath(metAlmFileName));
 
     while (_metAlmCsvFile.exists()) {
         copyNumber++;
-        metAlmFileName = QString("%1_%2_%3.txt").arg(_flightName).arg(copyNumber).arg(_ascentNumber);
+        metAlmFileName = QString("%1_%2_%3.csv").arg(_flightName).arg(copyNumber).arg(_ascentNumber);
         _metAlmCsvFile.setFileName(saveDir.absoluteFilePath(metAlmFileName));
     }
 
