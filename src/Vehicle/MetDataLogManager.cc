@@ -55,19 +55,27 @@ void MetDataLogManager::_initializeMetRawCsv()
 
 void MetDataLogManager::_writeMetRawCsvLine()
 {
-    // Only save the logs after the the vehicle gets armed, unless "Save logs even if vehicle was not armed" is checked
+    // Acquire vehicle pointer
     Vehicle* _activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
-    if(!_metRawCsvFile.isOpen() && _activeVehicle && _activeVehicle->armed()) {
+    if(_activeVehicle == NULL)
+    {
+        return;
+    }
+
+    // Only save the logs after the the vehicle gets armed, unless "Save logs even if vehicle was not armed" is checked
+    if(!_metRawCsvFile.isOpen() && _activeVehicle->armed()) {
         _initializeMetRawCsv();
     }
 
-    // close file if there is no active vehicle (simulate by closing telemetry replay)
-    if(!_activeVehicle && _metRawCsvFile.isOpen()) {
+    // close file if the drone is disarmed and the file is still open
+    // safe to return here, as a closed file isn't going to receive data
+    if(_metRawCsvFile.isOpen() && !_activeVehicle->armed()) {
         _metRawCsvFile.close();
+        return;
     }
 
     // only record data when active vehcile is armed
-    if(!_metRawCsvFile.isOpen() || !_activeVehicle || !_activeVehicle->armed()) {
+    if(!_metRawCsvFile.isOpen() || !_activeVehicle->armed()) {
         return;
     }
 
