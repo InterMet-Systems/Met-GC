@@ -1,7 +1,6 @@
 #include "QGCApplication.h"
 #include "MetDataLogManager.h"
 #include "SettingsManager.h"
-#include "MetFlightDataRecorderController.h"
 #include "Vehicle.h"
 #include <QtMath>
 #include <QDebug>
