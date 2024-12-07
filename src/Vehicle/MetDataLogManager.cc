@@ -4,6 +4,7 @@
 #include "MetFlightDataRecorderController.h"
 #include "Vehicle.h"
 #include <QtMath>
+#include <QDebug>
 #include <libs/netcdf-cxx4/cxx4/netcdf>
 
 using namespace std;
@@ -15,9 +16,11 @@ MetDataLogManager::MetDataLogManager(QGCApplication* app, QGCToolbox* toolbox) :
     connect(&_metRawCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetRawCsvLine);
     connect(&_metAlmCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetAlmCsvLine);
     connect(&_metNetCdfTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetNetCdfLine);
+    connect(&_metConfigTimer, &QTimer::timeout, this, &MetDataLogManager::_initializeOrReadConfigFile);
     _metRawCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
     _metAlmCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
     _metNetCdfTimer.start(20); // timing for NetCDF messages should always be the same as the ALM messages
+    _metConfigTimer.start(20); // temporary
 }
 
 MetDataLogManager::~MetDataLogManager()
@@ -443,3 +446,41 @@ void MetDataLogManager::_writeMetNetCdfLine()
     return;
 }
 
+void MetDataLogManager::_initializeOrReadConfigFile() {
+    _metConfigTimer.stop();
+    QString configFileName = QString("flightConfig.ini");
+    QString configSaveDir = qgcApp()->toolbox()->settingsManager()->appSettings()->configSavePath();
+    QDir saveDir(configSaveDir);
+    QString _configFullFilePath = saveDir.absoluteFilePath(configFileName);
+    _metConfigFile.setFileName(_configFullFilePath);
+    qDebug() << "config file name: " << _configFullFilePath;
+    // if file exists, read its values. Otherwise create it with default values
+    if (_metConfigFile.exists()) {
+        _metConfigFile.open(QIODevice::ReadWrite);
+        QTextStream in(&_metConfigFile);
+        QString fileContents = in.readAll();
+        if(!iniParser.parseFile(fileContents)) {
+            return;
+        }
+        QMap<QString, QMap<QString, QString>> fileData = iniParser.getSections();
+        if(fileData.contains("FlightData") && fileData["FlightData"].contains("FlightName")) {
+            MetDataLogManager::setFlightFileName(fileData["FlightData"]["FlightName"]);
+        }
+        if(fileData.contains("FlightData") && fileData["FlightData"].contains("AirframeId")) {
+            MetDataLogManager::setAirframeId(fileData["FlightData"]["AirframeId"]);
+        }
+        if(fileData.contains("FlightData") && fileData["FlightData"].contains("OperatorId")) {
+            MetDataLogManager::setOperatorId(fileData["FlightData"]["OperatorId"]);
+        }
+    } else {
+        _metConfigFile.open(QIODevice::Append);
+        QMap<QString, QMap<QString, QString>> defaultConfig;
+        defaultConfig["FlightData"]["FlightName"] = _flightName;
+        defaultConfig["FlightData"]["AirframeId"] = _airframeId;
+        defaultConfig["FlightData"]["OperatorId"] = _operatorId;
+        iniParser.setSections(defaultConfig);
+        QString defaultConfigFileData = iniParser.print();
+        QTextStream out(&_metConfigFile);
+        out << defaultConfigFileData;
+    }
+}

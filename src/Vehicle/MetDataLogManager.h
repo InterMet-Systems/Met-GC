@@ -1,4 +1,5 @@
 #pragma once
+#include "MetConfigParser.h"
 #include "QGCToolbox.h"
 #include <QObject>
 #include <QTime>
@@ -31,14 +32,18 @@ class MetDataLogManager : public QGCTool
         void _initializeMetAlmCsv           ();
         void _initializeMetNetCdf           (double timestamp);
         void _writeMetNetCdfLine            ();
+        void _initializeOrReadConfigFile    ();
 
         Vehicle*            _activeVehicle;
         QTimer              _metRawCsvTimer;
         QTimer              _metAlmCsvTimer;
         QTimer              _metNetCdfTimer;
+        QTimer              _metConfigTimer;
         QFile               _metRawCsvFile;
         QFile               _metAlmCsvFile;
+        QFile               _metConfigFile;
         NcFile              _metNetCdfFile = NcFile();
+        MetConfigParser     iniParser;
 
         QString             _openNetCdfFile = "";
 

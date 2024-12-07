@@ -44,6 +44,7 @@ const char* AppSettings::videoDirectory =            QT_TRANSLATE_NOOP("AppSetti
 const char* AppSettings::photoDirectory =            QT_TRANSLATE_NOOP("AppSettings", "Photo");
 const char* AppSettings::crashDirectory =            QT_TRANSLATE_NOOP("AppSettings", "CrashLogs");
 const char* AppSettings::customActionsDirectory =    QT_TRANSLATE_NOOP("AppSettings", "CustomActions");
+const char* AppSettings::configDirectory =           QT_TRANSLATE_NOOP("AppSettings", "Config");
 
 // Release languages are 90%+ complete
 QList<int> AppSettings::_rgReleaseLanguages = {
@@ -250,6 +251,7 @@ void AppSettings::_checkSavePathDirectories(void)
         savePathDir.mkdir(photoDirectory);
         savePathDir.mkdir(crashDirectory);
         savePathDir.mkdir(customActionsDirectory);
+        savePathDir.mkdir(configDirectory);
     }
 }
 
@@ -334,6 +336,16 @@ QString AppSettings::messagesNetCdfSavePath(void)
     if (!path.isEmpty() && QDir(path).exists()) {
         QDir dir(path);
         return dir.filePath(messagesNetCdfDirectory);
+    }
+    return QString();
+}
+
+QString AppSettings::configSavePath(void)
+{
+    QString path = savePath()->rawValue().toString();
+    if (!path.isEmpty() && QDir(path).exists()) {
+        QDir dir(path);
+        return dir.filePath(configDirectory);
     }
     return QString();
 }
