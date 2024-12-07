@@ -450,6 +450,7 @@ HEADERS += \
     src/QmlControls/QmlUnitsConversion.h \
     src/Vehicle/DataBalancer.h \
     src/Vehicle/MetDataLogManager.h \
+    src/Vehicle/MetConfigParser.h \
     src/Vehicle/VehicleEscStatusFactGroup.h \
     src/Vehicle/VehicleMETFactGroup.h \
     src/api/QGCCorePlugin.h \
@@ -469,6 +470,7 @@ SOURCES += \
     src/Vehicle/DataBalancer.cc \
     src/QmlControls/MetFlightDataRecorderController.cc \
     src/Vehicle/MetDataLogManager.cc \
+    src/Vehicle/MetConfigParser.cc \
     src/Vehicle/VehicleEscStatusFactGroup.cc \
     src/Vehicle/VehicleMETFactGroup.cc \
     src/api/QGCCorePlugin.cc \
