@@ -446,8 +446,6 @@ contains (DEFINES, QGC_ENABLE_PAIRING) {
 HEADERS += \
     src/QmlControls/CustomAction.h \
     src/QmlControls/CustomActionManager.h \
-    src/QmlControls/MetFactValueGrid.h \
-    src/QmlControls/MetFlightDataRecorderController.h \
     src/QmlControls/QmlUnitsConversion.h \
     src/Vehicle/DataBalancer.h \
     src/Vehicle/MetDataLogManager.h \
@@ -467,9 +465,7 @@ contains (DEFINES, QGC_ENABLE_PAIRING) {
 
 SOURCES += \
     src/QmlControls/CustomActionManager.cc \
-    src/QmlControls/MetFactValueGrid.cc \
     src/Vehicle/DataBalancer.cc \
-    src/QmlControls/MetFlightDataRecorderController.cc \
     src/Vehicle/MetDataLogManager.cc \
     src/Vehicle/MetConfigParser.cc \
     src/Vehicle/VehicleEscStatusFactGroup.cc \

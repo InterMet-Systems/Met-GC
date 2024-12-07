@@ -243,23 +243,6 @@ Item {
         }
     }
 
-    MetDataWindow {
-        id:                 metDataWindow
-        x:                  recalcXPosition()
-
-        anchors.bottom: parent.bottom
-        anchors.margins:    _toolsMargin
-        visible:            _guidedController._metDataVisible
-
-        property real bottomEdgeCenterInset: 0
-        property real rightEdgeCenterInset: 0
-
-
-        function recalcXPosition() {
-            return parentToolInsets.leftEdgeBottomInset + _toolsMargin
-        }
-    }
-
     //-- Virtual Joystick
     Loader {
         id:                         virtualJoystickMultiTouch
@@ -292,7 +275,7 @@ Item {
         anchors.left:           parent.left
         anchors.top:            parent.top
         z:                      QGroundControl.zOrderWidgets
-        maxHeight:              parent.height - y - parentToolInsets.bottomEdgeLeftInset - _toolsMargin - (_guidedController._metDataVisible ? (metDataWindow.height + _toolsMargin) : 0)
+        maxHeight:              parent.height - y - parentToolInsets.bottomEdgeLeftInset - _toolsMargin
         visible:                !QGroundControl.videoManager.fullScreen
 
         onDisplayPreFlightChecklist: preFlightChecklistPopup.createObject(mainWindow).open()
