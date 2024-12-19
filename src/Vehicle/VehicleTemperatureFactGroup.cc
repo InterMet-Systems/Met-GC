@@ -298,28 +298,6 @@ VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
 
 void VehicleTemperatureFactGroup::handleMessage(Vehicle* /* vehicle */, mavlink_message_t& message)
 {
-    balancer.update(&message, timeUAVMilliseconds(), timeUnixMilliseconds(), timeUAVBootMilliseconds(), altitudeMillimetersMSL(), absolutePressureMillibars(),
-                    temperature0Celsius(), temperature1Celsius(), temperature2Celsius(), relativeHumidity(), relativeHumidity0(), relativeHumidity1(), relativeHumidity2(),
-                    windSpeedMetersPerSecond(), windBearingDegrees(), latitudeDegreesE7(), longitudeDegreesE7(), rollRadians(), pitchRadians(), yawRadians(),
-                    rollRateRadiansPerSecond(), pitchRateRadiansPerSecond(), yawRateRadiansPerSecond(), zVelocityMetersPerSecondInverted(), xVelocityMetersPerSecond(),
-                    yVelocityMetersPerSecond(), groundSpeedMetersPerSecond(), heartBeatCustomMode(), ascending(), timeUAVSeconds(), timeUnixSeconds(),
-                    timeUAVBootSeconds(), altitudeMetersMSL(), temperatureCelsius(), latitudeDegrees(), longitudeDegrees(), rollDegrees(), pitchDegrees(),
-                    yawDegrees(), rollRateDegreesPerSecond(), pitchRateDegreesPerSecond(), yawRateDegreesPerSecond(), zVelocityMetersPerSecond(), lastState(),
-                    ascents());
-
-    switch(balancer.updateALM()){
-    case DataBalancer::DATA_NOT_INITIALIZED:
-        break;
-    case DataBalancer::NOT_ASCENDING:
-        break;
-    case DataBalancer::ALTITUDE_CHANGE_TOO_SMALL:
-        break;
-    case DataBalancer::SUCCESS:
-        balancer.onALMUpdate(asl(), time(), pressure(), airTemp(), relHum(), windSpeed(), windDirection(), latitude(), longitude(),
-                             roll(), rollRate(), pitch(), pitchRate(), yaw(), yawRate(), ascentRate(), speedOverGround(), update());
-        break;
-    }
-
     switch (message.msgid) {
     case MAVLINK_MSG_ID_SCALED_PRESSURE:
         _handleScaledPressure(message);
