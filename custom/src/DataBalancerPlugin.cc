@@ -30,7 +30,7 @@
 DataBalancerPlugin::DataBalancerPlugin(QGCApplication *app, QGCToolbox* toolbox)
     : QGCCorePlugin(app, toolbox)
 {
-    _showAdvancedUI = false;
+    // _showAdvancedUI = false;
 }
 
 DataBalancerPlugin::~DataBalancerPlugin()

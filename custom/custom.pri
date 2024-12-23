@@ -31,8 +31,8 @@ message(Custom QGC Version: $${CUSTOM_QGC_VERSION})
 
 # Branding
 
-DEFINES += CUSTOMHEADER=\"\\\"CustomPlugin.h\\\"\"
-DEFINES += CUSTOMCLASS=CustomPlugin
+DEFINES += CUSTOMHEADER=\"\\\"DataBalancerPlugin.h\\\"\"
+DEFINES += CUSTOMCLASS=DataBalancerPlugin
 
 TARGET   = CustomQGroundControl
 DEFINES += QGC_APPLICATION_NAME='"\\\"Custom QGroundControl\\\""'

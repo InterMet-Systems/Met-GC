@@ -12,42 +12,15 @@
 #pragma once
 
 #include "QGCCorePlugin.h"
-#include "QGCOptions.h"
 #include "QGCLoggingCategory.h"
 #include "SettingsManager.h"
 #include "DataBalancer.h"
 
 #include <QTranslator>
 
-class CustomOptions;
 class DataBalancerPlugin;
-class CustomSettings;
 
 // Q_DECLARE_LOGGING_CATEGORY(CustomLog)
-
-class CustomFlyViewOptions : public QGCFlyViewOptions
-{
-public:
-    CustomFlyViewOptions(CustomOptions* options, QObject* parent = nullptr);
-
-    // Overrides from CustomFlyViewOptions
-    bool                    showInstrumentPanel         (void) const final;
-    bool                    showMultiVehicleList        (void) const final;
-};
-
-class CustomOptions : public QGCOptions
-{
-public:
-    CustomOptions(DataBalancerPlugin*, QObject* parent = nullptr);
-
-    // Overrides from QGCOptions
-    bool                    wifiReliableForCalibration  (void) const final;
-    bool                    showFirmwareUpgrade         (void) const final;
-    QGCFlyViewOptions*      flyViewOptions(void) final;
-
-private:
-    CustomFlyViewOptions* _flyViewOptions = nullptr;
-};
 
 class DataBalancerPlugin : public QGCCorePlugin
 {
