@@ -23,11 +23,11 @@ DEFINES += APP_VERSION_STR=\"\\\"$$CUSTOM_QGC_VERSION\\\"\"
 message(Custom QGC Version: $${CUSTOM_QGC_VERSION})
 
 # Build a single flight stack by disabling APM support
-CONFIG  += QGC_DISABLE_APM_MAVLINK
-CONFIG  += QGC_DISABLE_APM_PLUGIN QGC_DISABLE_APM_PLUGIN_FACTORY
+# CONFIG  += QGC_DISABLE_APM_MAVLINK
+# CONFIG  += QGC_DISABLE_APM_PLUGIN QGC_DISABLE_APM_PLUGIN_FACTORY
 
 # We implement our own PX4 plugin factory
-CONFIG  += QGC_DISABLE_PX4_PLUGIN_FACTORY
+# CONFIG  += QGC_DISABLE_PX4_PLUGIN_FACTORY
 
 # Branding
 
@@ -70,17 +70,17 @@ INCLUDEPATH += \
 #-------------------------------------------------------------------------------------
 # Custom Firmware/AutoPilot Plugin
 
-INCLUDEPATH += \
-    $$PWD/src/FirmwarePlugin \
-    $$PWD/src/AutoPilotPlugin
-
-HEADERS+= \
-    $$PWD/src/AutoPilotPlugin/CustomAutoPilotPlugin.h \
-    $$PWD/src/FirmwarePlugin/CustomFirmwarePlugin.h \
-    $$PWD/src/FirmwarePlugin/CustomFirmwarePluginFactory.h \
-
-SOURCES += \
-    $$PWD/src/AutoPilotPlugin/CustomAutoPilotPlugin.cc \
-    $$PWD/src/FirmwarePlugin/CustomFirmwarePlugin.cc \
-    $$PWD/src/FirmwarePlugin/CustomFirmwarePluginFactory.cc \
+# INCLUDEPATH += \
+#     $$PWD/src/FirmwarePlugin \
+#     $$PWD/src/AutoPilotPlugin
+# 
+# HEADERS+= \
+#     $$PWD/src/AutoPilotPlugin/CustomAutoPilotPlugin.h \
+#     $$PWD/src/FirmwarePlugin/CustomFirmwarePlugin.h \
+#     $$PWD/src/FirmwarePlugin/CustomFirmwarePluginFactory.h \
+# 
+# SOURCES += \
+#     $$PWD/src/AutoPilotPlugin/CustomAutoPilotPlugin.cc \
+#     $$PWD/src/FirmwarePlugin/CustomFirmwarePlugin.cc \
+#     $$PWD/src/FirmwarePlugin/CustomFirmwarePluginFactory.cc \
 
