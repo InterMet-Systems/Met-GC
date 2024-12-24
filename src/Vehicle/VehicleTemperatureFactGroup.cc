@@ -17,7 +17,7 @@ const char* VehicleTemperatureFactGroup::_temperature3FactName =                
 /* TD test */
 const char* VehicleTemperatureFactGroup::_temperature4FactName =                        "temperature4";
 // needs to be capped this way so it's compatible with old flight logs
-const char* VehicleTemperatureFactGroup::_timeUAVMillisecondsFactName =                 "uAVMilliseconds";
+const char* VehicleTemperatureFactGroup::_timeUAVMillisecondsFactName =                 "timeUAVMilliseconds";
 const char* VehicleTemperatureFactGroup::_timeUnixMillisecondsFactName =                "timeUnixMilliseconds";
 const char* VehicleTemperatureFactGroup::_timeUAVBootMillisecondsFactName =             "timeUAVBootMilliseconds";
 const char* VehicleTemperatureFactGroup::_altitudeMillimetersMSLFactName =              "altitudeMillimetersMSL";
@@ -35,7 +35,7 @@ const char* VehicleTemperatureFactGroup::_latitudeDegreesE7FactName =           
 const char* VehicleTemperatureFactGroup::_longitudeDegreesE7FactName =                  "longitudeDegreesE7";
 const char* VehicleTemperatureFactGroup::_rollRadiansFactName =                         "rollRadians";
 const char* VehicleTemperatureFactGroup::_pitchRadiansFactName =                        "pitchRadians";
-const char* VehicleTemperatureFactGroup::_yawRadiansFactName =                          "yawRadiansFact";
+const char* VehicleTemperatureFactGroup::_yawRadiansFactName =                          "yawRadians";
 const char* VehicleTemperatureFactGroup::_rollRateRadiansPerSecondFactName =            "rollRateRadiansPerSecond";
 const char* VehicleTemperatureFactGroup::_pitchRateRadiansPerSecondFactName =           "pitchRateRadiansPerSecond";
 const char* VehicleTemperatureFactGroup::_yawRateRadiansPerSecondFactName =             "yawRateRadiansPerSecond";

@@ -41,7 +41,6 @@ DataBalancerPlugin::~DataBalancerPlugin()
 bool DataBalancerPlugin::mavlinkMessage(Vehicle* vehicle, LinkInterface* link, mavlink_message_t message)
 {
 
-    qDebug() << "DataBalancerPlugin::mavlinkMessage";
     FactGroup* metFactGroup = vehicle->getFactGroup("temperature");
 
     if (!metFactGroup) {
@@ -111,8 +110,6 @@ bool DataBalancerPlugin::mavlinkMessage(Vehicle* vehicle, LinkInterface* link, m
     Fact* ascentRate = metFactGroup->getFact("ascentRate");
     Fact* speedOverGround = metFactGroup->getFact("speedOverGround");
     Fact* update = metFactGroup->getFact("update");
-
-    qDebug() << "DataBalancerPlugin::mavlinkMessage";
 
     balancer.update(&message, timeUAVMilliseconds, timeUnixMilliseconds, timeUAVBootMilliseconds, altitudeMillimetersMSL, absolutePressureMillibars,
                     temperature0Celsius, temperature1Celsius, temperature2Celsius, relativeHumidity, relativeHumidity0, relativeHumidity1, relativeHumidity2,
