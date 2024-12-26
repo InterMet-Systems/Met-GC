@@ -49,8 +49,8 @@ QGC_APP_DESCRIPTION = "Custom QGroundControl"
 QGC_APP_COPYRIGHT   = "Copyright (C) 2020 QGroundControl Development Team. All rights reserved."
 
 # Our own, custom resources
-RESOURCES += \
-    $$PWD/custom.qrc
+# RESOURCES += \
+#     $$PWD/custom.qrc
 
 QML_IMPORT_PATH += \
    $$PWD/res
