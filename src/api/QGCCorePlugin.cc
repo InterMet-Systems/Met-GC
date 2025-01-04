@@ -22,7 +22,7 @@
 #endif
 #include "QGCLoggingCategory.h"
 #include "QGCCameraManager.h"
-#include "FactValueGrid.h"
+#include "HorizontalFactValueGrid.h"
 #include "InstrumentValueData.h"
 
 #include <QtQml>
@@ -291,7 +291,7 @@ QString QGCCorePlugin::showAdvancedUIMessage() const
 
 void QGCCorePlugin::factValueGridCreateDefaultSettings(const QString& defaultSettingsGroup)
 {
-    FactValueGrid factValueGrid(defaultSettingsGroup);
+    HorizontalFactValueGrid factValueGrid(defaultSettingsGroup);
 
     bool        includeFWValues = factValueGrid.vehicleClass() == QGCMAVLink::VehicleClassFixedWing || factValueGrid.vehicleClass() == QGCMAVLink::VehicleClassVTOL || factValueGrid.vehicleClass() == QGCMAVLink::VehicleClassAirship;
 

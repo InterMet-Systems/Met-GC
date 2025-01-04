@@ -17,7 +17,7 @@ const char* VehicleTemperatureFactGroup::_temperature3FactName =                
 /* TD test */
 const char* VehicleTemperatureFactGroup::_temperature4FactName =                        "temperature4";
 // needs to be capped this way so it's compatible with old flight logs
-const char* VehicleTemperatureFactGroup::_timeUAVMillisecondsFactName =                 "uAVMilliseconds";
+const char* VehicleTemperatureFactGroup::_timeUAVMillisecondsFactName =                 "timeUAVMilliseconds";
 const char* VehicleTemperatureFactGroup::_timeUnixMillisecondsFactName =                "timeUnixMilliseconds";
 const char* VehicleTemperatureFactGroup::_timeUAVBootMillisecondsFactName =             "timeUAVBootMilliseconds";
 const char* VehicleTemperatureFactGroup::_altitudeMillimetersMSLFactName =              "altitudeMillimetersMSL";
@@ -35,7 +35,7 @@ const char* VehicleTemperatureFactGroup::_latitudeDegreesE7FactName =           
 const char* VehicleTemperatureFactGroup::_longitudeDegreesE7FactName =                  "longitudeDegreesE7";
 const char* VehicleTemperatureFactGroup::_rollRadiansFactName =                         "rollRadians";
 const char* VehicleTemperatureFactGroup::_pitchRadiansFactName =                        "pitchRadians";
-const char* VehicleTemperatureFactGroup::_yawRadiansFactName =                          "yawRadiansFact";
+const char* VehicleTemperatureFactGroup::_yawRadiansFactName =                          "yawRadians";
 const char* VehicleTemperatureFactGroup::_rollRateRadiansPerSecondFactName =            "rollRateRadiansPerSecond";
 const char* VehicleTemperatureFactGroup::_pitchRateRadiansPerSecondFactName =           "pitchRateRadiansPerSecond";
 const char* VehicleTemperatureFactGroup::_yawRateRadiansPerSecondFactName =             "yawRateRadiansPerSecond";
@@ -298,28 +298,6 @@ VehicleTemperatureFactGroup::VehicleTemperatureFactGroup(QObject* parent)
 
 void VehicleTemperatureFactGroup::handleMessage(Vehicle* /* vehicle */, mavlink_message_t& message)
 {
-    balancer.update(&message, timeUAVMilliseconds(), timeUnixMilliseconds(), timeUAVBootMilliseconds(), altitudeMillimetersMSL(), absolutePressureMillibars(),
-                    temperature0Celsius(), temperature1Celsius(), temperature2Celsius(), relativeHumidity(), relativeHumidity0(), relativeHumidity1(), relativeHumidity2(),
-                    windSpeedMetersPerSecond(), windBearingDegrees(), latitudeDegreesE7(), longitudeDegreesE7(), rollRadians(), pitchRadians(), yawRadians(),
-                    rollRateRadiansPerSecond(), pitchRateRadiansPerSecond(), yawRateRadiansPerSecond(), zVelocityMetersPerSecondInverted(), xVelocityMetersPerSecond(),
-                    yVelocityMetersPerSecond(), groundSpeedMetersPerSecond(), heartBeatCustomMode(), ascending(), timeUAVSeconds(), timeUnixSeconds(),
-                    timeUAVBootSeconds(), altitudeMetersMSL(), temperatureCelsius(), latitudeDegrees(), longitudeDegrees(), rollDegrees(), pitchDegrees(),
-                    yawDegrees(), rollRateDegreesPerSecond(), pitchRateDegreesPerSecond(), yawRateDegreesPerSecond(), zVelocityMetersPerSecond(), lastState(),
-                    ascents());
-
-    switch(balancer.updateALM()){
-    case DataBalancer::DATA_NOT_INITIALIZED:
-        break;
-    case DataBalancer::NOT_ASCENDING:
-        break;
-    case DataBalancer::ALTITUDE_CHANGE_TOO_SMALL:
-        break;
-    case DataBalancer::SUCCESS:
-        balancer.onALMUpdate(asl(), time(), pressure(), airTemp(), relHum(), windSpeed(), windDirection(), latitude(), longitude(),
-                             roll(), rollRate(), pitch(), pitchRate(), yaw(), yawRate(), ascentRate(), speedOverGround(), update());
-        break;
-    }
-
     switch (message.msgid) {
     case MAVLINK_MSG_ID_SCALED_PRESSURE:
         _handleScaledPressure(message);

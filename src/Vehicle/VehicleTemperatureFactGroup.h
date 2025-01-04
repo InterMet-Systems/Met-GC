@@ -11,7 +11,6 @@
 
 #include "FactGroup.h"
 #include "QGCMAVLink.h"
-#include "DataBalancer.h"
 
 class VehicleTemperatureFactGroup : public FactGroup
 {
@@ -244,7 +243,6 @@ private:
     void _handleScaledPressure3 (mavlink_message_t& message);
     void _handleHighLatency     (mavlink_message_t& message);
     void _handleHighLatency2    (mavlink_message_t& message);
-    DataBalancer balancer;
 
     Fact            _temperature1Fact;
     Fact            _temperature2Fact;
