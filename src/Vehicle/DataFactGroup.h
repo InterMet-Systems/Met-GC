@@ -72,7 +72,54 @@ public:
             column 33 - Armed age
     */
 
-    Fact* getFactPointerTime()                       { return &_timeFact; }
+    Fact* getFactPointertimeUnixMicroseconds()              { return &_timeUnixMicrosecondsFact; }
+    Fact* getFactPointertimeUnixSeconds()                   { return &_timeUnixSecondsFact; }
+    Fact* getFactPointeraltitudeMillimetersMSL()            { return &_altitudeMillimetersMSLFact; }
+    Fact* getFactPointeraltitudeMetersMSL()                 { return &_altitudeMetersMSLFact; }
+    Fact* getFactPointerabsolutePressureMillibars()         { return &_absolutePressureMillibarsFact; }
+    Fact* getFactPointertemperature0Kelvin()                { return &_temperature0KelvinFact; }
+    Fact* getFactPointertemperature1Kelvin()                { return &_temperature1KelvinFact; }
+    Fact* getFactPointertemperature2Kelvin()                { return &_temperature2KelvinFact; }
+    Fact* getFactPointertemperature0Celsius()               { return &_temperature0CelsiusFact; }
+    Fact* getFactPointertemperature1Celsius()               { return &_temperature1CelsiusFact; }
+    Fact* getFactPointertemperature2Celsius()               { return &_temperature2CelsiusFact; }
+    Fact* getFactPointertemperatureCelsius()                { return &_temperatureCelsiusFact; }
+    Fact* getFactPointerrelativeHumidity0()                 { return &_relativeHumidity0Fact; }
+    Fact* getFactPointerrelativeHumidity1()                 { return &_relativeHumidity1Fact; }
+    Fact* getFactPointerrelativeHumidity2()                 { return &_relativeHumidity2Fact; }
+    Fact* getFactPointerrelativeHumidity()                  { return &_relativeHumidityFact; }
+    Fact* getFactPointerlatitudeDegreesE7()                 { return &_latitudeDegreesE7Fact; }
+    Fact* getFactPointerlongitudeDegreesE7()                { return &_longitudeDegreesE7Fact; }
+    Fact* getFactPointerlatitudeDegrees()                   { return &_latitudeDegreesFact; }
+    Fact* getFactPointerlongitudeDegrees()                  { return &_longitudeDegreesFact; }
+    Fact* getFactPointerrollRadians()                       { return &_rollRadiansFact; }
+    Fact* getFactPointerpitchRadians()                      { return &_pitchRadiansFact; }
+    Fact* getFactPointeryawRadians()                        { return &_yawRadiansFact; }
+    Fact* getFactPointerrollDegrees()                       { return &_rollDegreesFact; }
+    Fact* getFactPointerpitchDegrees()                      { return &_pitchDegreesFact; }
+    Fact* getFactPointeryawDegrees()                        { return &_yawDegreesFact; }
+    Fact* getFactPointerrollRateRadiansPerSecond()          { return &_rollRateRadiansPerSecondFact; }
+    Fact* getFactPointerpitchRateRadiansPerSecond()         { return &_pitchRateDegreesPerSecondFact; }
+    Fact* getFactPointeryawRateRadiansPerSecond()           { return &_yawRateRadiansPerSecondFact; }
+    Fact* getFactPointerrollRateDegreesPerSecond()          { return &_rollRateDegreesPerSecondFact; }
+    Fact* getFactPointerpitchRateDegreesPerSecond()         { return &_pitchRateDegreesPerSecondFact; }
+    Fact* getFactPointeryawRateDegreesPerSecond()           { return &_yawRateDegreesPerSecondFact; }
+    Fact* getFactPointerxVelocityMetersPerSecond()          { return &_xVelocityMetersPerSecondFact; }
+    Fact* getFactPointeryVelocityMetersPerSecond()          { return &_yVelocityMetersPerSecondFact; }
+    Fact* getFactPointerzVelocityMetersPerSecond()          { return &_zVelocityMetersPerSecondFact; }
+    Fact* getFactPointerzVelocityMetersPerSecondInverted()  { return &_zVelocityMetersPerSecondInvertedFact; }
+    Fact* getFactPointerhomePositionLatitudeDegrees()       { return &_homePositionLatitudeDegreesFact; }
+    Fact* getFactPointerhomePositionLongitudeDegrees()      { return &_homePositionLongitudeDegreesFact; }
+    Fact* getFactPointerhomePositionAltitudeMeters()        { return &_homePositionAltitudeMetersFact; }
+    Fact* getFactPointerdroneSerialNumber()                 { return &_droneSerialNumberFact; }
+    Fact* getFactPointergroundWindSpeedMetersPerSecond()    { return &_groundWindSpeedMetersPerSecondFact; }
+    Fact* getFactPointergroundWindDirectionDegrees()        { return &_groundWindDirectionDegreesFact; }
+    Fact* getFactPointergroundAirTemperatureCelsius()       { return &_groundAirTemperatureCelsiusFact; }
+    Fact* getFactPointergroundHumidity()                    { return &_groundHumidityFact; }
+    Fact* getFactPointergroundPressureMillibars()           { return &_groundPressureMillibarsFact; }
+    Fact* getFactPointersatellites()                        { return &_satellitesFact; }
+    Fact* getFactPointerhorizontalDilutionOfPosition()      { return &_horizontalDilutionOfPositionFact; }
+    Fact* getFactPointerhorizontalDilutionOfPositionFloat() { return &_horizontalDilutionOfPositionFloatFact; }
 
     // Overrides from FactGroup
     void handleMessage(Vehicle* vehicle, mavlink_message_t& message) override;
@@ -82,7 +129,54 @@ public:
 private:
     DataHub hub;
 
-    Fact            _timeFact;
+    Fact            _timeUnixMicrosecondsFact;
+    Fact            _timeUnixSecondsFact;
+    Fact            _altitudeMillimetersMSLFact;
+    Fact            _altitudeMetersMSLFact;
+    Fact            _absolutePressureMillibarsFact;
+    Fact            _temperature0KelvinFact;
+    Fact            _temperature1KelvinFact;
+    Fact            _temperature2KelvinFact;
+    Fact            _temperature0CelsiusFact;
+    Fact            _temperature1CelsiusFact;
+    Fact            _temperature2CelsiusFact;
+    Fact            _temperatureCelsiusFact;
+    Fact            _relativeHumidity0Fact;
+    Fact            _relativeHumidity1Fact;
+    Fact            _relativeHumidity2Fact;
+    Fact            _relativeHumidityFact;
+    Fact            _latitudeDegreesE7Fact;
+    Fact            _longitudeDegreesE7Fact;
+    Fact            _latitudeDegreesFact;
+    Fact            _longitudeDegreesFact;
+    Fact            _rollRadiansFact;
+    Fact            _pitchRadiansFact;
+    Fact            _yawRadiansFact;
+    Fact            _rollDegreesFact;
+    Fact            _pitchDegreesFact;
+    Fact            _yawDegreesFact;
+    Fact            _rollRateRadiansPerSecondFact;
+    Fact            _pitchRateRadiansPerSecondFact;
+    Fact            _yawRateRadiansPerSecondFact;
+    Fact            _rollRateDegreesPerSecondFact;
+    Fact            _pitchRateDegreesPerSecondFact;
+    Fact            _yawRateDegreesPerSecondFact;
+    Fact            _xVelocityMetersPerSecondFact;
+    Fact            _yVelocityMetersPerSecondFact;
+    Fact            _zVelocityMetersPerSecondFact;
+    Fact            _zVelocityMetersPerSecondInvertedFact;
+    Fact            _homePositionLatitudeDegreesFact;
+    Fact            _homePositionLongitudeDegreesFact;
+    Fact            _homePositionAltitudeMetersFact;
+    Fact            _droneSerialNumberFact;
+    Fact            _groundWindSpeedMetersPerSecondFact;
+    Fact            _groundWindDirectionDegreesFact;
+    Fact            _groundAirTemperatureCelsiusFact;
+    Fact            _groundHumidityFact;
+    Fact            _groundPressureMillibarsFact;
+    Fact            _satellitesFact;
+    Fact            _horizontalDilutionOfPositionFact;
+    Fact            _horizontalDilutionOfPositionFloatFact;
 };
 
 #endif // DATAFACTGROUP_H
