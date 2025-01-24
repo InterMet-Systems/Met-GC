@@ -1,0 +1,359 @@
+{
+    "version":      1,
+    "fileType":  "FactMetaData",
+    "QGC.MetaData.Facts":
+[
+{
+    "name":                 "timeUnixMicroseconds",
+    "shortDesc":            "Unix time",
+    "type":                 "uint64",
+    "units":                "us"
+},
+{
+    "name":                 "timeUnixSeconds",
+    "shortDesc":            "Unix time",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "seconds"
+},
+{
+    "name":                 "altitudeMillimetersMSL",
+    "shortDesc":            "Altitude (MSL)",
+    "type":                 "int32",
+    "units":                "mm"
+},
+{
+    "name":                 "altitudeMetersMSL",
+    "shortDesc":            "Altitude (MSL)",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "m"
+},
+{
+    "name":                 "absolutePressureMillibars",
+    "shortDesc":            "Absolute pressure",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "mB"
+},
+{
+    "name":                 "temperature0Kelvin",
+    "shortDesc":            "Temperature 0",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "K"
+},
+{
+    "name":                 "temperature1Kelvin",
+    "shortDesc":            "Temperature 1",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "K"
+},
+{
+    "name":                 "temperature2Kelvin",
+    "shortDesc":            "Temperature 2",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "K"
+},
+{
+    "name":                 "temperature0Celsius",
+    "shortDesc":            "Temperature 0",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "C"
+},
+{
+    "name":                 "temperature1Celsius",
+    "shortDesc":            "Temperature 1",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "C"
+},
+{
+    "name":                 "temperature2Celsius",
+    "shortDesc":            "Temperature 2",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "C"
+},
+{
+    "name":                 "temperatureCelsius",
+    "shortDesc":            "Temperature",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "C"
+},
+{
+    "name":                 "relativeHumidity0",
+    "shortDesc":            "Humidity 0",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "%"
+},
+{
+    "name":                 "relativeHumidity1",
+    "shortDesc":            "Humidity 1",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "%"
+},
+{
+    "name":                 "relativeHumidity2",
+    "shortDesc":            "Humidity 2",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "%"
+},
+{
+    "name":                 "relativeHumidity",
+    "shortDesc":            "Humidity",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "%"
+},
+{
+    "name":                 "latitudeDegreesE7",
+    "shortDesc":            "Latitude",
+    "type":                 "int32",
+    "units":                "degrees e7"
+},
+{
+    "name":                 "longitudeDegreesE7",
+    "shortDesc":            "Longitude",
+    "type":                 "int32",
+    "units":                "degrees e7"
+},
+{
+    "name":                 "latitudeDegrees",
+    "shortDesc":            "Latitude",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "degrees"
+},
+{
+    "name":                 "longitudeDegrees",
+    "shortDesc":            "Longitude",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "degrees"
+},
+{
+    "name":                 "rollRadians",
+    "shortDesc":            "Roll",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "radians"
+},
+{
+    "name":                 "pitchRadians",
+    "shortDesc":            "Pitch",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "radians"
+},
+{
+    "name":                 "yawRadians",
+    "shortDesc":            "Yaw",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "radians"
+},
+{
+    "name":                 "rollDegrees",
+    "shortDesc":            "Roll",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "degrees"
+},
+{
+    "name":                 "pitchDegrees",
+    "shortDesc":            "Pitch",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "degrees"
+},
+{
+    "name":                 "yawDegrees",
+    "shortDesc":            "Yaw",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "degrees"
+},
+{
+    "name":                 "rollRateRadiansPerSecond",
+    "shortDesc":            "Roll rate",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "radians/s"
+},
+{
+    "name":                 "pitchRateRadiansPerSecond",
+    "shortDesc":            "Pitch rate",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "radians/s"
+},
+{
+    "name":                 "yawRateRadiansPerSecond",
+    "shortDesc":            "Yaw rate",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "radians/s"
+},
+{
+    "name":                 "rollRateDegreesPerSecond",
+    "shortDesc":            "Roll rate",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "degrees/s"
+},
+{
+    "name":                 "pitchRateDegreesPerSecond",
+    "shortDesc":            "Pitch rate",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "degrees/s"
+},
+{
+    "name":                 "yawRateDegreesPerSecond",
+    "shortDesc":            "Yaw rate",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "degrees/s"
+},
+{
+    "name":                 "xVelocityMetersPerSecond",
+    "shortDesc":            "X velocity",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "m/s"
+},
+{
+    "name":                 "yVelocityMetersPerSecond",
+    "shortDesc":            "Y velocity",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "m/s"
+},
+{
+    "name":                 "zVelocityMetersPerSecond",
+    "shortDesc":            "Z velocity",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "m/s"
+},
+{
+    "name":                 "zVelocityMetersPerSecondInverted",
+    "shortDesc":            "Z velocity inverted",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "m/s"
+},
+{
+    "name":                 "customModeHeartbeat",
+    "shortDesc":            "Heartbeat",
+    "type":                 "uint32",
+    "units":                "null"
+},
+{
+    "name":                 "dataQuality",
+    "shortDesc":            "Data quality",
+    "type":                 "int32",
+    "units":                "null"
+},
+{
+    "name":                 "homePositionLatitudeDegrees",
+    "shortDesc":            "Home latitude",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "degrees"
+},
+{
+    "name":                 "homePositionLongitudeDegrees",
+    "shortDesc":            "Home longitude",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "degrees"
+},
+{
+    "name":                 "homePositionAltitudeMeters",
+    "shortDesc":            "Home altitude",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "m"
+},
+{
+    "name":                 "droneSerialNumber",
+    "shortDesc":            "Home altitude",
+    "type":                 "uint32",
+    "units":                "null"
+},
+{
+    "name":                 "groundWindSpeedMetersPerSecond",
+    "shortDesc":            "Ground wind speed",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "m/s"
+},
+{
+    "name":                 "groundWindDirectionDegrees",
+    "shortDesc":            "Ground wind direction",
+    "type":                 "int32",
+    "units":                "degrees"
+},
+{
+    "name":                 "groundAirTemperatureCelsius",
+    "shortDesc":            "Ground air temperature",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "C"
+},
+{
+    "name":                 "groundHumidity",
+    "shortDesc":            "Ground humidity",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "%"
+},
+{
+    "name":                 "groundPressureMillibars",
+    "shortDesc":            "Ground pressure",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "mB"
+},
+{
+    "name":                 "poweredAgeSeconds",
+    "shortDesc":            "Powered age seconds",
+    "type":                 "int32",
+    "units":                "null"
+},
+{
+    "name":                 "armedAgeSeconds",
+    "shortDesc":            "armed age seconds",
+    "type":                 "int32",
+    "units":                "null"
+},
+{
+    "name":                 "satellites",
+    "shortDesc":            "Satellites",
+    "type":                 "uint8",
+    "units":                "null"
+},
+{
+    "name":                 "horizontalDilutionOfPosition",
+    "shortDesc":            "HDOP",
+    "type":                 "uint16",
+    "units":                "null"
+},
+{
+    "name":                 "horizontalDilutionOfPositionFloat",
+    "shortDesc":            "HDOP (Float)",
+    "type":                 "double",
+    "decimalPlaces":        2,
+    "units":                "null"
+},
+]
+}
