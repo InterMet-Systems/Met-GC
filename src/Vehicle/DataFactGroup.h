@@ -124,7 +124,54 @@ public:
     // Overrides from FactGroup
     void handleMessage(Vehicle* vehicle, mavlink_message_t& message) override;
 
-    static const char* _timeName;
+    static const char* _timeUnixMicrosecondsName;
+    static const char* _timeUnixSecondsName;
+    static const char* _altitudeMillimetersMSLName;
+    static const char* _altitudeMetersMSLName;
+    static const char* _absolutePressureMillibarsName;
+    static const char* _temperature0KelvinName;
+    static const char* _temperature1KelvinName;
+    static const char* _temperature2KelvinName;
+    static const char* _temperature0CelsiusName;
+    static const char* _temperature1CelsiusName;
+    static const char* _temperature2CelsiusName;
+    static const char* _temperatureCelsiusName;
+    static const char* _relativeHumidity0Name;
+    static const char* _relativeHumidity1Name;
+    static const char* _relativeHumidity2Name;
+    static const char* _relativeHumidityName;
+    static const char* _latitudeDegreesE7Name;
+    static const char* _longitudeDegreesE7Name;
+    static const char* _latitudeDegreesName;
+    static const char* _longitudeDegreesName;
+    static const char* _rollRadiansName;
+    static const char* _pitchRadiansName;
+    static const char* _yawRadiansName;
+    static const char* _rollDegreesName;
+    static const char* _pitchDegreesName;
+    static const char* _yawDegreesName;
+    static const char* _rollRateRadiansPerSecondName;
+    static const char* _pitchRateRadiansPerSecondName;
+    static const char* _yawRateRadiansPerSecondName;
+    static const char* _rollRateDegreesPerSecondName;
+    static const char* _pitchRateDegreesPerSecondName;
+    static const char* _yawRateDegreesPerSecondName;
+    static const char* _xVelocityMetersPerSecondName;
+    static const char* _yVelocityMetersPerSecondName;
+    static const char* _zVelocityMetersPerSecondName;
+    static const char* _zVelocityMetersPerSecondInvertedName;
+    static const char* _homePositionLatitudeDegreesName;
+    static const char* _homePositionLongitudeDegreesName;
+    static const char* _homePositionAltitudeMetersName;
+    static const char* _droneSerialNumberName;
+    static const char* _groundWindSpeedMetersPerSecondName;
+    static const char* _groundWindDirectionDegreesName;
+    static const char* _groundAirTemperatureCelsiusName;
+    static const char* _groundHumidityName;
+    static const char* _groundPressureMillibarsName;
+    static const char* _satellitesName;
+    static const char* _horizontalDilutionOfPositionName;
+    static const char* _horizontalDilutionOfPositionFloatName;
 
 private:
     DataHub hub;

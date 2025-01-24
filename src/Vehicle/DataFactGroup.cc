@@ -149,11 +149,9 @@ DataFactGroup::DataFactGroup(QObject* parent)
     _addFact(&_horizontalDilutionOfPositionFact,        _horizontalDilutionOfPositionName);
     _addFact(&_horizontalDilutionOfPositionFloatFact,   _horizontalDilutionOfPositionFloatName);
 
-    /* WIP */
-
-    _timeUnixMicrosecondsFact.              setRawValue(qQNaN());
+    _timeUnixMicrosecondsFact.              setRawValue(std::numeric_limits<unsigned int>::quiet_NaN());
     _timeUnixSecondsFact.                   setRawValue(qQNaN());
-    _altitudeMillimetersMSLFact.            setRawValue(qQNaN());
+    _altitudeMillimetersMSLFact.            setRawValue(std::numeric_limits<signed int>::quiet_NaN());
     _altitudeMetersMSLFact.                 setRawValue(qQNaN());
     _absolutePressureMillibarsFact.         setRawValue(qQNaN());
     _temperature0KelvinFact.                setRawValue(qQNaN());
@@ -167,8 +165,8 @@ DataFactGroup::DataFactGroup(QObject* parent)
     _relativeHumidity1Fact.                 setRawValue(qQNaN());
     _relativeHumidity2Fact.                 setRawValue(qQNaN());
     _relativeHumidityFact.                  setRawValue(qQNaN());
-    _latitudeDegreesE7Fact.                 setRawValue(qQNaN());
-    _longitudeDegreesE7Fact.                setRawValue(qQNaN());
+    _latitudeDegreesE7Fact.                 setRawValue(std::numeric_limits<signed int>::quiet_NaN());
+    _longitudeDegreesE7Fact.                setRawValue(std::numeric_limits<signed int>::quiet_NaN());
     _latitudeDegreesFact.                   setRawValue(qQNaN());
     _longitudeDegreesFact.                  setRawValue(qQNaN());
     _rollRadiansFact.                       setRawValue(qQNaN());
@@ -190,13 +188,23 @@ DataFactGroup::DataFactGroup(QObject* parent)
     _homePositionLatitudeDegreesFact.       setRawValue(qQNaN());
     _homePositionLongitudeDegreesFact.      setRawValue(qQNaN());
     _homePositionAltitudeMetersFact.        setRawValue(qQNaN());
-    _droneSerialNumberFact.                 setRawValue(qQNaN());
+    _droneSerialNumberFact.                 setRawValue(std::numeric_limits<unsigned int>::quiet_NaN());
     _groundWindSpeedMetersPerSecondFact.    setRawValue(qQNaN());
-    _groundWindDirectionDegreesFact.        setRawValue(qQNaN());
+    _groundWindDirectionDegreesFact.        setRawValue(std::numeric_limits<signed int>::quiet_NaN());
     _groundAirTemperatureCelsiusFact.       setRawValue(qQNaN());
     _groundHumidityFact.                    setRawValue(qQNaN());
     _groundPressureMillibarsFact.           setRawValue(qQNaN());
-    _satellitesFact.                        setRawValue(qQNaN());
-    _horizontalDilutionOfPositionFact.      setRawValue(qQNaN());
+    _satellitesFact.                        setRawValue(std::numeric_limits<unsigned int>::quiet_NaN());
+    _horizontalDilutionOfPositionFact.      setRawValue(std::numeric_limits<unsigned int>::quiet_NaN());
     _horizontalDilutionOfPositionFloatFact. setRawValue(qQNaN());
+}
+
+void DataFactGroup::handleMessage(Vehicle* /* vehicle */, mavlink_message_t& message)
+{
+    switch (message.msgid) {
+    case
+        break;
+    default:
+        break;
+    }
 }
