@@ -252,6 +252,18 @@
     "units":                "m/s"
 },
 {
+    "name":                 "customModeHeartbeat",
+    "shortDesc":            "Heartbeat",
+    "type":                 "uint32",
+    "units":                "null"
+},
+{
+    "name":                 "dataQuality",
+    "shortDesc":            "Data quality",
+    "type":                 "int32",
+    "units":                "null"
+},
+{
     "name":                 "homePositionLatitudeDegrees",
     "shortDesc":            "Home latitude",
     "type":                 "double",
@@ -311,6 +323,18 @@
     "type":                 "double",
     "decimalPlaces":        2,
     "units":                "mB"
+},
+{
+    "name":                 "poweredAgeSeconds",
+    "shortDesc":            "Powered age seconds",
+    "type":                 "int32",
+    "units":                "null"
+},
+{
+    "name":                 "armedAgeSeconds",
+    "shortDesc":            "armed age seconds",
+    "type":                 "int32",
+    "units":                "null"
 },
 {
     "name":                 "satellites",

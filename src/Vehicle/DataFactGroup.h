@@ -49,6 +49,8 @@ public:
     Q_PROPERTY(Fact* yVelocityMetersPerSecond           READ yVelocityMetersPerSecond           CONSTANT) /* f32        MAVLINK_MSG_ID_LOCAL_POSITION_NED      */
     Q_PROPERTY(Fact* zVelocityMetersPerSecond           READ zVelocityMetersPerSecond           CONSTANT) /* f32        MAVLINK_MSG_ID_LOCAL_POSITION_NED      */
     Q_PROPERTY(Fact* zVelocityMetersPerSecondInverted   READ zVelocityMetersPerSecondInverted   CONSTANT) /* f32        derived from zVelocityMetersPerSecond  */
+    Q_PROPERTY(Fact* customModeHeartbeat                READ customModeHeartbeat                CONSTANT) /* uint32_t   MAVLINK_MSG_ID_HEARTBEAT               */
+    Q_PROPERTY(Fact* dataQuality                        READ dataQuality                        CONSTANT) /* int32_t    Unknown                                */
     Q_PROPERTY(Fact* homePositionLatitudeDegrees        READ homePositionLatitudeDegrees        CONSTANT) /* f64        file                                   */
     Q_PROPERTY(Fact* homePositionLongitudeDegrees       READ homePositionLongitudeDegrees       CONSTANT) /* f64        file                                   */
     Q_PROPERTY(Fact* homePositionAltitudeMeters         READ homePositionAltitudeMeters         CONSTANT) /* f32        file                                   */
@@ -58,19 +60,11 @@ public:
     Q_PROPERTY(Fact* groundAirTemperatureCelsius        READ groundAirTemperatureCelsius        CONSTANT) /* f32        file                                   */
     Q_PROPERTY(Fact* groundHumidity                     READ groundHumidity                     CONSTANT) /* f32        file                                   */
     Q_PROPERTY(Fact* groundPressureMillibars            READ groundPressureMillibars            CONSTANT) /* f32        file                                   */
+    Q_PROPERTY(Fact* poweredAgeSeconds                  READ poweredAgeSeconds                  CONSTANT) /* int32_t    Unknown                                */
+    Q_PROPERTY(Fact* armedAgeSeconds                    READ armedAgeSeconds                    CONSTANT) /* int32_t    Unknown                                */
     Q_PROPERTY(Fact* satellites                         READ satellites                         CONSTANT) /* uint8_t    MAVLINK_MSG_ID_GPS_RAW_INT             */
     Q_PROPERTY(Fact* horizontalDilutionOfPosition       READ horizontalDilutionOfPosition       CONSTANT) /* uint16_t   MAVLINK_MSG_ID_GPS_RAW_INT             */
     Q_PROPERTY(Fact* horizontalDilutionOfPositionFloat  READ horizontalDilutionOfPositionFloat  CONSTANT) /* f32        MAVLINK_MSG_ID_GPS_RAW_INT             */
-
-    /*
-        Everything below this is WIP
-        A few items in the SoW 205192-10 table 2-1 (Raw Data) do not yet have associated facts, these are:
-
-            column 21 - Custom mode
-            column 22 - Data quality
-            column 32 - Powered age
-            column 33 - Armed age
-    */
 
     Fact* getFactPointertimeUnixMicroseconds()              { return &_timeUnixMicrosecondsFact; }
     Fact* getFactPointertimeUnixSeconds()                   { return &_timeUnixSecondsFact; }
@@ -108,6 +102,8 @@ public:
     Fact* getFactPointeryVelocityMetersPerSecond()          { return &_yVelocityMetersPerSecondFact; }
     Fact* getFactPointerzVelocityMetersPerSecond()          { return &_zVelocityMetersPerSecondFact; }
     Fact* getFactPointerzVelocityMetersPerSecondInverted()  { return &_zVelocityMetersPerSecondInvertedFact; }
+    Fact* getFactPointerCustomModeHeartbeat()               { return &_customModeHeartbeatFact; }
+    Fact* getFactPointerDataQuality()                       { return &_dataQuality; }
     Fact* getFactPointerhomePositionLatitudeDegrees()       { return &_homePositionLatitudeDegreesFact; }
     Fact* getFactPointerhomePositionLongitudeDegrees()      { return &_homePositionLongitudeDegreesFact; }
     Fact* getFactPointerhomePositionAltitudeMeters()        { return &_homePositionAltitudeMetersFact; }
@@ -117,6 +113,8 @@ public:
     Fact* getFactPointergroundAirTemperatureCelsius()       { return &_groundAirTemperatureCelsiusFact; }
     Fact* getFactPointergroundHumidity()                    { return &_groundHumidityFact; }
     Fact* getFactPointergroundPressureMillibars()           { return &_groundPressureMillibarsFact; }
+    Fact* getFactPointerpoweredAgeSeconds()                 { return &_poweredAgeSecondsFact; }
+    Fact* getFactPointerarmedAgeSeconds()                   { return &_armedAgeSecondsFact; }
     Fact* getFactPointersatellites()                        { return &_satellitesFact; }
     Fact* getFactPointerhorizontalDilutionOfPosition()      { return &_horizontalDilutionOfPositionFact; }
     Fact* getFactPointerhorizontalDilutionOfPositionFloat() { return &_horizontalDilutionOfPositionFloatFact; }
@@ -160,6 +158,8 @@ public:
     static const char* _yVelocityMetersPerSecondName;
     static const char* _zVelocityMetersPerSecondName;
     static const char* _zVelocityMetersPerSecondInvertedName;
+    static const char* _customModeHeartbeatName;
+    static const char* _dataQualityName;
     static const char* _homePositionLatitudeDegreesName;
     static const char* _homePositionLongitudeDegreesName;
     static const char* _homePositionAltitudeMetersName;
@@ -169,6 +169,8 @@ public:
     static const char* _groundAirTemperatureCelsiusName;
     static const char* _groundHumidityName;
     static const char* _groundPressureMillibarsName;
+    static const char* _poweredAgeSecondsName;
+    static const char* _armedAgeSecondsName;
     static const char* _satellitesName;
     static const char* _horizontalDilutionOfPositionName;
     static const char* _horizontalDilutionOfPositionFloatName;
@@ -212,6 +214,8 @@ private:
     Fact            _yVelocityMetersPerSecondFact;
     Fact            _zVelocityMetersPerSecondFact;
     Fact            _zVelocityMetersPerSecondInvertedFact;
+    Fact            _customModeHeartbeatFact;
+    Fact            _dataQualityFact;
     Fact            _homePositionLatitudeDegreesFact;
     Fact            _homePositionLongitudeDegreesFact;
     Fact            _homePositionAltitudeMetersFact;
@@ -221,6 +225,8 @@ private:
     Fact            _groundAirTemperatureCelsiusFact;
     Fact            _groundHumidityFact;
     Fact            _groundPressureMillibarsFact;
+    Fact            _poweredAgeSecondsFact;
+    Fact            _armedAgeSecondsFact;
     Fact            _satellitesFact;
     Fact            _horizontalDilutionOfPositionFact;
     Fact            _horizontalDilutionOfPositionFloatFact;

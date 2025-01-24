@@ -36,6 +36,8 @@ const char* DataFactGroup::_xVelocityMetersPerSecondName            = "xVelocity
 const char* DataFactGroup::_yVelocityMetersPerSecondName            = "yVelocityMetersPerSecond";
 const char* DataFactGroup::_zVelocityMetersPerSecondName            = "zVelocityMetersPerSecond";
 const char* DataFactGroup::_zVelocityMetersPerSecondInvertedName    = "zVelocityMetersPerSecondInverted";
+const char* DataFactGroup::_customModeHeartbeatName                 = "customModeHeartbeat";
+const char* DataFactGroup::_dataQualityName                         = "dataQuality";
 const char* DataFactGroup::_homePositionLatitudeDegreesName         = "homePositionLatitudeDegrees";
 const char* DataFactGroup::_homePositionLongitudeDegreesName        = "homePositionLatitudeDegrees";
 const char* DataFactGroup::_homePositionAltitudeMetersName          = "homePositionAltitudeMeters";
@@ -45,6 +47,8 @@ const char* DataFactGroup::_groundWindDirectionDegreesName          = "groundWin
 const char* DataFactGroup::_groundAirTemperatureCelsiusName         = "groundAirTemperatureCelsius";
 const char* DataFactGroup::_groundHumidityName                      = "groundHumidity";
 const char* DataFactGroup::_groundPressureMillibarsName             = "groundPressureMillibars";
+const char* DataFactGroup::_poweredAgeSecondsName                   = "poweredAgeSeconds";
+const char* DataFactGroup::_armedAgeSecondsName                     = "armedAgeSeconds";
 const char* DataFactGroup::_satellitesName                          = "satellites";
 const char* DataFactGroup::_horizontalDilutionOfPositionName        = "horizontalDilutionOfPosition";
 const char* DataFactGroup::_horizontalDilutionOfPositionFloatName   = "horizontalDilutionOfPositionFloat";
@@ -87,6 +91,8 @@ DataFactGroup::DataFactGroup(QObject* parent)
     ,_yVelocityMetersPerSecondFact              (0, _yVelocityMetersPerSecondName         , FactMetaData::valueTypeDouble)
     ,_zVelocityMetersPerSecondFact              (0, _zVelocityMetersPerSecondName         , FactMetaData::valueTypeDouble)
     ,_zVelocityMetersPerSecondInvertedFact      (0, _zVelocityMetersPerSecondInvertedName , FactMetaData::valueTypeDouble)
+    ,_customModeHeartbeatFact                   (0, _customModeHeartbeatName              , FactMetaData::valueTypeUint32)
+    ,_dataQualityFact                           (0, _dataQualityName                      , FactMetaData::valueTypeInt32)
     ,_homePositionLatitudeDegreesFact           (0, _homePositionLatitudeDegreesName      , FactMetaData::valueTypeDouble)
     ,_homePositionLongitudeDegreesFact          (0, _homePositionLongitudeDegreesName     , FactMetaData::valueTypeDouble)
     ,_homePositionAltitudeMetersFact            (0, _homePositionAltitudeMetersName       , FactMetaData::valueTypeDouble)
@@ -96,6 +102,8 @@ DataFactGroup::DataFactGroup(QObject* parent)
     ,_groundAirTemperatureCelsiusFact           (0, _groundAirTemperatureCelsiusName      , FactMetaData::valueTypeDouble)
     ,_groundHumidityFact                        (0, _groundHumidityName                   , FactMetaData::valueTypeDouble)
     ,_groundPressureMillibarsFact               (0, _groundPressureMillibarsName          , FactMetaData::valueTypeDouble)
+    ,_poweredAgeSecondsFact                     (0, _poweredAgeSecondsName                , FactMetaData::valueTypeInt32)
+    ,_armedAgeSecondsFact                       (0, _armedAgeSecondsName                  , FactMetaData::valueTypeInt32)
     ,_satellitesFact                            (0, _satellitesName                       , FactMetaData::valueTypeUint8)
     ,_horizontalDilutionOfPositionFact          (0, _horizontalDilutionOfPositionName     , FactMetaData::valueTypeUint16)
     ,_horizontalDilutionOfPositionFloatFact     (0, _horizontalDilutionOfPositionFloatName, FactMetaData::valueTypeDouble)
@@ -136,6 +144,8 @@ DataFactGroup::DataFactGroup(QObject* parent)
     _addFact(&_yVelocityMetersPerSecondFact,            _yVelocityMetersPerSecondName);
     _addFact(&_zVelocityMetersPerSecondFact,            _zVelocityMetersPerSecondName);
     _addFact(&_zVelocityMetersPerSecondInvertedFact,    _zVelocityMetersPerSecondInvertedName);
+    _addFact(&_customModeHeartbeatFact,                 _customModeHeartbeatName);
+    _addFact(&_dataQualityFact,                         _dataQualityName);
     _addFact(&_homePositionLatitudeDegreesFact,         _homePositionLatitudeDegreesName);
     _addFact(&_homePositionLongitudeDegreesFact,        _homePositionLongitudeDegreesName);
     _addFact(&_homePositionAltitudeMetersFact,          _homePositionAltitudeMetersName);
@@ -145,6 +155,8 @@ DataFactGroup::DataFactGroup(QObject* parent)
     _addFact(&_groundAirTemperatureCelsiusFact,         _groundAirTemperatureCelsiusName);
     _addFact(&_groundHumidityFact,                      _groundHumidityName);
     _addFact(&_groundPressureMillibarsFact,             _groundPressureMillibarsName);
+    _addFact(&_poweredAgeSecondsFact,                   _poweredAgeSecondsName);
+    _addFact(&_armedAgeSecondsFact,                     _armedAgeSecondsName);
     _addFact(&_satellitesFact,                          _satellitesName);
     _addFact(&_horizontalDilutionOfPositionFact,        _horizontalDilutionOfPositionName);
     _addFact(&_horizontalDilutionOfPositionFloatFact,   _horizontalDilutionOfPositionFloatName);
@@ -185,6 +197,8 @@ DataFactGroup::DataFactGroup(QObject* parent)
     _yVelocityMetersPerSecondFact.          setRawValue(qQNaN());
     _zVelocityMetersPerSecondFact.          setRawValue(qQNaN());
     _zVelocityMetersPerSecondInvertedFact.  setRawValue(qQNaN());
+    _customModeHeartbeatFact.               setRawValue(std::numeric_limits<unsigned int>::quiet_NaN());
+    _dataQualityFact.                       setRawValue(std::numeric_limits<unsigned int>::quiet_NaN());
     _homePositionLatitudeDegreesFact.       setRawValue(qQNaN());
     _homePositionLongitudeDegreesFact.      setRawValue(qQNaN());
     _homePositionAltitudeMetersFact.        setRawValue(qQNaN());
@@ -194,6 +208,8 @@ DataFactGroup::DataFactGroup(QObject* parent)
     _groundAirTemperatureCelsiusFact.       setRawValue(qQNaN());
     _groundHumidityFact.                    setRawValue(qQNaN());
     _groundPressureMillibarsFact.           setRawValue(qQNaN());
+    _poweredAgeSecondsFact.                 setRawValue(std::numeric_limits<signed int>::quiet_NaN());
+    _armedAgeSecondsFact.                   setRawValue(std::numeric_limits<signed int>::quiet_NaN());
     _satellitesFact.                        setRawValue(std::numeric_limits<unsigned int>::quiet_NaN());
     _horizontalDilutionOfPositionFact.      setRawValue(std::numeric_limits<unsigned int>::quiet_NaN());
     _horizontalDilutionOfPositionFloatFact. setRawValue(qQNaN());
