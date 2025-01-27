@@ -13,6 +13,9 @@ QMAKE_PROJECT_DEPTH = 0 # undocumented qmake flag to force absolute paths in mak
 DEFINES += QGC_GST_TAISYNC_DISABLED
 DEFINES += QGC_GST_MICROHARD_DISABLED
 
+# custom
+DEFINED += QGC_NETCDF_DISABLED
+
 exists($${OUT_PWD}/qgroundcontrol.pro) {
     error("You must use shadow build (e.g. mkdir build; cd build; qmake ../qgroundcontrol.pro).")
 }
@@ -25,18 +28,27 @@ message(Qt version $$[QT_VERSION])
     }
 }
 
-# these are unused until if/when we start building our own netCDF libs
-# Specify the path where you want to build netCDF-C++
-NETCDF_BUILD_PATH = $$OUT_PWD/netcdf-cxx4-build
+#-------------------------------------------------------------------------------------
+# NetCDF
+contains (DEFINES, QGC_NETCDF_DISABLED) {
+    DEFINES -= QGC_NETCDF_ENABLED
+    message("NetCDF disabled")
+} else {
+    DEFINES += QGC_NETCDF_ENABLED
 
-# Specify the path to netcdf-cxx4 source code
-NETCDF_SOURCE_PATH = $$OUT_PWD/libs/netcdf-cxx4
+    # these are unused until if/when we start building our own netCDF libs
+    # Specify the path where you want to build netCDF-C++
+    NETCDF_BUILD_PATH = $$OUT_PWD/netcdf-cxx4-build
 
-# Execute the build commands for netCDF-C++
-# system("mkdir $$NETCDF_BUILD_PATH") # Create the build directory
-# system("cd $$NETCDF_BUILD_PATH && $$NETCDF_SOURCE_PATH/configure")
-# system("cd $$NETCDF_BUILD_PATH && make")
-# system("cd $$NETCDF_BUILD_PATH && make install") # You might need sudo for this line
+    # Specify the path to netcdf-cxx4 source code
+    NETCDF_SOURCE_PATH = $$OUT_PWD/libs/netcdf-cxx4
+
+    # Execute the build commands for netCDF-C++
+    # system("mkdir $$NETCDF_BUILD_PATH") # Create the build directory
+    # system("cd $$NETCDF_BUILD_PATH && $$NETCDF_SOURCE_PATH/configure")
+    # system("cd $$NETCDF_BUILD_PATH && make")
+    # system("cd $$NETCDF_BUILD_PATH && make install") # You might need sudo for this line
+}
 
 include(QGCCommon.pri)
 
@@ -537,8 +549,7 @@ DebugBuild { PX4FirmwarePlugin { PX4FirmwarePluginFactory { APMFirmwarePlugin { 
         #src/qgcunittest/FileDialogTest.h \
         #src/qgcunittest/FileManagerTest.h \
         #src/qgcunittest/MainWindowTest.h \
-        #src/qgcunittest/MessageBoxTest.h \
-        src/qgcunittest/NetCdfTest.h
+        #src/qgcunittest/MessageBoxTest.h
 
     SOURCES += \
         src/Audio/AudioOutputTest.cc \
@@ -588,8 +599,15 @@ DebugBuild { PX4FirmwarePlugin { PX4FirmwarePluginFactory { APMFirmwarePlugin { 
         #src/qgcunittest/FileDialogTest.cc \
         #src/qgcunittest/FileManagerTest.cc \
         #src/qgcunittest/MainWindowTest.cc \
-        #src/qgcunittest/MessageBoxTest.cc \
-        src/qgcunittest/NetCdfTest.cc
+        #src/qgcunittest/MessageBoxTest.cc
+
+        contains (DEFINES, QGC_NETCDF_ENABLED) {
+            HEADERS += \
+                src/qgcunittest/NetCdfTest.h
+
+            SOURCES += \
+                src/qgcunittest/NetCdfTest.cc
+        }
 
 } } } } } }
 
@@ -1477,7 +1495,8 @@ LinuxBuild {
     INSTALLS += target share_qgroundcontrol share_icons share_metainfo share_applications
 }
 
-LIBS += -L$$quote("C:/Program Files/netCDF 4.9.2/lib/") -lnetcdf -lhdf -lhdf5 -lhdf5_hl -lhdf5_tools -ljpeg -llibcurl_imp -llibhdf -llibhdf5 -llibhdf5_hl -llibhdf5_tools -llibmfhdf -llibxdr -lmfhdf -lxdr -lzlib -lzlibstatic
-INCLUDEPATH += $$quote("C:/Program Files/netCDF 4.9.2/include")
-DEPENDPATH += $$quote("C:/Program Files/netCDF 4.9.2/include")
-
+contains (DEFINES, QGC_NETCDF_ENABLED) {
+    LIBS += -L$$quote("C:/Program Files/netCDF 4.9.2/lib/") -lnetcdf -lhdf -lhdf5 -lhdf5_hl -lhdf5_tools -ljpeg -llibcurl_imp -llibhdf -llibhdf5 -llibhdf5_hl -llibhdf5_tools -llibmfhdf -llibxdr -lmfhdf -lxdr -lzlib -lzlibstatic
+    INCLUDEPATH += $$quote("C:/Program Files/netCDF 4.9.2/include")
+    DEPENDPATH += $$quote("C:/Program Files/netCDF 4.9.2/include")
+}
