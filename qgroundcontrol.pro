@@ -14,7 +14,7 @@ DEFINES += QGC_GST_TAISYNC_DISABLED
 DEFINES += QGC_GST_MICROHARD_DISABLED
 
 # custom
-DEFINED += QGC_NETCDF_DISABLED
+DEFINES += QGC_NETCDF_DISABLED
 
 exists($${OUT_PWD}/qgroundcontrol.pro) {
     error("You must use shadow build (e.g. mkdir build; cd build; qmake ../qgroundcontrol.pro).")
