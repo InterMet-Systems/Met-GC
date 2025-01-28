@@ -143,8 +143,8 @@ private:
     /* Altitude Level Message helpers */
     int ALMInit = 0;
     float lowBinAlt = .0f;
-    float lowBinTime = .0f;
-    float highBinTime = .0f;
+    // float lowBinTime = .0f;
+    // float highBinTime = .0f;
     float binSize = 5.0f;
     size_t aslC = 0;
     float aslA = .0f;

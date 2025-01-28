@@ -25,7 +25,9 @@
 #include "MissionManagerTest.h"
 //#include "RadioConfigTest.h"
 #include "MavlinkLogTest.h"
-#include "NetCdfTest.h"
+#ifdef QGC_NETCDF_ENABLED
+    #include "NetCdfTest.h"
+#endif
 //#include "MainWindowTest.h"
 //#include "FileManagerTest.h"
 #include "ParameterManagerTest.h"
@@ -53,8 +55,9 @@
 #include "LandingComplexItemTest.h"
 #include "InitialConnectTest.h"
 
-UT_REGISTER_TEST(NetCdfTest)
-
+#ifdef QGC_NETCDF_ENABLED
+    UT_REGISTER_TEST(NetCdfTest)
+#endif
 UT_REGISTER_TEST(ComponentInformationCacheTest)
 UT_REGISTER_TEST(ComponentInformationTranslationTest)
 UT_REGISTER_TEST(FactSystemTestGeneric)
