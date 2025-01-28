@@ -1,5 +1,3 @@
-#pragma once
-
 #include "DataBalancer.h"
 #include "Vehicle.h"
 #include "QGCApplication.h"
