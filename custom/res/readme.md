@@ -1,0 +1,1 @@
+This file exists so that Git will store this directory, which is needed for the Android build. This can be deleted if any custom resources are ever needed.

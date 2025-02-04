@@ -219,10 +219,10 @@ void DataBalancer::update(const mavlink_message_t* m, Fact* timeUAVMilliseconds,
 
     data.lastState = data.ascending;
 
-    ascents->setRawValue(QVariant(data.ascents));
+    ascents->setRawValue(QVariant::fromValue(data.ascents));
     timeUAVMilliseconds->setRawValue(data.timeUAVMilliseconds);
-    timeUnixMilliseconds->setRawValue(QVariant(data.timeUnixMilliseconds));
-    timeUAVBootMilliseconds->setRawValue(QVariant(data.timeUAVBootMilliseconds));
+    timeUnixMilliseconds->setRawValue(QVariant::fromValue(data.timeUnixMilliseconds));
+    timeUAVBootMilliseconds->setRawValue(QVariant::fromValue(data.timeUAVBootMilliseconds));
     altitudeMillimetersMSL->setRawValue(data.altitudeMillimetersMSL);
     absolutePressureMillibars->setRawValue(data.absolutePressureMillibars);
     temperature0Celsius->setRawValue(data.temperature0Celsius);
