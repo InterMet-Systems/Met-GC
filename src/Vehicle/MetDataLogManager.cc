@@ -4,22 +4,25 @@
 #include "Vehicle.h"
 #include <QtMath>
 #include <QDebug>
-#include <libs/netcdf-cxx4/cxx4/netcdf>
-
 using namespace std;
-using namespace netCDF;
-using namespace netCDF::exceptions;
 
+#ifdef QGC_NETCDF_ENABLED
+    #include <libs/netcdf-cxx4/cxx4/netcdf>
+    using namespace netCDF;
+    using namespace netCDF::exceptions;
+#endif
 MetDataLogManager::MetDataLogManager(QGCApplication* app, QGCToolbox* toolbox) : QGCTool(app, toolbox)
 {
     connect(&_metRawCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetRawCsvLine);
     connect(&_metAlmCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetAlmCsvLine);
-    connect(&_metNetCdfTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetNetCdfLine);
     connect(&_metConfigTimer, &QTimer::timeout, this, &MetDataLogManager::_initializeOrReadConfigFile);
     _metRawCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
     _metAlmCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
-    _metNetCdfTimer.start(20); // timing for NetCDF messages should always be the same as the ALM messages
     _metConfigTimer.start(20); // temporary
+#ifdef QGC_NETCDF_ENABLED
+    connect(&_metNetCdfTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetNetCdfLine);
+    _metNetCdfTimer.start(20); // timing for NetCDF messages should always be the same as the ALM messages
+#endif
 }
 
 MetDataLogManager::~MetDataLogManager()
@@ -31,10 +34,11 @@ MetDataLogManager::~MetDataLogManager()
     if(_metAlmCsvFile.isOpen()) {
         _metAlmCsvFile.close();
     }
-
+#ifdef QGC_NETCDF_ENABLED
     if(!_metNetCdfFile.isNull()) {
         _metNetCdfFile.close();
     }
+#endif
 }
 
 void MetDataLogManager::_initializeMetRawCsv()
@@ -117,10 +121,11 @@ void MetDataLogManager::setAscentNumber(int number)
     if(_metAlmCsvFile.isOpen()) {
         _metAlmCsvFile.close();
     }
-
+#ifdef QGC_NETCDF_ENABLED
     if(!_metNetCdfFile.isNull()) {
         _metNetCdfFile.close();
     }
+#endif
 }
 
 void MetDataLogManager::setFlightFileName(QString flightName)
@@ -130,9 +135,11 @@ void MetDataLogManager::setFlightFileName(QString flightName)
         _metAlmCsvFile.close();
     }
 
+#ifdef QGC_NETCDF_ENABLED
     if(!_metNetCdfFile.isNull()) {
         _metNetCdfFile.close();
     }
+#endif
 
     _flightName = flightName;
     setAscentNumber(1);
@@ -140,9 +147,11 @@ void MetDataLogManager::setFlightFileName(QString flightName)
 
 void MetDataLogManager::setOperatorId(QString operatorId)
 {
+#ifdef QGC_NETCDF_ENABLED
     if(!_metNetCdfFile.isNull()) {
         _metNetCdfFile.close();
     }
+#endif
     if(!(operatorId.trimmed().length() > 0)) {
         operatorId = DEFAULT_OPERATOR_ID;
     }
@@ -152,9 +161,11 @@ void MetDataLogManager::setOperatorId(QString operatorId)
 
 void MetDataLogManager::setAirframeId(QString airframeId)
 {
+#ifdef QGC_NETCDF_ENABLED
     if(!_metNetCdfFile.isNull()) {
         _metNetCdfFile.close();
     }
+#endif
     if(!(airframeId.trimmed().length() > 0)) {
         airframeId = DEFAULT_AIRFRAME_ID;
     }
@@ -235,6 +246,7 @@ void MetDataLogManager::_writeMetAlmCsvLine()
     stream << metFactValues.join(",") << "\r\n";
 }
 
+#ifdef QGC_NETCDF_ENABLED
 void MetDataLogManager::_initializeMetNetCdf(double timestamp)
 {
     qint64 timestampInt = (qint64) timestamp;
@@ -444,6 +456,7 @@ void MetDataLogManager::_writeMetNetCdfLine()
     startp[0]++;
     return;
 }
+#endif
 
 void MetDataLogManager::_initializeOrReadConfigFile() {
     _metConfigTimer.stop();

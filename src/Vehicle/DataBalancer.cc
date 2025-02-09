@@ -1,5 +1,3 @@
-#pragma once
-
 #include "DataBalancer.h"
 #include "Vehicle.h"
 #include "QGCApplication.h"
@@ -221,10 +219,10 @@ void DataBalancer::update(const mavlink_message_t* m, Fact* timeUAVMilliseconds,
 
     data.lastState = data.ascending;
 
-    ascents->setRawValue(data.ascents);
+    ascents->setRawValue(QVariant::fromValue(data.ascents));
     timeUAVMilliseconds->setRawValue(data.timeUAVMilliseconds);
-    timeUnixMilliseconds->setRawValue(data.timeUnixMilliseconds);
-    timeUAVBootMilliseconds->setRawValue(data.timeUAVBootMilliseconds);
+    timeUnixMilliseconds->setRawValue(QVariant::fromValue(data.timeUnixMilliseconds));
+    timeUAVBootMilliseconds->setRawValue(QVariant::fromValue(data.timeUAVBootMilliseconds));
     altitudeMillimetersMSL->setRawValue(data.altitudeMillimetersMSL);
     absolutePressureMillibars->setRawValue(data.absolutePressureMillibars);
     temperature0Celsius->setRawValue(data.temperature0Celsius);

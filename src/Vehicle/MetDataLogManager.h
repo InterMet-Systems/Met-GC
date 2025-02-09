@@ -4,12 +4,13 @@
 #include <QObject>
 #include <QTime>
 #include "Vehicle.h"
-#include <libs/netcdf-cxx4/cxx4/netcdf>
-
 using namespace std;
-using namespace netCDF;
-using namespace netCDF::exceptions;
 
+#ifdef QGC_NETCDF_ENABLED
+    #include <libs/netcdf-cxx4/cxx4/netcdf>
+    using namespace netCDF;
+    using namespace netCDF::exceptions;
+#endif
 class MetDataLogManager : public QGCTool
 {
     Q_OBJECT
@@ -30,22 +31,17 @@ class MetDataLogManager : public QGCTool
         void _writeMetRawCsvLine            ();
         void _writeMetAlmCsvLine            ();
         void _initializeMetAlmCsv           ();
-        void _initializeMetNetCdf           (double timestamp);
-        void _writeMetNetCdfLine            ();
         void _initializeOrReadConfigFile    ();
 
         Vehicle*            _activeVehicle;
         QTimer              _metRawCsvTimer;
         QTimer              _metAlmCsvTimer;
-        QTimer              _metNetCdfTimer;
         QTimer              _metConfigTimer;
         QFile               _metRawCsvFile;
         QFile               _metAlmCsvFile;
         QFile               _metConfigFile;
-        NcFile              _metNetCdfFile = NcFile();
         MetConfigParser     iniParser;
 
-        QString             _openNetCdfFile = "";
 
         QString             DEFAULT_OPERATOR_ID = "operatorid";
         QString             DEFAULT_AIRFRAME_ID = "airframeid";
@@ -58,9 +54,16 @@ class MetDataLogManager : public QGCTool
 
         QString             _latestRawTimestamp = "0";
         QString             _latestAlmTimestamp = "0";
-        QString            _latestNetCdfTimestamp = "0";
 
+#ifdef QGC_NETCDF_ENABLED
+        void _initializeMetNetCdf           (double timestamp);
+        void _writeMetNetCdfLine            ();
+        QTimer              _metNetCdfTimer;
+        NcFile              _metNetCdfFile = NcFile();
+        QString             _openNetCdfFile = "";
+        QString            _latestNetCdfTimestamp = "0";
         bool                netCdfFileInitialized = false;
+#endif
 
         QStringList metAlmFactHeaders = {
             "ASL",
@@ -194,7 +197,7 @@ class MetDataLogManager : public QGCTool
             "heartBeatCustomMode"
         };
 
-
+#ifdef QGC_NETCDF_ENABLED
         vector<size_t> startp;
 
         // NetCdf Variables
@@ -216,5 +219,6 @@ class MetDataLogManager : public QGCTool
         NcVar speedOverGround;
         NcVar speedOverGroundUp;
         NcVar mixRatio;
+#endif
 
 };
