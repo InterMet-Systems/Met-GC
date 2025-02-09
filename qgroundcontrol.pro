@@ -447,11 +447,7 @@ HEADERS += \
     src/QmlControls/CustomAction.h \
     src/QmlControls/CustomActionManager.h \
     src/QmlControls/QmlUnitsConversion.h \
-    src/Vehicle/AltitudeLevelMessageExample.h \
-    src/Vehicle/BaseMessageExample.h \
     src/Vehicle/DataBalancer.h \
-    src/Vehicle/DataFactGroup.h \
-    src/Vehicle/DataHub.h \
     src/Vehicle/MetDataLogManager.h \
     src/Vehicle/MetConfigParser.h \
     src/Vehicle/VehicleEscStatusFactGroup.h \
@@ -470,9 +466,6 @@ contains (DEFINES, QGC_ENABLE_PAIRING) {
 SOURCES += \
     src/QmlControls/CustomActionManager.cc \
     src/Vehicle/DataBalancer.cc \
-    src/QmlControls/MetFlightDataRecorderController.cc \
-    src/Vehicle/DataFactGroup.cc \
-    src/Vehicle/DataHub.cc \
     src/Vehicle/MetDataLogManager.cc \
     src/Vehicle/MetConfigParser.cc \
     src/Vehicle/VehicleEscStatusFactGroup.cc \
