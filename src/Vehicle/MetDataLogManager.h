@@ -18,6 +18,7 @@ class MetDataLogManager : public QGCTool
     public:
         MetDataLogManager(QGCApplication* app, QGCToolbox* toolbox);
         ~MetDataLogManager();
+        void setToolbox(QGCToolbox* toolbox);
     
     public slots:
         void setFlightFileName(QString flightName);
@@ -36,7 +37,6 @@ class MetDataLogManager : public QGCTool
         Vehicle*            _activeVehicle;
         QTimer              _metRawCsvTimer;
         QTimer              _metAlmCsvTimer;
-        QTimer              _metConfigTimer;
         QFile               _metRawCsvFile;
         QFile               _metAlmCsvFile;
         QFile               _metConfigFile;

@@ -15,14 +15,21 @@ MetDataLogManager::MetDataLogManager(QGCApplication* app, QGCToolbox* toolbox) :
 {
     connect(&_metRawCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetRawCsvLine);
     connect(&_metAlmCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetAlmCsvLine);
-    connect(&_metConfigTimer, &QTimer::timeout, this, &MetDataLogManager::_initializeOrReadConfigFile);
     _metRawCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
     _metAlmCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
-    _metConfigTimer.start(20); // temporary
 #ifdef QGC_NETCDF_ENABLED
     connect(&_metNetCdfTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetNetCdfLine);
     _metNetCdfTimer.start(20); // timing for NetCDF messages should always be the same as the ALM messages
 #endif
+}
+
+void MetDataLogManager::setToolbox(QGCToolbox* toolbox)
+{
+    QGCTool::setToolbox(toolbox);
+    // connect to the save path change signal for reinitializing the config file when the save path changes
+    connect(toolbox->settingsManager()->appSettings()->savePath(), &SettingsFact::rawValueChanged, this, &MetDataLogManager::_initializeOrReadConfigFile);
+    // do it once to initialize the config file on app load
+    _initializeOrReadConfigFile();
 }
 
 MetDataLogManager::~MetDataLogManager()
@@ -459,7 +466,6 @@ void MetDataLogManager::_writeMetNetCdfLine()
 #endif
 
 void MetDataLogManager::_initializeOrReadConfigFile() {
-    _metConfigTimer.stop();
     QString configFileName = QString("flightConfig.ini");
     QString configSaveDir = qgcApp()->toolbox()->settingsManager()->appSettings()->configSavePath();
     QDir saveDir(configSaveDir);
