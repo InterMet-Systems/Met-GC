@@ -49,6 +49,7 @@ class MetDataLogManager : public QGCTool
         QString             _flightName = "unnamed flight";
         QString             _operatorId = DEFAULT_OPERATOR_ID;
         QString             _airframeId = DEFAULT_AIRFRAME_ID;
+        bool                _recordRawLogOnVehicleConnect = false;
 
         int                 _ascentNumber = 0;
 

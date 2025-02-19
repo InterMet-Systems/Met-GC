@@ -75,20 +75,22 @@ void MetDataLogManager::_writeMetRawCsvLine()
         return;
     }
 
-    // Only save the logs after the the vehicle gets armed, unless "Save logs even if vehicle was not armed" is checked
-    if(!_metRawCsvFile.isOpen() && _activeVehicle->armed()) {
+    // only record data when active vehcile is armed or the recordRawLogOnVehicleConnect flag is set
+    bool shouldOutput = _activeVehicle->armed() || _recordRawLogOnVehicleConnect;
+
+    // When ready to record data, open the file if it isn't already
+    if(!_metRawCsvFile.isOpen() && shouldOutput) {
         _initializeMetRawCsv();
     }
 
-    // close file if the drone is disarmed and the file is still open
+    // close file if the file is still open and we're no longer recording data
     // safe to return here, as a closed file isn't going to receive data
-    if(_metRawCsvFile.isOpen() && !_activeVehicle->armed()) {
+    if(_metRawCsvFile.isOpen() && !shouldOutput) {
         _metRawCsvFile.close();
         return;
     }
 
-    // only record data when active vehcile is armed
-    if(!_metRawCsvFile.isOpen() || !_activeVehicle->armed()) {
+    if(!_metRawCsvFile.isOpen() || !shouldOutput) {
         return;
     }
 
@@ -489,6 +491,10 @@ void MetDataLogManager::_initializeOrReadConfigFile() {
         }
         if(fileData.contains("FlightData") && fileData["FlightData"].contains("OperatorId")) {
             MetDataLogManager::setOperatorId(fileData["FlightData"]["OperatorId"]);
+        }
+        if(fileData.contains("Options") && fileData["Options"].contains("RecordRawLogOnVehicleConnect")) {
+            QString rawFlag = fileData["Options"]["RecordRawLogOnVehicleConnect"].toLower();
+            _recordRawLogOnVehicleConnect = rawFlag == "true" || rawFlag == "1";
         }
     } else {
         _metConfigFile.open(QIODevice::Append);
