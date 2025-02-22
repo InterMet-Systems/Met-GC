@@ -15,14 +15,21 @@ MetDataLogManager::MetDataLogManager(QGCApplication* app, QGCToolbox* toolbox) :
 {
     connect(&_metRawCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetRawCsvLine);
     connect(&_metAlmCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetAlmCsvLine);
-    connect(&_metConfigTimer, &QTimer::timeout, this, &MetDataLogManager::_initializeOrReadConfigFile);
     _metRawCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
     _metAlmCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
-    _metConfigTimer.start(20); // temporary
 #ifdef QGC_NETCDF_ENABLED
     connect(&_metNetCdfTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetNetCdfLine);
     _metNetCdfTimer.start(20); // timing for NetCDF messages should always be the same as the ALM messages
 #endif
+}
+
+void MetDataLogManager::setToolbox(QGCToolbox* toolbox)
+{
+    QGCTool::setToolbox(toolbox);
+    // connect to the save path change signal for reinitializing the config file when the save path changes
+    connect(toolbox->settingsManager()->appSettings()->savePath(), &SettingsFact::rawValueChanged, this, &MetDataLogManager::_initializeOrReadConfigFile);
+    // do it once to initialize the config file on app load
+    _initializeOrReadConfigFile();
 }
 
 MetDataLogManager::~MetDataLogManager()
@@ -68,20 +75,22 @@ void MetDataLogManager::_writeMetRawCsvLine()
         return;
     }
 
-    // Only save the logs after the the vehicle gets armed, unless "Save logs even if vehicle was not armed" is checked
-    if(!_metRawCsvFile.isOpen() && _activeVehicle->armed()) {
+    // only record data when active vehcile is armed or the recordRawLogOnVehicleConnect flag is set
+    bool shouldOutput = _activeVehicle->armed() || _recordRawLogOnVehicleConnect;
+
+    // When ready to record data, open the file if it isn't already
+    if(!_metRawCsvFile.isOpen() && shouldOutput) {
         _initializeMetRawCsv();
     }
 
-    // close file if the drone is disarmed and the file is still open
+    // close file if the file is still open and we're no longer recording data
     // safe to return here, as a closed file isn't going to receive data
-    if(_metRawCsvFile.isOpen() && !_activeVehicle->armed()) {
+    if(_metRawCsvFile.isOpen() && !shouldOutput) {
         _metRawCsvFile.close();
         return;
     }
 
-    // only record data when active vehcile is armed
-    if(!_metRawCsvFile.isOpen() || !_activeVehicle->armed()) {
+    if(!_metRawCsvFile.isOpen() || !shouldOutput) {
         return;
     }
 
@@ -459,7 +468,6 @@ void MetDataLogManager::_writeMetNetCdfLine()
 #endif
 
 void MetDataLogManager::_initializeOrReadConfigFile() {
-    _metConfigTimer.stop();
     QString configFileName = QString("flightConfig.ini");
     QString configSaveDir = qgcApp()->toolbox()->settingsManager()->appSettings()->configSavePath();
     QDir saveDir(configSaveDir);
@@ -483,6 +491,10 @@ void MetDataLogManager::_initializeOrReadConfigFile() {
         }
         if(fileData.contains("FlightData") && fileData["FlightData"].contains("OperatorId")) {
             MetDataLogManager::setOperatorId(fileData["FlightData"]["OperatorId"]);
+        }
+        if(fileData.contains("Options") && fileData["Options"].contains("RecordRawLogOnVehicleConnect")) {
+            QString rawFlag = fileData["Options"]["RecordRawLogOnVehicleConnect"].toLower();
+            _recordRawLogOnVehicleConnect = rawFlag == "true" || rawFlag == "1";
         }
     } else {
         _metConfigFile.open(QIODevice::Append);
