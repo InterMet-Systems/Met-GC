@@ -82,14 +82,28 @@ private:
     template <typename T, bool bSigned = std::is_signed_v<T>>
     struct LargerType {};
 
+    // template <typename T>
+    // struct LargerType<T, false> {
+    //     using type = std::conditional_t<sizeof(T) <= 4, uint64_t, __uint128_t>;
+    // };
+
+    // template <typename T>
+    // struct LargerType<T, true> {
+    //     using type = std::conditional_t<sizeof(T) <= 4, int64_t, __int128_t>;
+    // };
+
+    /* MSVC apparently doesn't support triple longs
+        TODO: figure this out
+     */
+
     template <typename T>
     struct LargerType<T, false> {
-        using type = std::conditional_t<sizeof(T) <= 4, uint64_t, __uint128_t>;
+        using type = uint64_t;
     };
 
     template <typename T>
     struct LargerType<T, true> {
-        using type = std::conditional_t<sizeof(T) <= 4, int64_t, __int128_t>;
+        using type = int64_t;
     };
 
     template <typename T, typename V>
