@@ -47,7 +47,7 @@ public:
     Q_PROPERTY(Fact* horizontalDilutionOfPositionFloat  READ horizontalDilutionOfPositionFloat  CONSTANT) /* f32        derived from horizontalDilutionOfPosition */
     Q_PROPERTY(Fact* filename                           READ filename                           CONSTANT) /* string     MessengerRaw::createFilename           */
 
-    Fact* getFactPointerTimeUnixSeconds()                   { return &_timeUnixSecondsFact; }
+    Fact* timeUnixSeconds()                   { return &_timeUnixSecondsFact; }
     Fact* getFactPointerAltitudeMetersASL()                 { return &_altitudeMetersASLFact; }
     Fact* getFactPointerAbsolutePressureMillibars()         { return &_absolutePressureMillibarsFact; }
     Fact* getFactPointerTemperature0Celsius()               { return &_temperature0CelsiusFact; }
@@ -84,7 +84,7 @@ public:
     Fact* getFactPointerHorizontalDilutionOfPositionFloat() { return &_horizontalDilutionOfPositionFloatFact; }
     Fact* getFactPointerFilename()                          { return &_filenameFact; }
 
-    static const char* _timeUnixSecondsName;
+    static const char* _timeUnixSecondsFactName;
     static const char* _altitudeMetersASLName;
     static const char* _absolutePressureMillibarsName;
     static const char* _temperature0CelsiusName;
