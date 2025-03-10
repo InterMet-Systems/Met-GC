@@ -1,0 +1,4 @@
+#ifndef MESSENGERTIME_H
+#define MESSENGERTIME_H
+
+#endif // MESSENGERTIME_H
