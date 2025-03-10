@@ -26,15 +26,36 @@ const MessengerAltitude::WindProps MessengerAltitude::calcWindProps() const {
     const double pitchdegrees = source->getFactPointerPitchDegrees()->rawValue().toDouble();
     const double yawdegrees = source->getFactPointerYawDegrees()->rawValue().toDouble();
 
-    const double croll = cos(IMetMath::toRadians(rolldegrees));
-    const double sroll = sin(IMetMath::toRadians(rolldegrees));
-    const double cpitch = cos(IMetMath::toRadians(pitchdegrees));
-    const double spitch = sin(IMetMath::toRadians(pitchdegrees));
-    const double cyaw = cos(IMetMath::toRadians(yawdegrees));
-    const double syaw = sin(IMetMath::toRadians(yawdegrees));
+    IMetMath::SResult croll_r = IMetMath::DegreesToRadians(rolldegrees);
+    assert(croll_r.result == IMetMath::Result::_SUCCESS);
+    const double croll = cos(croll_r.value);
+
+    IMetMath::SResult sroll_r = IMetMath::DegreesToRadians(rolldegrees);
+    assert(sroll_r.result == IMetMath::Result::_SUCCESS);
+    const double sroll = sin(sroll_r.value);
+
+    IMetMath::SResult cpitch_r = IMetMath::DegreesToRadians(pitchdegrees);
+    assert(cpitch_r.result == IMetMath::Result::_SUCCESS);
+    const double cpitch = cos(cpitch_r.value);
+
+    IMetMath::SResult spitch_r = IMetMath::DegreesToRadians(pitchdegrees);
+    assert(spitch_r.result == IMetMath::Result::_SUCCESS);
+    const double spitch = sin(spitch_r.value);
+
+    IMetMath::SResult cyaw_r = IMetMath::DegreesToRadians(yawdegrees);
+    assert(cyaw_r.result == IMetMath::Result::_SUCCESS);
+    const double cyaw = cos(cyaw_r.value);
+
+    IMetMath::SResult syaw_r = IMetMath::DegreesToRadians(yawdegrees);
+    assert(syaw_r.result == IMetMath::Result::_SUCCESS);
+    const double syaw = sin(syaw_r.value);
 
     const double dirRads = atan2(-croll * spitch * syaw + sroll * cyaw, -sroll * syaw - croll * spitch * cyaw);
-    props.dir = static_cast<uint32_t>(fmod(IMetMath::toDegrees(dirRads) + 360., 360.));
+
+    IMetMath::SResult dirDegrees_r = IMetMath::RadiansToDegrees(dirRads);
+    assert(dirDegrees_r.result == IMetMath::Result::_SUCCESS);
+
+    props.dir = static_cast<uint32_t>(fmod(dirDegrees_r.value + 360., 360.));
 
     /* Can still yield 0.0 and +inf, however these are appropriate given the algorithm. */
     props.speed = fmax(0., a * sqrt(tan(acos(std::clamp(croll * cpitch, -1., +1.)))) - b);

@@ -25,7 +25,7 @@ struct SResult{
     double value;
 };
 
-constexpr SResult CelsiusToKelvin(const double& celsius) {
+SResult CelsiusToKelvin(const double& celsius) {
     if (std::isnan(celsius))                return  { Result::_INPUT_NAN, 0.0 };
     if (std::isinf(celsius))                return  { Result::_INPUT_INF, 0.0 };
     const double kelvin = celsius + 273.15;
@@ -37,7 +37,7 @@ constexpr SResult CelsiusToKelvin(const double& celsius) {
     return { Result::_SUCCESS, kelvin };
 }
 
-constexpr SResult KelvinToCelsius(const double& kelvin) {
+SResult KelvinToCelsius(const double& kelvin) {
     if (std::isnan(kelvin))                 return  { Result::_INPUT_NAN, 0.0 };
     if (std::isinf(kelvin))                 return  { Result::_INPUT_INF, 0.0 };
     const double celsius = kelvin - 273.15;
@@ -49,7 +49,7 @@ constexpr SResult KelvinToCelsius(const double& kelvin) {
     return { Result::_SUCCESS, celsius };
 }
 
-constexpr SResult DegreesToRadians(const double& degrees){
+SResult DegreesToRadians(const double& degrees){
     if (std::isnan(degrees))                return  { Result::_INPUT_NAN, 0.0 };
     if (std::isinf(degrees))                return  { Result::_INPUT_INF, 0.0 };
     const double radians = degrees * (pi / 180.);
@@ -61,7 +61,7 @@ constexpr SResult DegreesToRadians(const double& degrees){
     return { Result::_SUCCESS, radians};
 }
 
-constexpr SResult RadiansToDegrees(const double& radians){
+SResult RadiansToDegrees(const double& radians){
     if (std::isnan(radians))                return  { Result::_INPUT_NAN, 0.0 };
     if (std::isinf(radians))                return  { Result::_INPUT_INF, 0.0 };
     const double degrees = radians * (180. / pi);
