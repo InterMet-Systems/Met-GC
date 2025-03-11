@@ -9,49 +9,49 @@ class MessageAltitudeFactGroup : public FactGroup{
 public:
     MessageAltitudeFactGroup(QObject* parent = nullptr);
     void handleMessage(Vehicle* vehicle, mavlink_message_t& message) override;
-    Q_PROPERTY(Fact* SRN                        READ SRN                        CONSTANT) /* int32_t    filename, constant          raw         */
-    Q_PROPERTY(Fact* YYYY                       READ YYYY                       CONSTANT) /* uint16_t   filename                    raw         */
-    Q_PROPERTY(Fact* MM                         READ MM                         CONSTANT) /* uint8_t    filename                    raw         */
-    Q_PROPERTY(Fact* DD                         READ DD                         CONSTANT) /* uint8_t    filename                    raw         */
-    Q_PROPERTY(Fact* HH                         READ HH                         CONSTANT) /* uint8_t    filename                    raw         */
-    Q_PROPERTY(Fact* Mm                         READ Mm                         CONSTANT) /* uint8_t    filename                    raw         */
-    Q_PROPERTY(Fact* ss                         READ ss                         CONSTANT) /* uint8_t    filename                    raw         */
-    Q_PROPERTY(Fact* String                     READ String                     CONSTANT) /* string     filename                    file/gui    */
-    Q_PROPERTY(Fact* Message_Version            READ Message_Version            CONSTANT) /* string     constant                    hard coded  */
-    Q_PROPERTY(Fact* Drone_Powered_Age          READ Drone_Powered_Age          CONSTANT) /* int32_t    constant                    raw         */
-    Q_PROPERTY(Fact* Drone_Armed_Age            READ Drone_Armed_Age            CONSTANT) /* int32_t    constant                    raw         */
-    Q_PROPERTY(Fact* Raw_Data_Filename          READ Raw_Data_Filename          CONSTANT) /* string     constant                    raw         */
-    Q_PROPERTY(Fact* Unix_Start_Time            READ Unix_Start_Time            CONSTANT) /* uint64_t   constant                    raw         */
-    Q_PROPERTY(Fact* Ground_Wind_Speed          READ Ground_Wind_Speed          CONSTANT) /* f64        constant                    raw         */
-    Q_PROPERTY(Fact* Ground_Wind_Direction      READ Ground_Wind_Direction      CONSTANT) /* int32_t    constant                    raw         */
-    Q_PROPERTY(Fact* Ground_Air_Temperature     READ Ground_Air_Temperature     CONSTANT) /* f64        constant                    raw         */
-    Q_PROPERTY(Fact* Ground_Humidity            READ Ground_Humidity            CONSTANT) /* f64        constant                    raw         */
-    Q_PROPERTY(Fact* Ground_Pressure            READ Ground_Pressure            CONSTANT) /* f64        constant                    raw         */
-    Q_PROPERTY(Fact* Home_Position_Latitude     READ Home_Position_Latitude     CONSTANT) /* f64        constant                    raw         */
-    Q_PROPERTY(Fact* Home_Position_Longitude    READ Home_Position_Longitude    CONSTANT) /* f64        constant                    raw         */
-    Q_PROPERTY(Fact* Home_Position_Altitude     READ Home_Position_Altitude     CONSTANT) /* f64        constant                    raw         */
-    Q_PROPERTY(Fact* Altitude_ASL               READ Altitude_ASL               CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* UTC_Date                   READ UTC_Date                   CONSTANT) /* string     time-varying                raw         */
-    Q_PROPERTY(Fact* UTC_Time                   READ UTC_Time                   CONSTANT) /* string     time-varying                raw         */
-    Q_PROPERTY(Fact* Time_Since_Start           READ Time_Since_Start           CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Pressure                   READ Pressure                   CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Air_Temp                   READ Air_Temp                   CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Rel_Hum                    READ Rel_Hum                    CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Wind_Speed                 READ Wind_Speed                 CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Wind_Direction             READ Wind_Direction             CONSTANT) /* int32_t    time-varying                raw         */
-    Q_PROPERTY(Fact* Latitude                   READ Latitude                   CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Longitude                  READ Longitude                  CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Roll                       READ Roll                       CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Roll_Rate                  READ Roll_Rate                  CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Pitch                      READ Pitch                      CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Pitch_Rate                 READ Pitch_Rate                 CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Yaw                        READ Yaw                        CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Yaw_Rate                   READ Yaw_Rate                   CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Ascent_Rate                READ Ascent_Rate                CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Speed_Over_Ground          READ Speed_Over_Ground          CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Satellites                 READ Satellites                 CONSTANT) /* uint8_t    time-varying                raw         */
-    Q_PROPERTY(Fact* HDOP                       READ HDOP                       CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* Data_Quality               READ Data_Quality               CONSTANT) /* int32_t    time-varying                raw         */
+    Q_PROPERTY(Fact* droneSerial              READ droneSerial              CONSTANT) /* int32_t    filename, constant          raw         */
+    Q_PROPERTY(Fact* year                     READ year                     CONSTANT) /* uint16_t   filename                    raw         */
+    Q_PROPERTY(Fact* month                    READ month                    CONSTANT) /* uint8_t    filename                    raw         */
+    Q_PROPERTY(Fact* day                      READ day                      CONSTANT) /* uint8_t    filename                    raw         */
+    Q_PROPERTY(Fact* hour                     READ hour                     CONSTANT) /* uint8_t    filename                    raw         */
+    Q_PROPERTY(Fact* minute                   READ minute                   CONSTANT) /* uint8_t    filename                    raw         */
+    Q_PROPERTY(Fact* second                   READ second                   CONSTANT) /* uint8_t    filename                    raw         */
+    Q_PROPERTY(Fact* string                   READ string                   CONSTANT) /* string     filename                    file/gui    */
+    Q_PROPERTY(Fact* messageVersion           READ messageVersion           CONSTANT) /* string     constant                    hard coded  */
+    Q_PROPERTY(Fact* dronePoweredAge          READ dronePoweredAge          CONSTANT) /* int32_t    constant                    raw         */
+    Q_PROPERTY(Fact* droneArmedAge            READ droneArmedAge            CONSTANT) /* int32_t    constant                    raw         */
+    Q_PROPERTY(Fact* rawDataFilename          READ rawDataFilename          CONSTANT) /* string     constant                    raw         */
+    Q_PROPERTY(Fact* unixStartTime            READ unixStartTime            CONSTANT) /* uint64_t   constant                    raw         */
+    Q_PROPERTY(Fact* groundWindSpeed          READ groundWindSpeed          CONSTANT) /* f64        constant                    raw         */
+    Q_PROPERTY(Fact* groundWindDirection      READ groundWindDirection      CONSTANT) /* int32_t    constant                    raw         */
+    Q_PROPERTY(Fact* groundAirTemperature     READ groundAirTemperature     CONSTANT) /* f64        constant                    raw         */
+    Q_PROPERTY(Fact* groundHumidity           READ groundHumidity           CONSTANT) /* f64        constant                    raw         */
+    Q_PROPERTY(Fact* groundPressure           READ groundPressure           CONSTANT) /* f64        constant                    raw         */
+    Q_PROPERTY(Fact* homePositionLatitude     READ homePositionLatitude     CONSTANT) /* f64        constant                    raw         */
+    Q_PROPERTY(Fact* homePositionLongitude    READ homePositionLongitude    CONSTANT) /* f64        constant                    raw         */
+    Q_PROPERTY(Fact* homePositionAltitude     READ homePositionAltitude     CONSTANT) /* f64        constant                    raw         */
+    Q_PROPERTY(Fact* altitudeASL              READ altitudeASL              CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* uTCDate                  READ uTCDate                  CONSTANT) /* string     time-varying                raw         */
+    Q_PROPERTY(Fact* uTCTime                  READ uTCTime                  CONSTANT) /* string     time-varying                raw         */
+    Q_PROPERTY(Fact* timeSinceStart           READ timeSinceStart           CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* pressure                 READ pressure                 CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* airTemp                  READ airTemp                  CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* relHum                   READ relHum                   CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* windSpeed                READ windSpeed                CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* windDirection            READ windDirection            CONSTANT) /* int32_t    time-varying                raw         */
+    Q_PROPERTY(Fact* latitude                 READ latitude                 CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* longitude                READ longitude                CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* roll                     READ roll                     CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* rollRate                 READ rollRate                 CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* pitch                    READ pitch                    CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* pitchRate                READ pitchRate                CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* yaw                      READ yaw                      CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* yawRate                  READ yawRate                  CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* ascentRate               READ ascentRate               CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* speedOverGround          READ speedOverGround          CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* satellites               READ satellites               CONSTANT) /* uint8_t    time-varying                raw         */
+    Q_PROPERTY(Fact* hDOP                     READ hDOP                     CONSTANT) /* f64        time-varying                raw         */
+    Q_PROPERTY(Fact* dataQuality              READ dataQuality              CONSTANT) /* int32_t    time-varying                raw         */
 
     Fact* getFactPointerSRN                     ()  { return &_SRNFact; }
     Fact* getFactPointerDrone_Serial_Number     ()  { return &_SRNFact; }

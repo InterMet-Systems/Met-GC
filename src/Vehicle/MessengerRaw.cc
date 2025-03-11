@@ -6,101 +6,101 @@
 
 void MessengerRaw::updateData(){
     uint64_t time = source->getFactPointerTimeUnixMicroseconds()->rawValue().toULongLong();
-    data->getFactPointerTimeUnixSeconds()->setRawValue(QVariant(static_cast<double>(time) / 1e6));
+    data->timeUnixSeconds()->setRawValue(QVariant(static_cast<double>(time) / 1e6));
 
     int32_t alt = source->getFactPointerAltitudeMillimetersMSL()->rawValue().toInt();
-    data->getFactPointerAltitudeMetersASL()->setRawValue(QVariant(static_cast<double>(alt) / 1e3));
+    data->altitudeMetersASL()->setRawValue(QVariant(static_cast<double>(alt) / 1e3));
 
     double pres = source->getFactPointerAbsolutePressureMillibars()->rawValue().toDouble();
-    data->getFactPointerAbsolutePressureMillibars()->setRawValue(QVariant(pres));
+    data->absolutePressureMillibars()->setRawValue(QVariant(pres));
 
     double t0 = source->getFactPointerTemperature0Kelvin()->rawValue().toDouble();
     IMetMath::SResult t0_r = IMetMath::KelvinToCelsius(t0);
     assert(t0_r.result == IMetMath::Result::_SUCCESS);
     if (t0_r.result == IMetMath::Result::_SUCCESS)
-        data->getFactPointerTemperature0Celsius()->setRawValue(QVariant(t0_r.value));
+        data->temperature0Celsius()->setRawValue(QVariant(t0_r.value));
     else {
         /* TODO: Find out if we need any form of runtime error handling here, and which conditions are permissble to pass along silently. For instance,
             we may wish to simply log the error and continue given that the function only returns either 0.0 or a mathmatically valid value, which may
             still be nonsense, for instance < absolute zero. */
-        data->getFactPointerTemperature0Celsius()->setRawValue(QVariant(t0_r.value));
+        data->temperature0Celsius()->setRawValue(QVariant(t0_r.value));
     }
 
     double t1 = source->getFactPointerTemperature1Kelvin()->rawValue().toDouble();
     IMetMath::SResult t1_r = IMetMath::KelvinToCelsius(t1);
     assert(t1_r.result == IMetMath::Result::_SUCCESS);
-    data->getFactPointerTemperature1Celsius()->setRawValue(QVariant(t1_r.value));
+    data->temperature1Celsius()->setRawValue(QVariant(t1_r.value));
 
     double t2 = source->getFactPointerTemperature2Kelvin()->rawValue().toDouble();
     IMetMath::SResult t2_r = IMetMath::KelvinToCelsius(t2);
     assert(t2_r.result == IMetMath::Result::_SUCCESS);
-    data->getFactPointerTemperature2Celsius()->setRawValue(QVariant(t2_r.value));
+    data->temperature2Celsius()->setRawValue(QVariant(t2_r.value));
 
     double h0 = source->getFactPointerRelativeHumidity0()->rawValue().toDouble();
-    data->getFactPointerRelativeHumidity0()->setRawValue(QVariant(h0));
+    data->relativeHumidity0()->setRawValue(QVariant(h0));
 
     double h1 = source->getFactPointerRelativeHumidity1()->rawValue().toDouble();
-    data->getFactPointerRelativeHumidity1()->setRawValue(QVariant(h1));
+    data->relativeHumidity1()->setRawValue(QVariant(h1));
 
     double h2 = source->getFactPointerRelativeHumidity2()->rawValue().toDouble();
-    data->getFactPointerRelativeHumidity2()->setRawValue(QVariant(h2));
+    data->relativeHumidity2()->setRawValue(QVariant(h2));
 
     int32_t lat = source->getFactPointerLatitudeDegreesE7()->rawValue().toInt();
-    data->getFactPointerLatitudeDegrees()->setRawValue(QVariant(static_cast<double>(lat) / 1e7));
+    data->latitudeDegrees()->setRawValue(QVariant(static_cast<double>(lat) / 1e7));
 
     int32_t lon = source->getFactPointerLongitudeDegreesE7()->rawValue().toInt();
-    data->getFactPointerLongitudeDegrees()->setRawValue(QVariant(static_cast<double>(lon) / 1e7));
+    data->longitudeDegrees()->setRawValue(QVariant(static_cast<double>(lon) / 1e7));
 
     double roll = source->getFactPointerRollRadians()->rawValue().toDouble();
     IMetMath::SResult roll_r = IMetMath::RadiansToDegrees(roll);
     assert(roll_r.result == IMetMath::Result::_SUCCESS);
-    data->getFactPointerRollDegrees()->setRawValue(QVariant(roll_r.value));
+    data->rollDegrees()->setRawValue(QVariant(roll_r.value));
 
     double pitch = source->getFactPointerPitchRadians()->rawValue().toDouble();
     IMetMath::SResult pitch_r = IMetMath::RadiansToDegrees(pitch);
     assert(pitch_r.result == IMetMath::Result::_SUCCESS);
-    data->getFactPointerPitchDegrees()->setRawValue(QVariant(pitch_r.value));
+    data->pitchDegrees()->setRawValue(QVariant(pitch_r.value));
 
     double yaw = source->getFactPointerYawRadians()->rawValue().toDouble();
     IMetMath::SResult yaw_r = IMetMath::RadiansToDegrees(yaw);
     assert(yaw_r.result == IMetMath::Result::_SUCCESS);
-    data->getFactPointerYawDegrees()->setRawValue(QVariant(yaw_r.value));
+    data->yawDegrees()->setRawValue(QVariant(yaw_r.value));
 
     double rollrate = source->getFactPointerRollRateRadiansPerSecond()->rawValue().toDouble();
     IMetMath::SResult rollrate_r = IMetMath::RadiansToDegrees(rollrate);
     assert(rollrate_r.result == IMetMath::Result::_SUCCESS);
-    data->getFactPointerRollRateDegreesPerSecond()->setRawValue(QVariant(rollrate_r.value));
+    data->rollRateDegreesPerSecond()->setRawValue(QVariant(rollrate_r.value));
 
     double pitchrate = source->getFactPointerPitchRateRadiansPerSecond()->rawValue().toDouble();
     IMetMath::SResult pitchrate_r = IMetMath::RadiansToDegrees(pitchrate);
     assert(pitchrate_r.result == IMetMath::Result::_SUCCESS);
-    data->getFactPointerPitchRateDegreesPerSecond()->setRawValue(QVariant(pitchrate_r.value));
+    data->pitchRateDegreesPerSecond()->setRawValue(QVariant(pitchrate_r.value));
 
     double yawrate = source->getFactPointerYawRateRadiansPerSecond()->rawValue().toDouble();
     IMetMath::SResult yawrate_r = IMetMath::RadiansToDegrees(yawrate);
     assert(yawrate_r.result == IMetMath::Result::_SUCCESS);
-    data->getFactPointerYawRateDegreesPerSecond()->setRawValue(QVariant(yawrate_r.value));
+    data->yawRateDegreesPerSecond()->setRawValue(QVariant(yawrate_r.value));
 
     double vx = source->getFactPointerXVelocityMetersPerSecond()->rawValue().toDouble();
-    data->getFactPointerXVelocityMetersPerSecond()->setRawValue(QVariant(vx));
+    data->xVelocityMetersPerSecond()->setRawValue(QVariant(vx));
 
     double vy = source->getFactPointerYVelocityMetersPerSecond()->rawValue().toDouble();
-    data->getFactPointerYVelocityMetersPerSecond()->setRawValue(QVariant(vy));
+    data->yVelocityMetersPerSecond()->setRawValue(QVariant(vy));
 
     double vz = source->getFactPointerZVelocityMetersPerSecond()->rawValue().toDouble();
-    data->getFactPointerZVelocityMetersPerSecond()->setRawValue(QVariant(vz));
+    data->zVelocityMetersPerSecond()->setRawValue(QVariant(vz));
 
     uint32_t heartbeat = source->getFactPointerCustomModeHeartbeat()->rawValue().toUInt();
-    data->getFactPointerCustomModeHeartbeat()->setRawValue(QVariant(heartbeat));
+    data->customModeHeartbeat()->setRawValue(QVariant(heartbeat));
 
     int32_t quality = source->getFactPointerDataQuality()->rawValue().toInt();
-    data->getFactPointerDataQuality()->setRawValue(QVariant(quality));
+    data->dataQuality()->setRawValue(QVariant(quality));
 
     uint8_t sats = source->getFactPointerSatellites()->rawValue().toUInt();
-    data->getFactPointerSatellites()->setRawValue(QVariant(sats));
+    data->satellites()->setRawValue(QVariant(sats));
 
     uint16_t hdop = source->getFactPointerHorizontalDilutionOfPosition()->rawValue().toUInt();
-    data->getFactPointerHorizontalDilutionOfPositionFloat()->setRawValue(QVariant(static_cast<double>(hdop) / 100));
+    data->horizontalDilutionOfPositionFloat()->setRawValue(QVariant(static_cast<double>(hdop) / 100));
 }
 
 void MessengerRaw::initFileFacts(){
@@ -132,32 +132,32 @@ bool MessengerRaw::validValues(){
     static bool init = false;
     if (init) return true;
     /* for each fact marked 'required' in SoW, check that it's not NaN, if one is, then return false. */
-    if (data->getFactPointerTimeUnixSeconds()->rawValue().toDouble() == qQNaN()){
+    if (data->timeUnixSeconds()->rawValue().toDouble() == qQNaN()){
         /* Maybe log something like "We don't have timeUnixSeconds yet" */
         return false;
     }
-    if (data->getFactPointerAltitudeMetersASL()->rawValue().toDouble() ==               qQNaN())                                return false;
-    if (data->getFactPointerAbsolutePressureMillibars()->rawValue().toDouble() ==       qQNaN())                                return false;
-    if (data->getFactPointerTemperature0Celsius()->rawValue().toDouble() ==             qQNaN())                                return false;
-    if (data->getFactPointerTemperature1Celsius()->rawValue().toDouble() ==             qQNaN())                                return false;
-    if (data->getFactPointerTemperature2Celsius()->rawValue().toDouble() ==             qQNaN())                                return false;
-    if (data->getFactPointerRelativeHumidity0()->rawValue().toDouble() ==               qQNaN())                                return false;
-    if (data->getFactPointerRelativeHumidity1()->rawValue().toDouble() ==               qQNaN())                                return false;
-    if (data->getFactPointerRelativeHumidity2()->rawValue().toDouble() ==               qQNaN())                                return false;
-    if (data->getFactPointerLatitudeDegrees()->rawValue().toDouble() ==                 qQNaN())                                return false;
-    if (data->getFactPointerLongitudeDegrees()->rawValue().toDouble() ==                qQNaN())                                return false;
-    if (data->getFactPointerRollDegrees()->rawValue().toDouble() ==                     qQNaN())                                return false;
-    if (data->getFactPointerPitchDegrees()->rawValue().toDouble() ==                    qQNaN())                                return false;
-    if (data->getFactPointerYawDegrees()->rawValue().toDouble() ==                      qQNaN())                                return false;
-    if (data->getFactPointerRollRateDegreesPerSecond()->rawValue().toDouble() ==        qQNaN())                                return false;
-    if (data->getFactPointerPitchRateDegreesPerSecond()->rawValue().toDouble() ==       qQNaN())                                return false;
-    if (data->getFactPointerYawRateDegreesPerSecond()->rawValue().toDouble() ==         qQNaN())                                return false;
-    if (data->getFactPointerXVelocityMetersPerSecond()->rawValue().toDouble() ==        qQNaN())                                return false;
-    if (data->getFactPointerYVelocityMetersPerSecond()->rawValue().toDouble() ==        qQNaN())                                return false;
-    if (data->getFactPointerZVelocityMetersPerSecond()->rawValue().toDouble() ==        qQNaN())                                return false;
-    if (data->getFactPointerCustomModeHeartbeat()->rawValue().toUInt() ==               std::numeric_limits<uint32_t>::max())   return false;
-    if (data->getFactPointerSatellites()->rawValue().toUInt() ==                        std::numeric_limits<uint8_t>::max())    return false;
-    if (data->getFactPointerHorizontalDilutionOfPositionFloat()->rawValue().toUInt() == qQNaN())                                return false;
+    if (data->altitudeMetersASL()->rawValue().toDouble() ==               qQNaN())                                return false;
+    if (data->absolutePressureMillibars()->rawValue().toDouble() ==       qQNaN())                                return false;
+    if (data->temperature0Celsius()->rawValue().toDouble() ==             qQNaN())                                return false;
+    if (data->temperature1Celsius()->rawValue().toDouble() ==             qQNaN())                                return false;
+    if (data->temperature2Celsius()->rawValue().toDouble() ==             qQNaN())                                return false;
+    if (data->relativeHumidity0()->rawValue().toDouble() ==               qQNaN())                                return false;
+    if (data->relativeHumidity1()->rawValue().toDouble() ==               qQNaN())                                return false;
+    if (data->relativeHumidity2()->rawValue().toDouble() ==               qQNaN())                                return false;
+    if (data->latitudeDegrees()->rawValue().toDouble() ==                 qQNaN())                                return false;
+    if (data->longitudeDegrees()->rawValue().toDouble() ==                qQNaN())                                return false;
+    if (data->rollDegrees()->rawValue().toDouble() ==                     qQNaN())                                return false;
+    if (data->pitchDegrees()->rawValue().toDouble() ==                    qQNaN())                                return false;
+    if (data->yawDegrees()->rawValue().toDouble() ==                      qQNaN())                                return false;
+    if (data->rollRateDegreesPerSecond()->rawValue().toDouble() ==        qQNaN())                                return false;
+    if (data->pitchRateDegreesPerSecond()->rawValue().toDouble() ==       qQNaN())                                return false;
+    if (data->yawRateDegreesPerSecond()->rawValue().toDouble() ==         qQNaN())                                return false;
+    if (data->xVelocityMetersPerSecond()->rawValue().toDouble() ==        qQNaN())                                return false;
+    if (data->yVelocityMetersPerSecond()->rawValue().toDouble() ==        qQNaN())                                return false;
+    if (data->zVelocityMetersPerSecond()->rawValue().toDouble() ==        qQNaN())                                return false;
+    if (data->customModeHeartbeat()->rawValue().toUInt() ==               std::numeric_limits<uint32_t>::max())   return false;
+    if (data->satellites()->rawValue().toUInt() ==                        std::numeric_limits<uint8_t>::max())    return false;
+    if (data->horizontalDilutionOfPositionFloat()->rawValue().toUInt() == qQNaN())                                return false;
     return init = true;
 }
 
@@ -184,8 +184,8 @@ bool MessengerRaw::ascending() {
     static bool bLastState = false;
     static size_t ascents = 0;
 
-    uint32_t hearbeat = data->getFactPointerCustomModeHeartbeat()->rawValue().toUInt();
-    double vz = -data->getFactPointerZVelocityMetersPerSecond()->rawValue().toDouble();
+    uint32_t hearbeat = data->customModeHeartbeat()->rawValue().toUInt();
+    double vz = -data->zVelocityMetersPerSecond()->rawValue().toDouble();
     if ((bAscending = (hearbeat == 3 && vz > 2.5)) && !bLastState)
         qgcApp()->toolbox()->metDataLogManager()->setAscentNumber(++ascents);
     bLastState = bAscending;

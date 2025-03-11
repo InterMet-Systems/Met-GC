@@ -12,7 +12,7 @@ int DataHub::parseMessage(const mavlink_message_t& m){
         uint64_t val = s.time_unix_usec;        
 
         updateRollingAverage(timeUnixMicrosecondsA, timeUnixMicrosecondsC, val);
-        pData->getFactPointerTimeUnixMicroseconds()->setRawValue(QVariant(timeUnixMicrosecondsA));
+        pData->timeUnixMicroseconds()->setRawValue(QVariant(timeUnixMicrosecondsA));
         break;
     }
     case MAVLINK_MSG_ID_GLOBAL_POSITION_INT:{
@@ -23,13 +23,13 @@ int DataHub::parseMessage(const mavlink_message_t& m){
         int32_t val2 = s.lon;
 
         updateRollingAverage(altitudeMillimetersMSLA, altitudeMillimetersMSLC, val0);
-        pData->getFactPointerAltitudeMillimetersMSL()->setRawValue(QVariant(altitudeMillimetersMSLA));
+        pData->altitudeMillimetersMSL()->setRawValue(QVariant(altitudeMillimetersMSLA));
 
         updateRollingAverage(latitudeDegreesE7A, latitudeDegreesE7C, val1);
-        pData->getFactPointerLatitudeDegreesE7()->setRawValue(QVariant(latitudeDegreesE7A));
+        pData->latitudeDegreesE7()->setRawValue(QVariant(latitudeDegreesE7A));
 
         updateRollingAverage(longitudeDegreesE7A, longitudeDegreesE7C, val2);
-        pData->getFactPointerLongitudeDegreesE7()->setRawValue(QVariant(longitudeDegreesE7A));
+        pData->longitudeDegreesE7()->setRawValue(QVariant(longitudeDegreesE7A));
         break;
     }
     case MAVLINK_MSG_ID_SCALED_PRESSURE2:{
@@ -38,7 +38,7 @@ int DataHub::parseMessage(const mavlink_message_t& m){
         double val = static_cast<double>(s.press_abs);
 
         updateRollingAverage(absolutePressureMillibarsA, absolutePressureMillibarsC, val);
-        pData->getFactPointerAbsolutePressureMillibars()->setRawValue(QVariant(absolutePressureMillibarsA));
+        pData->absolutePressureMillibars()->setRawValue(QVariant(absolutePressureMillibarsA));
         break;
     }
     case MAVLINK_MSG_ID_CASS_SENSOR_RAW:{
@@ -49,26 +49,26 @@ int DataHub::parseMessage(const mavlink_message_t& m){
             double val0 = static_cast<double>(s.values[0]), val1 = static_cast<double>(s.values[1]), val2 = static_cast<double>(s.values[2]);
 
             updateRollingAverage(temperature0KelvinA, temperature0KelvinC, val0);
-            pData->getFactPointerTemperature0Kelvin()->setRawValue(QVariant(temperature0KelvinA));
+            pData->temperature0Kelvin()->setRawValue(QVariant(temperature0KelvinA));
 
             updateRollingAverage(temperature1KelvinA, temperature1KelvinC, val1);
-            pData->getFactPointerTemperature1Kelvin()->setRawValue(QVariant(temperature1KelvinA));
+            pData->temperature1Kelvin()->setRawValue(QVariant(temperature1KelvinA));
 
             updateRollingAverage(temperature2KelvinA, temperature2KelvinC, val2);
-            pData->getFactPointerTemperature2Kelvin()->setRawValue(QVariant(temperature2KelvinA));
+            pData->temperature2Kelvin()->setRawValue(QVariant(temperature2KelvinA));
             break;
         }
         case 1:{
             double val0 = static_cast<double>(s.values[0]), val1 = static_cast<double>(s.values[1]), val2 = static_cast<double>(s.values[2]);
 
             updateRollingAverage(relativeHumidity0A, relativeHumidity0C, val0);
-            pData->getFactPointerRelativeHumidity0()->setRawValue(QVariant(relativeHumidity0A));
+            pData->relativeHumidity0()->setRawValue(QVariant(relativeHumidity0A));
 
             updateRollingAverage(relativeHumidity1A, relativeHumidity1C, val1);
-            pData->getFactPointerRelativeHumidity1()->setRawValue(QVariant(relativeHumidity1A));
+            pData->relativeHumidity1()->setRawValue(QVariant(relativeHumidity1A));
 
             updateRollingAverage(relativeHumidity2A, relativeHumidity2C, val2);
-            pData->getFactPointerRelativeHumidity2()->setRawValue(QVariant(relativeHumidity2A));
+            pData->relativeHumidity2()->setRawValue(QVariant(relativeHumidity2A));
             break;
         }
         default:{
@@ -88,22 +88,22 @@ int DataHub::parseMessage(const mavlink_message_t& m){
         double val5 = static_cast<double>(s.yawspeed);
 
         updateRollingAverage(rollRadiansA, rollRadiansC, val0);
-        pData->getFactPointerRollRadians()->setRawValue(QVariant(rollRadiansA));
+        pData->rollRadians()->setRawValue(QVariant(rollRadiansA));
 
         updateRollingAverage(pitchRadiansA, pitchRadiansC, val1);
-        pData->getFactPointerPitchRadians()->setRawValue(QVariant(pitchRadiansA));
+        pData->pitchRadians()->setRawValue(QVariant(pitchRadiansA));
 
         updateRollingAverage(yawRadiansA, yawRadiansC, val2);
-        pData->getFactPointerYawRadians()->setRawValue(QVariant(yawRadiansA));
+        pData->yawRadians()->setRawValue(QVariant(yawRadiansA));
 
         updateRollingAverage(rollRateRadiansPerSecondA, rollRateRadiansPerSecondC, val3);
-        pData->getFactPointerRollRateRadiansPerSecond()->setRawValue(QVariant(rollRateRadiansPerSecondA));
+        pData->rollRateRadiansPerSecond()->setRawValue(QVariant(rollRateRadiansPerSecondA));
 
         updateRollingAverage(pitchRateRadiansPerSecondA, pitchRateRadiansPerSecondC, val4);
-        pData->getFactPointerPitchRateRadiansPerSecond()->setRawValue(QVariant(pitchRateRadiansPerSecondA));
+        pData->pitchRateRadiansPerSecond()->setRawValue(QVariant(pitchRateRadiansPerSecondA));
 
         updateRollingAverage(yawRateRadiansPerSecondA, yawRateRadiansPerSecondC, val5);
-        pData->getFactPointerYawRateRadiansPerSecond()->setRawValue(QVariant(yawRateRadiansPerSecondA));
+        pData->yawRateRadiansPerSecond()->setRawValue(QVariant(yawRateRadiansPerSecondA));
         break;
     }
     case MAVLINK_MSG_ID_LOCAL_POSITION_NED:{
@@ -114,20 +114,20 @@ int DataHub::parseMessage(const mavlink_message_t& m){
         double val2 = static_cast<double>(s.vz);
 
         updateRollingAverage(xVelocityMetersPerSecondA, xVelocityMetersPerSecondC, val0);
-        pData->getFactPointerXVelocityMetersPerSecond()->setRawValue(QVariant(xVelocityMetersPerSecondA));
+        pData->xVelocityMetersPerSecond()->setRawValue(QVariant(xVelocityMetersPerSecondA));
 
         updateRollingAverage(yVelocityMetersPerSecondA, yVelocityMetersPerSecondC, val1);
-        pData->getFactPointerYVelocityMetersPerSecond()->setRawValue(QVariant(yVelocityMetersPerSecondA));
+        pData->yVelocityMetersPerSecond()->setRawValue(QVariant(yVelocityMetersPerSecondA));
 
         updateRollingAverage(zVelocityMetersPerSecondA, zVelocityMetersPerSecondC, val2);
-        pData->getFactPointerZVelocityMetersPerSecond()->setRawValue(QVariant(zVelocityMetersPerSecondA));
+        pData->zVelocityMetersPerSecond()->setRawValue(QVariant(zVelocityMetersPerSecondA));
         break;
     }
     case MAVLINK_MSG_ID_HEARTBEAT:{
         mavlink_heartbeat_t s;
         mavlink_msg_heartbeat_decode(&m, &s);
         /* This one doesn't get averaged */
-        pData->getFactPointerCustomModeHeartbeat()->setRawValue(QVariant(s.custom_mode));
+        pData->customModeHeartbeat()->setRawValue(QVariant(s.custom_mode));
         break;
     }
     case MAVLINK_MSG_ID_GPS_RAW_INT:{
@@ -137,10 +137,10 @@ int DataHub::parseMessage(const mavlink_message_t& m){
         uint16_t val1 = s.eph;
 
         updateRollingAverage(satellitesA, satellitesC, val0);
-        pData->getFactPointerSatellites()->setRawValue(QVariant(satellitesA));
+        pData->satellites()->setRawValue(QVariant(satellitesA));
 
         updateRollingAverage(horizontalDilutionOfPositionA, horizontalDilutionOfPositionC, val1);
-        pData->getFactPointerHorizontalDilutionOfPosition()->setRawValue(QVariant(horizontalDilutionOfPositionA));
+        pData->horizontalDilutionOfPosition()->setRawValue(QVariant(horizontalDilutionOfPositionA));
         break;
     }
     default:{

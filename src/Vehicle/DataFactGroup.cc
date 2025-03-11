@@ -1,81 +1,81 @@
 #include "DataFactGroup.h"
 
-const char* DataFactGroup::_timeUnixMicrosecondsName                = "timeUnixMicroseconds";
-const char* DataFactGroup::_altitudeMillimetersMSLName              = "altitudeMillimetersMSL";
-const char* DataFactGroup::_absolutePressureMillibarsName           = "absolutePressureMillibars";
-const char* DataFactGroup::_temperature0KelvinName                  = "temperature0Kelvin";
-const char* DataFactGroup::_temperature1KelvinName                  = "temperature1Kelvin";
-const char* DataFactGroup::_temperature2KelvinName                  = "temperature2Kelvin";
-const char* DataFactGroup::_relativeHumidity0Name                   = "relativeHumidity0";
-const char* DataFactGroup::_relativeHumidity1Name                   = "relativeHumidity1";
-const char* DataFactGroup::_relativeHumidity2Name                   = "relativeHumidity2";
-const char* DataFactGroup::_latitudeDegreesE7Name                   = "latitudeDegreesE7";
-const char* DataFactGroup::_longitudeDegreesE7Name                  = "longitudeDegreesE7";
-const char* DataFactGroup::_rollRadiansName                         = "rollRadians";
-const char* DataFactGroup::_pitchRadiansName                        = "pitchRadians";
-const char* DataFactGroup::_yawRadiansName                          = "yawRadians";
-const char* DataFactGroup::_rollRateRadiansPerSecondName            = "rollRateRadiansPerSecond";
-const char* DataFactGroup::_pitchRateRadiansPerSecondName           = "pitchRateRadiansPerSecond";
-const char* DataFactGroup::_yawRateRadiansPerSecondName             = "yawRateRadiansPerSecond";
-const char* DataFactGroup::_xVelocityMetersPerSecondName            = "xVelocityMetersPerSecond";
-const char* DataFactGroup::_yVelocityMetersPerSecondName            = "yVelocityMetersPerSecond";
-const char* DataFactGroup::_zVelocityMetersPerSecondName            = "zVelocityMetersPerSecond";
-const char* DataFactGroup::_customModeHeartbeatName                 = "customModeHeartbeat";
-const char* DataFactGroup::_dataQualityName                         = "dataQuality";
-const char* DataFactGroup::_satellitesName                          = "satellites";
-const char* DataFactGroup::_horizontalDilutionOfPositionName        = "horizontalDilutionOfPosition";
+const char* DataFactGroup::_timeUnixMicrosecondsFactName                = "timeUnixMicroseconds";
+const char* DataFactGroup::_altitudeMillimetersMSLFactName              = "altitudeMillimetersMSL";
+const char* DataFactGroup::_absolutePressureMillibarsFactName           = "absolutePressureMillibars";
+const char* DataFactGroup::_temperature0KelvinFactName                  = "temperature0Kelvin";
+const char* DataFactGroup::_temperature1KelvinFactName                  = "temperature1Kelvin";
+const char* DataFactGroup::_temperature2KelvinFactName                  = "temperature2Kelvin";
+const char* DataFactGroup::_relativeHumidity0FactName                   = "relativeHumidity0";
+const char* DataFactGroup::_relativeHumidity1FactName                   = "relativeHumidity1";
+const char* DataFactGroup::_relativeHumidity2FactName                   = "relativeHumidity2";
+const char* DataFactGroup::_latitudeDegreesE7FactName                   = "latitudeDegreesE7";
+const char* DataFactGroup::_longitudeDegreesE7FactName                  = "longitudeDegreesE7";
+const char* DataFactGroup::_rollRadiansFactName                         = "rollRadians";
+const char* DataFactGroup::_pitchRadiansFactName                        = "pitchRadians";
+const char* DataFactGroup::_yawRadiansFactName                          = "yawRadians";
+const char* DataFactGroup::_rollRateRadiansPerSecondFactName            = "rollRateRadiansPerSecond";
+const char* DataFactGroup::_pitchRateRadiansPerSecondFactName           = "pitchRateRadiansPerSecond";
+const char* DataFactGroup::_yawRateRadiansPerSecondFactName             = "yawRateRadiansPerSecond";
+const char* DataFactGroup::_xVelocityMetersPerSecondFactName            = "xVelocityMetersPerSecond";
+const char* DataFactGroup::_yVelocityMetersPerSecondFactName            = "yVelocityMetersPerSecond";
+const char* DataFactGroup::_zVelocityMetersPerSecondFactName            = "zVelocityMetersPerSecond";
+const char* DataFactGroup::_customModeHeartbeatFactName                 = "customModeHeartbeat";
+const char* DataFactGroup::_dataQualityFactName                         = "dataQuality";
+const char* DataFactGroup::_satellitesFactName                          = "satellites";
+const char* DataFactGroup::_horizontalDilutionOfPositionFactName        = "horizontalDilutionOfPosition";
 
 DataFactGroup::DataFactGroup(QObject* parent)
     : FactGroup(1000, ":/json/Vehicle/DataFact.json", parent, true)
-    ,_timeUnixMicrosecondsFact                  (0, _timeUnixMicrosecondsName             , FactMetaData::valueTypeUint64)
-    ,_altitudeMillimetersMSLFact                (0, _altitudeMillimetersMSLName           , FactMetaData::valueTypeInt32)
-    ,_absolutePressureMillibarsFact             (0, _absolutePressureMillibarsName        , FactMetaData::valueTypeDouble)
-    ,_temperature0KelvinFact                    (0, _temperature0KelvinName               , FactMetaData::valueTypeDouble)
-    ,_temperature1KelvinFact                    (0, _temperature1KelvinName               , FactMetaData::valueTypeDouble)
-    ,_temperature2KelvinFact                    (0, _temperature2KelvinName               , FactMetaData::valueTypeDouble)
-    ,_relativeHumidity0Fact                     (0, _relativeHumidity0Name                , FactMetaData::valueTypeDouble)
-    ,_relativeHumidity1Fact                     (0, _relativeHumidity1Name                , FactMetaData::valueTypeDouble)
-    ,_relativeHumidity2Fact                     (0, _relativeHumidity2Name                , FactMetaData::valueTypeDouble)
-    ,_latitudeDegreesE7Fact                     (0, _latitudeDegreesE7Name                , FactMetaData::valueTypeInt32)
-    ,_longitudeDegreesE7Fact                    (0, _longitudeDegreesE7Name               , FactMetaData::valueTypeInt32)
-    ,_rollRadiansFact                           (0, _rollRadiansName                      , FactMetaData::valueTypeDouble)
-    ,_pitchRadiansFact                          (0, _pitchRadiansName                     , FactMetaData::valueTypeDouble)
-    ,_yawRadiansFact                            (0, _yawRadiansName                       , FactMetaData::valueTypeDouble)
-    ,_rollRateRadiansPerSecondFact              (0, _rollRateRadiansPerSecondName         , FactMetaData::valueTypeDouble)
-    ,_pitchRateRadiansPerSecondFact             (0, _pitchRateRadiansPerSecondName        , FactMetaData::valueTypeDouble)
-    ,_yawRateRadiansPerSecondFact               (0, _yawRateRadiansPerSecondName          , FactMetaData::valueTypeDouble)
-    ,_xVelocityMetersPerSecondFact              (0, _xVelocityMetersPerSecondName         , FactMetaData::valueTypeDouble)
-    ,_yVelocityMetersPerSecondFact              (0, _yVelocityMetersPerSecondName         , FactMetaData::valueTypeDouble)
-    ,_zVelocityMetersPerSecondFact              (0, _zVelocityMetersPerSecondName         , FactMetaData::valueTypeDouble)
-    ,_customModeHeartbeatFact                   (0, _customModeHeartbeatName              , FactMetaData::valueTypeUint32)
-    ,_dataQualityFact                           (0, _dataQualityName                      , FactMetaData::valueTypeInt32)
-    ,_satellitesFact                            (0, _satellitesName                       , FactMetaData::valueTypeUint8)
-    ,_horizontalDilutionOfPositionFact          (0, _horizontalDilutionOfPositionName     , FactMetaData::valueTypeUint16)
+    ,_timeUnixMicrosecondsFact                  (0, _timeUnixMicrosecondsFactName             , FactMetaData::valueTypeUint64)
+    ,_altitudeMillimetersMSLFact                (0, _altitudeMillimetersMSLFactName           , FactMetaData::valueTypeInt32)
+    ,_absolutePressureMillibarsFact             (0, _absolutePressureMillibarsFactName        , FactMetaData::valueTypeDouble)
+    ,_temperature0KelvinFact                    (0, _temperature0KelvinFactName               , FactMetaData::valueTypeDouble)
+    ,_temperature1KelvinFact                    (0, _temperature1KelvinFactName               , FactMetaData::valueTypeDouble)
+    ,_temperature2KelvinFact                    (0, _temperature2KelvinFactName               , FactMetaData::valueTypeDouble)
+    ,_relativeHumidity0Fact                     (0, _relativeHumidity0FactName                , FactMetaData::valueTypeDouble)
+    ,_relativeHumidity1Fact                     (0, _relativeHumidity1FactName                , FactMetaData::valueTypeDouble)
+    ,_relativeHumidity2Fact                     (0, _relativeHumidity2FactName                , FactMetaData::valueTypeDouble)
+    ,_latitudeDegreesE7Fact                     (0, _latitudeDegreesE7FactName                , FactMetaData::valueTypeInt32)
+    ,_longitudeDegreesE7Fact                    (0, _longitudeDegreesE7FactName               , FactMetaData::valueTypeInt32)
+    ,_rollRadiansFact                           (0, _rollRadiansFactName                      , FactMetaData::valueTypeDouble)
+    ,_pitchRadiansFact                          (0, _pitchRadiansFactName                     , FactMetaData::valueTypeDouble)
+    ,_yawRadiansFact                            (0, _yawRadiansFactName                       , FactMetaData::valueTypeDouble)
+    ,_rollRateRadiansPerSecondFact              (0, _rollRateRadiansPerSecondFactName         , FactMetaData::valueTypeDouble)
+    ,_pitchRateRadiansPerSecondFact             (0, _pitchRateRadiansPerSecondFactName        , FactMetaData::valueTypeDouble)
+    ,_yawRateRadiansPerSecondFact               (0, _yawRateRadiansPerSecondFactName          , FactMetaData::valueTypeDouble)
+    ,_xVelocityMetersPerSecondFact              (0, _xVelocityMetersPerSecondFactName         , FactMetaData::valueTypeDouble)
+    ,_yVelocityMetersPerSecondFact              (0, _yVelocityMetersPerSecondFactName         , FactMetaData::valueTypeDouble)
+    ,_zVelocityMetersPerSecondFact              (0, _zVelocityMetersPerSecondFactName         , FactMetaData::valueTypeDouble)
+    ,_customModeHeartbeatFact                   (0, _customModeHeartbeatFactName              , FactMetaData::valueTypeUint32)
+    ,_dataQualityFact                           (0, _dataQualityFactName                      , FactMetaData::valueTypeInt32)
+    ,_satellitesFact                            (0, _satellitesFactName                       , FactMetaData::valueTypeUint8)
+    ,_horizontalDilutionOfPositionFact          (0, _horizontalDilutionOfPositionFactName     , FactMetaData::valueTypeUint16)
 {
-    _addFact(&_timeUnixMicrosecondsFact,                _timeUnixMicrosecondsName);
-    _addFact(&_altitudeMillimetersMSLFact,              _altitudeMillimetersMSLName);
-    _addFact(&_absolutePressureMillibarsFact,           _absolutePressureMillibarsName);
-    _addFact(&_temperature0KelvinFact,                  _temperature0KelvinName);
-    _addFact(&_temperature1KelvinFact,                  _temperature1KelvinName);
-    _addFact(&_temperature2KelvinFact,                  _temperature2KelvinName);
-    _addFact(&_relativeHumidity0Fact,                   _relativeHumidity0Name);
-    _addFact(&_relativeHumidity1Fact,                   _relativeHumidity1Name);
-    _addFact(&_relativeHumidity2Fact,                   _relativeHumidity2Name);
-    _addFact(&_latitudeDegreesE7Fact,                   _latitudeDegreesE7Name);
-    _addFact(&_longitudeDegreesE7Fact,                  _longitudeDegreesE7Name);
-    _addFact(&_rollRadiansFact,                         _rollRadiansName);
-    _addFact(&_pitchRadiansFact,                        _pitchRadiansName);
-    _addFact(&_yawRadiansFact,                          _yawRadiansName);
-    _addFact(&_rollRateRadiansPerSecondFact,            _rollRateRadiansPerSecondName);
-    _addFact(&_pitchRateRadiansPerSecondFact,           _pitchRateRadiansPerSecondName);
-    _addFact(&_yawRateRadiansPerSecondFact,             _yawRateRadiansPerSecondName);
-    _addFact(&_xVelocityMetersPerSecondFact,            _xVelocityMetersPerSecondName);
-    _addFact(&_yVelocityMetersPerSecondFact,            _yVelocityMetersPerSecondName);
-    _addFact(&_zVelocityMetersPerSecondFact,            _zVelocityMetersPerSecondName);
-    _addFact(&_customModeHeartbeatFact,                 _customModeHeartbeatName);
-    _addFact(&_dataQualityFact,                         _dataQualityName);
-    _addFact(&_satellitesFact,                          _satellitesName);
-    _addFact(&_horizontalDilutionOfPositionFact,        _horizontalDilutionOfPositionName);
+    _addFact(&_timeUnixMicrosecondsFact,                _timeUnixMicrosecondsFactName);
+    _addFact(&_altitudeMillimetersMSLFact,              _altitudeMillimetersMSLFactName);
+    _addFact(&_absolutePressureMillibarsFact,           _absolutePressureMillibarsFactName);
+    _addFact(&_temperature0KelvinFact,                  _temperature0KelvinFactName);
+    _addFact(&_temperature1KelvinFact,                  _temperature1KelvinFactName);
+    _addFact(&_temperature2KelvinFact,                  _temperature2KelvinFactName);
+    _addFact(&_relativeHumidity0Fact,                   _relativeHumidity0FactName);
+    _addFact(&_relativeHumidity1Fact,                   _relativeHumidity1FactName);
+    _addFact(&_relativeHumidity2Fact,                   _relativeHumidity2FactName);
+    _addFact(&_latitudeDegreesE7Fact,                   _latitudeDegreesE7FactName);
+    _addFact(&_longitudeDegreesE7Fact,                  _longitudeDegreesE7FactName);
+    _addFact(&_rollRadiansFact,                         _rollRadiansFactName);
+    _addFact(&_pitchRadiansFact,                        _pitchRadiansFactName);
+    _addFact(&_yawRadiansFact,                          _yawRadiansFactName);
+    _addFact(&_rollRateRadiansPerSecondFact,            _rollRateRadiansPerSecondFactName);
+    _addFact(&_pitchRateRadiansPerSecondFact,           _pitchRateRadiansPerSecondFactName);
+    _addFact(&_yawRateRadiansPerSecondFact,             _yawRateRadiansPerSecondFactName);
+    _addFact(&_xVelocityMetersPerSecondFact,            _xVelocityMetersPerSecondFactName);
+    _addFact(&_yVelocityMetersPerSecondFact,            _yVelocityMetersPerSecondFactName);
+    _addFact(&_zVelocityMetersPerSecondFact,            _zVelocityMetersPerSecondFactName);
+    _addFact(&_customModeHeartbeatFact,                 _customModeHeartbeatFactName);
+    _addFact(&_dataQualityFact,                         _dataQualityFactName);
+    _addFact(&_satellitesFact,                          _satellitesFactName);
+    _addFact(&_horizontalDilutionOfPositionFact,        _horizontalDilutionOfPositionFactName);
 
     _timeUnixMicrosecondsFact.              setRawValue(std::numeric_limits<uint64_t>::max());
     _altitudeMillimetersMSLFact.            setRawValue(std::numeric_limits<signed int>::quiet_NaN());

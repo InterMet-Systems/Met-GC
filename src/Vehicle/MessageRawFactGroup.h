@@ -12,7 +12,7 @@ public:
 
     Q_PROPERTY(Fact* timeUnixSeconds                    READ timeUnixSeconds                    CONSTANT) /* f64        derived from timeUnixMicroseconds      */
     Q_PROPERTY(Fact* altitudeMetersASL                  READ altitudeMetersASL                  CONSTANT) /* f64        derived from altitudeMillimetersMSL    */
-    Q_PROPERTY(Fact* R          READ absolutePressureMillibars          CONSTANT) /* f32        MAVLINK_MSG_ID_SCALED_PRESSURE2        */
+    Q_PROPERTY(Fact* absolutePressureMillibars          READ absolutePressureMillibars          CONSTANT) /* f32        MAVLINK_MSG_ID_SCALED_PRESSURE2        */
     Q_PROPERTY(Fact* temperature0Celsius                READ temperature0Celsius                CONSTANT) /* f32        derived from temperature0Kelvin        */
     Q_PROPERTY(Fact* temperature1Celsius                READ temperature1Celsius                CONSTANT) /* f32        derived from temperature1Kelvin        */
     Q_PROPERTY(Fact* temperature2Celsius                READ temperature2Celsius                CONSTANT) /* f32        derived from temperature2Kelvin        */
@@ -48,78 +48,78 @@ public:
     Q_PROPERTY(Fact* filename                           READ filename                           CONSTANT) /* string     MessengerRaw::createFilename           */
 
     Fact* timeUnixSeconds()                   { return &_timeUnixSecondsFact; }
-    Fact* getFactPointerAltitudeMetersASL()                 { return &_altitudeMetersASLFact; }
-    Fact* getFactPointerAbsolutePressureMillibars()         { return &_absolutePressureMillibarsFact; }
-    Fact* getFactPointerTemperature0Celsius()               { return &_temperature0CelsiusFact; }
-    Fact* getFactPointerTemperature1Celsius()               { return &_temperature1CelsiusFact; }
-    Fact* getFactPointerTemperature2Celsius()               { return &_temperature2CelsiusFact; }
-    Fact* getFactPointerRelativeHumidity0()                 { return &_relativeHumidity0Fact; }
-    Fact* getFactPointerRelativeHumidity1()                 { return &_relativeHumidity1Fact; }
-    Fact* getFactPointerRelativeHumidity2()                 { return &_relativeHumidity2Fact; }
-    Fact* getFactPointerLatitudeDegrees()                   { return &_latitudeDegreesFact; }
-    Fact* getFactPointerLongitudeDegrees()                  { return &_longitudeDegreesFact; }
-    Fact* getFactPointerRollDegrees()                       { return &_rollDegreesFact; }
-    Fact* getFactPointerPitchDegrees()                      { return &_pitchDegreesFact; }
-    Fact* getFactPointerYawDegrees()                        { return &_yawDegreesFact; }
-    Fact* getFactPointerRollRateDegreesPerSecond()          { return &_rollRateDegreesPerSecondFact; }
-    Fact* getFactPointerPitchRateDegreesPerSecond()         { return &_pitchRateDegreesPerSecondFact; }
-    Fact* getFactPointerYawRateDegreesPerSecond()           { return &_yawRateDegreesPerSecondFact; }
-    Fact* getFactPointerXVelocityMetersPerSecond()          { return &_xVelocityMetersPerSecondFact; }
-    Fact* getFactPointerYVelocityMetersPerSecond()          { return &_yVelocityMetersPerSecondFact; }
-    Fact* getFactPointerZVelocityMetersPerSecond()          { return &_zVelocityMetersPerSecondFact; }
-    Fact* getFactPointerCustomModeHeartbeat()               { return &_customModeHeartbeatFact; }
-    Fact* getFactPointerDataQuality()                       { return &_dataQualityFact; }
-    Fact* getFactPointerHomePositionLatitudeDegrees()       { return &_homePositionLatitudeDegreesFact; }
-    Fact* getFactPointerHomePositionLongitudeDegrees()      { return &_homePositionLongitudeDegreesFact; }
-    Fact* getFactPointerHomePositionAltitudeMeters()        { return &_homePositionAltitudeMetersFact; }
-    Fact* getFactPointerDroneSerialNumber()                 { return &_droneSerialNumberFact; }
-    Fact* getFactPointerGroundWindSpeedMetersPerSecond()    { return &_groundWindSpeedMetersPerSecondFact; }
-    Fact* getFactPointerGroundWindDirectionDegrees()        { return &_groundWindDirectionDegreesFact; }
-    Fact* getFactPointerGroundAirTemperatureCelsius()       { return &_groundAirTemperatureCelsiusFact; }
-    Fact* getFactPointerGroundHumidity()                    { return &_groundHumidityFact; }
-    Fact* getFactPointerGroundPressureMillibars()           { return &_groundPressureMillibarsFact; }
-    Fact* getFactPointerPoweredAgeSeconds()                 { return &_poweredAgeSecondsFact; }
-    Fact* getFactPointerArmedAgeSeconds()                   { return &_armedAgeSecondsFact; }
-    Fact* getFactPointerSatellites()                        { return &_satellitesFact; }
-    Fact* getFactPointerHorizontalDilutionOfPositionFloat() { return &_horizontalDilutionOfPositionFloatFact; }
-    Fact* getFactPointerFilename()                          { return &_filenameFact; }
+    Fact* altitudeMetersASL()                 { return &_altitudeMetersASLFact; }
+    Fact* absolutePressureMillibars()         { return &_absolutePressureMillibarsFact; }
+    Fact* temperature0Celsius()               { return &_temperature0CelsiusFact; }
+    Fact* temperature1Celsius()               { return &_temperature1CelsiusFact; }
+    Fact* temperature2Celsius()               { return &_temperature2CelsiusFact; }
+    Fact* relativeHumidity0()                 { return &_relativeHumidity0Fact; }
+    Fact* relativeHumidity1()                 { return &_relativeHumidity1Fact; }
+    Fact* relativeHumidity2()                 { return &_relativeHumidity2Fact; }
+    Fact* latitudeDegrees()                   { return &_latitudeDegreesFact; }
+    Fact* longitudeDegrees()                  { return &_longitudeDegreesFact; }
+    Fact* rollDegrees()                       { return &_rollDegreesFact; }
+    Fact* pitchDegrees()                      { return &_pitchDegreesFact; }
+    Fact* yawDegrees()                        { return &_yawDegreesFact; }
+    Fact* rollRateDegreesPerSecond()          { return &_rollRateDegreesPerSecondFact; }
+    Fact* pitchRateDegreesPerSecond()         { return &_pitchRateDegreesPerSecondFact; }
+    Fact* yawRateDegreesPerSecond()           { return &_yawRateDegreesPerSecondFact; }
+    Fact* xVelocityMetersPerSecond()          { return &_xVelocityMetersPerSecondFact; }
+    Fact* yVelocityMetersPerSecond()          { return &_yVelocityMetersPerSecondFact; }
+    Fact* zVelocityMetersPerSecond()          { return &_zVelocityMetersPerSecondFact; }
+    Fact* customModeHeartbeat()               { return &_customModeHeartbeatFact; }
+    Fact* dataQuality()                       { return &_dataQualityFact; }
+    Fact* homePositionLatitudeDegrees()       { return &_homePositionLatitudeDegreesFact; }
+    Fact* homePositionLongitudeDegrees()      { return &_homePositionLongitudeDegreesFact; }
+    Fact* homePositionAltitudeMeters()        { return &_homePositionAltitudeMetersFact; }
+    Fact* droneSerialNumber()                 { return &_droneSerialNumberFact; }
+    Fact* groundWindSpeedMetersPerSecond()    { return &_groundWindSpeedMetersPerSecondFact; }
+    Fact* groundWindDirectionDegrees()        { return &_groundWindDirectionDegreesFact; }
+    Fact* groundAirTemperatureCelsius()       { return &_groundAirTemperatureCelsiusFact; }
+    Fact* groundHumidity()                    { return &_groundHumidityFact; }
+    Fact* groundPressureMillibars()           { return &_groundPressureMillibarsFact; }
+    Fact* poweredAgeSeconds()                 { return &_poweredAgeSecondsFact; }
+    Fact* armedAgeSeconds()                   { return &_armedAgeSecondsFact; }
+    Fact* satellites()                        { return &_satellitesFact; }
+    Fact* horizontalDilutionOfPositionFloat() { return &_horizontalDilutionOfPositionFloatFact; }
+    Fact* filename()                          { return &_filenameFact; }
 
     static const char* _timeUnixSecondsFactName;
-    static const char* _altitudeMetersASLName;
-    static const char* _absolutePressureMillibarsName;
-    static const char* _temperature0CelsiusName;
-    static const char* _temperature1CelsiusName;
-    static const char* _temperature2CelsiusName;
-    static const char* _relativeHumidity0Name;
-    static const char* _relativeHumidity1Name;
-    static const char* _relativeHumidity2Name;
-    static const char* _latitudeDegreesName;
-    static const char* _longitudeDegreesName;
-    static const char* _rollDegreesName;
-    static const char* _pitchDegreesName;
-    static const char* _yawDegreesName;
-    static const char* _rollRateDegreesPerSecondName;
-    static const char* _pitchRateDegreesPerSecondName;
-    static const char* _yawRateDegreesPerSecondName;
-    static const char* _xVelocityMetersPerSecondName;
-    static const char* _yVelocityMetersPerSecondName;
-    static const char* _zVelocityMetersPerSecondName;
-    static const char* _customModeHeartbeatName;
-    static const char* _dataQualityName;
-    static const char* _homePositionLatitudeDegreesName;
-    static const char* _homePositionLongitudeDegreesName;
-    static const char* _homePositionAltitudeMetersName;
-    static const char* _droneSerialNumberName;
-    static const char* _groundWindSpeedMetersPerSecondName;
-    static const char* _groundWindDirectionDegreesName;
-    static const char* _groundAirTemperatureCelsiusName;
-    static const char* _groundHumidityName;
-    static const char* _groundPressureMillibarsName;
-    static const char* _poweredAgeSecondsName;
-    static const char* _armedAgeSecondsName;
-    static const char* _satellitesName;
-    static const char* _horizontalDilutionOfPositionFloatName;
-    static const char* _filenameName;
+    static const char* _altitudeMetersASLFactName;
+    static const char* _absolutePressureMillibarsFactName;
+    static const char* _temperature0CelsiusFactName;
+    static const char* _temperature1CelsiusFactName;
+    static const char* _temperature2CelsiusFactName;
+    static const char* _relativeHumidity0FactName;
+    static const char* _relativeHumidity1FactName;
+    static const char* _relativeHumidity2FactName;
+    static const char* _latitudeDegreesFactName;
+    static const char* _longitudeDegreesFactName;
+    static const char* _rollDegreesFactName;
+    static const char* _pitchDegreesFactName;
+    static const char* _yawDegreesFactName;
+    static const char* _rollRateDegreesPerSecondFactName;
+    static const char* _pitchRateDegreesPerSecondFactName;
+    static const char* _yawRateDegreesPerSecondFactName;
+    static const char* _xVelocityMetersPerSecondFactName;
+    static const char* _yVelocityMetersPerSecondFactName;
+    static const char* _zVelocityMetersPerSecondFactName;
+    static const char* _customModeHeartbeatFactName;
+    static const char* _dataQualityFactName;
+    static const char* _homePositionLatitudeDegreesFactName;
+    static const char* _homePositionLongitudeDegreesFactName;
+    static const char* _homePositionAltitudeMetersFactName;
+    static const char* _droneSerialNumberFactName;
+    static const char* _groundWindSpeedMetersPerSecondFactName;
+    static const char* _groundWindDirectionDegreesFactName;
+    static const char* _groundAirTemperatureCelsiusFactName;
+    static const char* _groundHumidityFactName;
+    static const char* _groundPressureMillibarsFactName;
+    static const char* _poweredAgeSecondsFactName;
+    static const char* _armedAgeSecondsFactName;
+    static const char* _satellitesFactName;
+    static const char* _horizontalDilutionOfPositionFloatFactName;
+    static const char* _filenameFactName;
 
 private:
     Fact    _timeUnixSecondsFact;

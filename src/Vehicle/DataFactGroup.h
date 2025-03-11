@@ -35,55 +35,55 @@ public:
     Q_PROPERTY(Fact* satellites                         READ satellites                         CONSTANT) /* uint8_t    MAVLINK_MSG_ID_GPS_RAW_INT             */
     Q_PROPERTY(Fact* horizontalDilutionOfPosition       READ horizontalDilutionOfPosition       CONSTANT) /* uint16_t   MAVLINK_MSG_ID_GPS_RAW_INT             */
 
-    Fact* getFactPointerTimeUnixMicroseconds()              { return &_timeUnixMicrosecondsFact; }
-    Fact* getFactPointerAltitudeMillimetersMSL()            { return &_altitudeMillimetersMSLFact; }
-    Fact* getFactPointerAbsolutePressureMillibars()         { return &_absolutePressureMillibarsFact; }
-    Fact* getFactPointerTemperature0Kelvin()                { return &_temperature0KelvinFact; }
-    Fact* getFactPointerTemperature1Kelvin()                { return &_temperature1KelvinFact; }
-    Fact* getFactPointerTemperature2Kelvin()                { return &_temperature2KelvinFact; }
-    Fact* getFactPointerRelativeHumidity0()                 { return &_relativeHumidity0Fact; }
-    Fact* getFactPointerRelativeHumidity1()                 { return &_relativeHumidity1Fact; }
-    Fact* getFactPointerRelativeHumidity2()                 { return &_relativeHumidity2Fact; }
-    Fact* getFactPointerLatitudeDegreesE7()                 { return &_latitudeDegreesE7Fact; }
-    Fact* getFactPointerLongitudeDegreesE7()                { return &_longitudeDegreesE7Fact; }
-    Fact* getFactPointerRollRadians()                       { return &_rollRadiansFact; }
-    Fact* getFactPointerPitchRadians()                      { return &_pitchRadiansFact; }
-    Fact* getFactPointerYawRadians()                        { return &_yawRadiansFact; }
-    Fact* getFactPointerRollRateRadiansPerSecond()          { return &_rollRateRadiansPerSecondFact; }
-    Fact* getFactPointerPitchRateRadiansPerSecond()         { return &_pitchRateRadiansPerSecondFact; }
-    Fact* getFactPointerYawRateRadiansPerSecond()           { return &_yawRateRadiansPerSecondFact; }
-    Fact* getFactPointerXVelocityMetersPerSecond()          { return &_xVelocityMetersPerSecondFact; }
-    Fact* getFactPointerYVelocityMetersPerSecond()          { return &_yVelocityMetersPerSecondFact; }
-    Fact* getFactPointerZVelocityMetersPerSecond()          { return &_zVelocityMetersPerSecondFact; }
-    Fact* getFactPointerCustomModeHeartbeat()               { return &_customModeHeartbeatFact; }
-    Fact* getFactPointerDataQuality()                       { return &_dataQualityFact; }
-    Fact* getFactPointerSatellites()                        { return &_satellitesFact; }
-    Fact* getFactPointerHorizontalDilutionOfPosition()      { return &_horizontalDilutionOfPositionFact; }
+    Fact* timeUnixMicroseconds()              { return &_timeUnixMicrosecondsFact; }
+    Fact* altitudeMillimetersMSL()            { return &_altitudeMillimetersMSLFact; }
+    Fact* absolutePressureMillibars()         { return &_absolutePressureMillibarsFact; }
+    Fact* temperature0Kelvin()                { return &_temperature0KelvinFact; }
+    Fact* temperature1Kelvin()                { return &_temperature1KelvinFact; }
+    Fact* temperature2Kelvin()                { return &_temperature2KelvinFact; }
+    Fact* relativeHumidity0()                 { return &_relativeHumidity0Fact; }
+    Fact* relativeHumidity1()                 { return &_relativeHumidity1Fact; }
+    Fact* relativeHumidity2()                 { return &_relativeHumidity2Fact; }
+    Fact* latitudeDegreesE7()                 { return &_latitudeDegreesE7Fact; }
+    Fact* longitudeDegreesE7()                { return &_longitudeDegreesE7Fact; }
+    Fact* rollRadians()                       { return &_rollRadiansFact; }
+    Fact* pitchRadians()                      { return &_pitchRadiansFact; }
+    Fact* yawRadians()                        { return &_yawRadiansFact; }
+    Fact* rollRateRadiansPerSecond()          { return &_rollRateRadiansPerSecondFact; }
+    Fact* pitchRateRadiansPerSecond()         { return &_pitchRateRadiansPerSecondFact; }
+    Fact* yawRateRadiansPerSecond()           { return &_yawRateRadiansPerSecondFact; }
+    Fact* xVelocityMetersPerSecond()          { return &_xVelocityMetersPerSecondFact; }
+    Fact* yVelocityMetersPerSecond()          { return &_yVelocityMetersPerSecondFact; }
+    Fact* zVelocityMetersPerSecond()          { return &_zVelocityMetersPerSecondFact; }
+    Fact* customModeHeartbeat()               { return &_customModeHeartbeatFact; }
+    Fact* dataQuality()                       { return &_dataQualityFact; }
+    Fact* satellites()                        { return &_satellitesFact; }
+    Fact* horizontalDilutionOfPosition()      { return &_horizontalDilutionOfPositionFact; }
 
-    static const char* _timeUnixMicrosecondsName;
-    static const char* _altitudeMillimetersMSLName;
-    static const char* _absolutePressureMillibarsName;
-    static const char* _temperature0KelvinName;
-    static const char* _temperature1KelvinName;
-    static const char* _temperature2KelvinName;
-    static const char* _relativeHumidity0Name;
-    static const char* _relativeHumidity1Name;
-    static const char* _relativeHumidity2Name;
-    static const char* _latitudeDegreesE7Name;
-    static const char* _longitudeDegreesE7Name;
-    static const char* _rollRadiansName;
-    static const char* _pitchRadiansName;
-    static const char* _yawRadiansName;
-    static const char* _rollRateRadiansPerSecondName;
-    static const char* _pitchRateRadiansPerSecondName;
-    static const char* _yawRateRadiansPerSecondName;
-    static const char* _xVelocityMetersPerSecondName;
-    static const char* _yVelocityMetersPerSecondName;
-    static const char* _zVelocityMetersPerSecondName;
-    static const char* _customModeHeartbeatName;
-    static const char* _dataQualityName;
-    static const char* _satellitesName;
-    static const char* _horizontalDilutionOfPositionName;
+    static const char* _timeUnixMicrosecondsFactName;
+    static const char* _altitudeMillimetersMSLFactName;
+    static const char* _absolutePressureMillibarsFactName;
+    static const char* _temperature0KelvinFactName;
+    static const char* _temperature1KelvinFactName;
+    static const char* _temperature2KelvinFactName;
+    static const char* _relativeHumidity0FactName;
+    static const char* _relativeHumidity1FactName;
+    static const char* _relativeHumidity2FactName;
+    static const char* _latitudeDegreesE7FactName;
+    static const char* _longitudeDegreesE7FactName;
+    static const char* _rollRadiansFactName;
+    static const char* _pitchRadiansFactName;
+    static const char* _yawRadiansFactName;
+    static const char* _rollRateRadiansPerSecondFactName;
+    static const char* _pitchRateRadiansPerSecondFactName;
+    static const char* _yawRateRadiansPerSecondFactName;
+    static const char* _xVelocityMetersPerSecondFactName;
+    static const char* _yVelocityMetersPerSecondFactName;
+    static const char* _zVelocityMetersPerSecondFactName;
+    static const char* _customModeHeartbeatFactName;
+    static const char* _dataQualityFactName;
+    static const char* _satellitesFactName;
+    static const char* _horizontalDilutionOfPositionFactName;
 
 private:
     Fact            _timeUnixMicrosecondsFact;
