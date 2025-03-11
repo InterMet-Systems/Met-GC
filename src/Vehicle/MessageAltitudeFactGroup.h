@@ -53,139 +53,138 @@ public:
     Q_PROPERTY(Fact* hDOP                     READ hDOP                     CONSTANT) /* f64        time-varying                raw         */
     Q_PROPERTY(Fact* dataQuality              READ dataQuality              CONSTANT) /* int32_t    time-varying                raw         */
 
-    Fact* getFactPointerSRN                     ()  { return &_SRNFact; }
-    Fact* getFactPointerDrone_Serial_Number     ()  { return &_SRNFact; }
-    Fact* getFactPointerYYYY                    ()  { return &_YYYYFact; }
-    Fact* getFactPointerMM                      ()  { return &_MMFact; }
-    Fact* getFactPointerDD                      ()  { return &_DDFact; }
-    Fact* getFactPointerHH                      ()  { return &_HHFact; }
-    Fact* getFactPointerMm                      ()  { return &_MmFact; }
-    Fact* getFactPointerss                      ()  { return &_ssFact; }
-    Fact* getFactPointerString                  ()  { return &_StringFact; }
-    Fact* getFactPointerMessage_Version         ()  { return &_Message_VersionFact; }
-    Fact* getFactPointerDrone_Powered_Age       ()  { return &_Drone_Powered_AgeFact; }
-    Fact* getFactPointerDrone_Armed_Age         ()  { return &_Drone_Armed_AgeFact; }
-    Fact* getFactPointerRaw_Data_Filename       ()  { return &_Raw_Data_FilenameFact; }
-    Fact* getFactPointerUnix_Start_Time         ()  { return &_Unix_Start_TimeFact; }
-    Fact* getFactPointerGround_Wind_Speed       ()  { return &_Ground_Wind_SpeedFact; }
-    Fact* getFactPointerGround_Wind_Direction   ()  { return &_Ground_Wind_DirectionFact; }
-    Fact* getFactPointerGround_Air_Temperature  ()  { return &_Ground_Air_TemperatureFact; }
-    Fact* getFactPointerGround_Humidity         ()  { return &_Ground_HumidityFact; }
-    Fact* getFactPointerGround_Pressure         ()  { return &_Ground_PressureFact; }
-    Fact* getFactPointerHome_Position_Latitude  ()  { return &_Home_Position_LatitudeFact; }
-    Fact* getFactPointerHome_Position_Longitude ()  { return &_Home_Position_LongitudeFact; }
-    Fact* getFactPointerHome_Position_Altitude  ()  { return &_Home_Position_AltitudeFact; }
-    Fact* getFactPointerAltitude_ASL            ()  { return &_Altitude_ASLFact; }
-    Fact* getFactPointerUTC_Date                ()  { return &_UTC_DateFact; }
-    Fact* getFactPointerUTC_Time                ()  { return &_UTC_TimeFact; }
-    Fact* getFactPointerTime_Since_Start        ()  { return &_Time_Since_StartFact; }
-    Fact* getFactPointerPressure                ()  { return &_PressureFact; }
-    Fact* getFactPointerAir_Temp                ()  { return &_Air_TempFact; }
-    Fact* getFactPointerRel_Hum                 ()  { return &_Rel_HumFact; }
-    Fact* getFactPointerWind_Speed              ()  { return &_Wind_SpeedFact; }
-    Fact* getFactPointerWind_Direction          ()  { return &_Wind_DirectionFact; }
-    Fact* getFactPointerLatitude                ()  { return &_LatitudeFact; }
-    Fact* getFactPointerLongitude               ()  { return &_LongitudeFact; }
-    Fact* getFactPointerRoll                    ()  { return &_RollFact; }
-    Fact* getFactPointerRoll_Rate               ()  { return &_Roll_RateFact; }
-    Fact* getFactPointerPitch                   ()  { return &_PitchFact; }
-    Fact* getFactPointerPitch_Rate              ()  { return &_Pitch_RateFact; }
-    Fact* getFactPointerYaw                     ()  { return &_YawFact; }
-    Fact* getFactPointerYaw_Rate                ()  { return &_Yaw_RateFact; }
-    Fact* getFactPointerAscent_Rate             ()  { return &_Ascent_RateFact; }
-    Fact* getFactPointerSpeed_Over_Ground       ()  { return &_Speed_Over_GroundFact; }
-    Fact* getFactPointerSatellites              ()  { return &_SatellitesFact; }
-    Fact* getFactPointerHDOP                    ()  { return &_HDOPFact; }
-    Fact* getFactPointerData_Quality            ()  { return &_Data_QualityFact; }
+    Fact* droneSerial           ()  { return &_droneSerialFact; }
+    Fact* year                  ()  { return &_yearFact; }
+    Fact* month                 ()  { return &_monthFact; }
+    Fact* day                   ()  { return &_dayFact; }
+    Fact* hour                  ()  { return &_hourFact; }
+    Fact* minute                ()  { return &_minuteFact; }
+    Fact* second                ()  { return &_secondFact; }
+    Fact* string                ()  { return &_stringFact; }
+    Fact* messageVersion        ()  { return &_messageVersionFact; }
+    Fact* dronePoweredAge       ()  { return &_dronePoweredAgeFact; }
+    Fact* droneArmedAge         ()  { return &_droneArmedAgeFact; }
+    Fact* rawDataFilename       ()  { return &_rawDataFilenameFact; }
+    Fact* unixStartTime         ()  { return &_unixStartTimeFact; }
+    Fact* groundWindSpeed       ()  { return &_groundWindSpeedFact; }
+    Fact* groundWindDirection   ()  { return &_groundWindDirectionFact; }
+    Fact* groundAirTemperature  ()  { return &_groundAirTemperatureFact; }
+    Fact* groundHumidity        ()  { return &_groundHumidityFact; }
+    Fact* groundPressure        ()  { return &_groundPressureFact; }
+    Fact* homePositionLatitude  ()  { return &_homePositionLatitudeFact; }
+    Fact* homePositionLongitude ()  { return &_homePositionLongitudeFact; }
+    Fact* homePositionAltitude  ()  { return &_homePositionAltitudeFact; }
+    Fact* altitudeASL           ()  { return &_altitudeASLFact; }
+    Fact* uTCDate               ()  { return &_uTCDateFact; }
+    Fact* uTCTime               ()  { return &_uTCTimeFact; }
+    Fact* timeSinceStart        ()  { return &_timeSinceStartFact; }
+    Fact* pressure              ()  { return &_pressureFact; }
+    Fact* airTemp               ()  { return &_airTempFact; }
+    Fact* relHum                ()  { return &_relHumFact; }
+    Fact* windSpeed             ()  { return &_windSpeedFact; }
+    Fact* windDirection         ()  { return &_windDirectionFact; }
+    Fact* latitude              ()  { return &_latitudeFact; }
+    Fact* longitude             ()  { return &_longitudeFact; }
+    Fact* roll                  ()  { return &_rollFact; }
+    Fact* rollRate              ()  { return &_rollRateFact; }
+    Fact* pitch                 ()  { return &_pitchFact; }
+    Fact* pitchRate             ()  { return &_pitchRateFact; }
+    Fact* yaw                   ()  { return &_yawFact; }
+    Fact* yawRate               ()  { return &_yawRateFact; }
+    Fact* ascentRate            ()  { return &_ascentRateFact; }
+    Fact* speedOverGround       ()  { return &_speedOverGroundFact; }
+    Fact* satellites            ()  { return &_satellitesFact; }
+    Fact* hDOP                  ()  { return &_hDOPFact; }
+    Fact* dataQuality           ()  { return &_dataQualityFact; }
 
-    static const char* _SRNName;
-    static const char* _YYYYName;
-    static const char* _MMName;
-    static const char* _DDName;
-    static const char* _HHName;
-    static const char* _MmName;
-    static const char* _ssName;
-    static const char* _StringName;
-    static const char* _Message_VersionName;
-    static const char* _Drone_Powered_AgeName;
-    static const char* _Drone_Armed_AgeName;
-    static const char* _Raw_Data_FilenameName;
-    static const char* _Unix_Start_TimeName;
-    static const char* _Ground_Wind_SpeedName;
-    static const char* _Ground_Wind_DirectionName;
-    static const char* _Ground_Air_TemperatureName;
-    static const char* _Ground_HumidityName;
-    static const char* _Ground_PressureName;
-    static const char* _Home_Position_LatitudeName;
-    static const char* _Home_Position_LongitudeName;
-    static const char* _Home_Position_AltitudeName;
-    static const char* _Altitude_ASLName;
-    static const char* _UTC_DateName;
-    static const char* _UTC_TimeName;
-    static const char* _Time_Since_StartName;
-    static const char* _PressureName;
-    static const char* _Air_TempName;
-    static const char* _Rel_HumName;
-    static const char* _Wind_SpeedName;
-    static const char* _Wind_DirectionName;
-    static const char* _LatitudeName;
-    static const char* _LongitudeName;
-    static const char* _RollName;
-    static const char* _Roll_RateName;
-    static const char* _PitchName;
-    static const char* _Pitch_RateName;
-    static const char* _YawName;
-    static const char* _Yaw_RateName;
-    static const char* _Ascent_RateName;
-    static const char* _Speed_Over_GroundName;
-    static const char* _SatellitesName;
-    static const char* _HDOPName;
-    static const char* _Data_QualityName;
+    static const char* _droneSerialFactName;
+    static const char* _yearFactName;
+    static const char* _monthFactName;
+    static const char* _dayFactName;
+    static const char* _hourFactName;
+    static const char* _minuteFactName;
+    static const char* _secondFactName;
+    static const char* _stringFactName;
+    static const char* _messageVersionFactName;
+    static const char* _dronePoweredAgeFactName;
+    static const char* _droneArmedAgeFactName;
+    static const char* _rawDataFilenameFactName;
+    static const char* _unixStartTimeFactName;
+    static const char* _groundWindSpeedFactName;
+    static const char* _groundWindDirectionFactName;
+    static const char* _groundAirTemperatureFactName;
+    static const char* _groundHumidityFactName;
+    static const char* _groundPressureFactName;
+    static const char* _homePositionLatitudeFactName;
+    static const char* _homePositionLongitudeFactName;
+    static const char* _homePositionAltitudeFactName;
+    static const char* _altitudeASLFactName;
+    static const char* _uTCDateFactName;
+    static const char* _uTCTimeFactName;
+    static const char* _timeSinceStartFactName;
+    static const char* _pressureFactName;
+    static const char* _airTempFactName;
+    static const char* _relHumFactName;
+    static const char* _windSpeedFactName;
+    static const char* _windDirectionFactName;
+    static const char* _latitudeFactName;
+    static const char* _longitudeFactName;
+    static const char* _rollFactName;
+    static const char* _rollRateFactName;
+    static const char* _pitchFactName;
+    static const char* _pitchRateFactName;
+    static const char* _yawFactName;
+    static const char* _yawRateFactName;
+    static const char* _ascentRateFactName;
+    static const char* _speedOverGroundFactName;
+    static const char* _satellitesFactName;
+    static const char* _hDOPFactName;
+    static const char* _dataQualityFactName;
 
 private:
-    Fact _SRNFact;
-    Fact _YYYYFact;
-    Fact _MMFact;
-    Fact _DDFact;
-    Fact _HHFact;
-    Fact _MmFact;
-    Fact _ssFact;
-    Fact _StringFact;
-    Fact _Message_VersionFact;
-    Fact _Drone_Powered_AgeFact;
-    Fact _Drone_Armed_AgeFact;
-    Fact _Raw_Data_FilenameFact;
-    Fact _Unix_Start_TimeFact;
-    Fact _Ground_Wind_SpeedFact;
-    Fact _Ground_Wind_DirectionFact;
-    Fact _Ground_Air_TemperatureFact;
-    Fact _Ground_HumidityFact;
-    Fact _Ground_PressureFact;
-    Fact _Home_Position_LatitudeFact;
-    Fact _Home_Position_LongitudeFact;
-    Fact _Home_Position_AltitudeFact;
-    Fact _Altitude_ASLFact;
-    Fact _UTC_DateFact;
-    Fact _UTC_TimeFact;
-    Fact _Time_Since_StartFact;
-    Fact _PressureFact;
-    Fact _Air_TempFact;
-    Fact _Rel_HumFact;
-    Fact _Wind_SpeedFact;
-    Fact _Wind_DirectionFact;
-    Fact _LatitudeFact;
-    Fact _LongitudeFact;
-    Fact _RollFact;
-    Fact _Roll_RateFact;
-    Fact _PitchFact;
-    Fact _Pitch_RateFact;
-    Fact _YawFact;
-    Fact _Yaw_RateFact;
-    Fact _Ascent_RateFact;
-    Fact _Speed_Over_GroundFact;
-    Fact _SatellitesFact;
-    Fact _HDOPFact;
-    Fact _Data_QualityFact;
+    Fact _droneSerialFact;
+    Fact _yearFact;
+    Fact _monthFact;
+    Fact _dayFact;
+    Fact _hourFact;
+    Fact _minuteFact;
+    Fact _secondFact;
+    Fact _stringFact;
+    Fact _messageVersionFact;
+    Fact _dronePoweredAgeFact;
+    Fact _droneArmedAgeFact;
+    Fact _rawDataFilenameFact;
+    Fact _unixStartTimeFact;
+    Fact _groundWindSpeedFact;
+    Fact _groundWindDirectionFact;
+    Fact _groundAirTemperatureFact;
+    Fact _groundHumidityFact;
+    Fact _groundPressureFact;
+    Fact _homePositionLatitudeFact;
+    Fact _homePositionLongitudeFact;
+    Fact _homePositionAltitudeFact;
+    Fact _altitudeASLFact;
+    Fact _uTCDateFact;
+    Fact _uTCTimeFact;
+    Fact _timeSinceStartFact;
+    Fact _pressureFact;
+    Fact _airTempFact;
+    Fact _relHumFact;
+    Fact _windSpeedFact;
+    Fact _windDirectionFact;
+    Fact _latitudeFact;
+    Fact _longitudeFact;
+    Fact _rollFact;
+    Fact _rollRateFact;
+    Fact _pitchFact;
+    Fact _pitchRateFact;
+    Fact _yawFact;
+    Fact _yawRateFact;
+    Fact _ascentRateFact;
+    Fact _speedOverGroundFact;
+    Fact _satellitesFact;
+    Fact _hDOPFact;
+    Fact _dataQualityFact;
 };
 
 #endif // MESSAGEALTITUDEFACTGROUP_H
