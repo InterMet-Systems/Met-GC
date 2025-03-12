@@ -5,16 +5,16 @@
 #include "IMetMath.h"
 
 void MessengerRaw::updateData(){
-    uint64_t time = source->getFactPointerTimeUnixMicroseconds()->rawValue().toULongLong();
+    uint64_t time = source->timeUnixMicroseconds()->rawValue().toULongLong();
     data->timeUnixSeconds()->setRawValue(QVariant(static_cast<double>(time) / 1e6));
 
-    int32_t alt = source->getFactPointerAltitudeMillimetersMSL()->rawValue().toInt();
+    int32_t alt = source->altitudeMillimetersMSL()->rawValue().toInt();
     data->altitudeMetersASL()->setRawValue(QVariant(static_cast<double>(alt) / 1e3));
 
-    double pres = source->getFactPointerAbsolutePressureMillibars()->rawValue().toDouble();
+    double pres = source->absolutePressureMillibars()->rawValue().toDouble();
     data->absolutePressureMillibars()->setRawValue(QVariant(pres));
 
-    double t0 = source->getFactPointerTemperature0Kelvin()->rawValue().toDouble();
+    double t0 = source->temperature0Kelvin()->rawValue().toDouble();
     IMetMath::SResult t0_r = IMetMath::KelvinToCelsius(t0);
     assert(t0_r.result == IMetMath::Result::_SUCCESS);
     if (t0_r.result == IMetMath::Result::_SUCCESS)
@@ -26,80 +26,80 @@ void MessengerRaw::updateData(){
         data->temperature0Celsius()->setRawValue(QVariant(t0_r.value));
     }
 
-    double t1 = source->getFactPointerTemperature1Kelvin()->rawValue().toDouble();
+    double t1 = source->temperature1Kelvin()->rawValue().toDouble();
     IMetMath::SResult t1_r = IMetMath::KelvinToCelsius(t1);
     assert(t1_r.result == IMetMath::Result::_SUCCESS);
     data->temperature1Celsius()->setRawValue(QVariant(t1_r.value));
 
-    double t2 = source->getFactPointerTemperature2Kelvin()->rawValue().toDouble();
+    double t2 = source->temperature2Kelvin()->rawValue().toDouble();
     IMetMath::SResult t2_r = IMetMath::KelvinToCelsius(t2);
     assert(t2_r.result == IMetMath::Result::_SUCCESS);
     data->temperature2Celsius()->setRawValue(QVariant(t2_r.value));
 
-    double h0 = source->getFactPointerRelativeHumidity0()->rawValue().toDouble();
+    double h0 = source->relativeHumidity0()->rawValue().toDouble();
     data->relativeHumidity0()->setRawValue(QVariant(h0));
 
-    double h1 = source->getFactPointerRelativeHumidity1()->rawValue().toDouble();
+    double h1 = source->relativeHumidity1()->rawValue().toDouble();
     data->relativeHumidity1()->setRawValue(QVariant(h1));
 
-    double h2 = source->getFactPointerRelativeHumidity2()->rawValue().toDouble();
+    double h2 = source->relativeHumidity2()->rawValue().toDouble();
     data->relativeHumidity2()->setRawValue(QVariant(h2));
 
-    int32_t lat = source->getFactPointerLatitudeDegreesE7()->rawValue().toInt();
+    int32_t lat = source->latitudeDegreesE7()->rawValue().toInt();
     data->latitudeDegrees()->setRawValue(QVariant(static_cast<double>(lat) / 1e7));
 
-    int32_t lon = source->getFactPointerLongitudeDegreesE7()->rawValue().toInt();
+    int32_t lon = source->longitudeDegreesE7()->rawValue().toInt();
     data->longitudeDegrees()->setRawValue(QVariant(static_cast<double>(lon) / 1e7));
 
-    double roll = source->getFactPointerRollRadians()->rawValue().toDouble();
+    double roll = source->rollRadians()->rawValue().toDouble();
     IMetMath::SResult roll_r = IMetMath::RadiansToDegrees(roll);
     assert(roll_r.result == IMetMath::Result::_SUCCESS);
     data->rollDegrees()->setRawValue(QVariant(roll_r.value));
 
-    double pitch = source->getFactPointerPitchRadians()->rawValue().toDouble();
+    double pitch = source->pitchRadians()->rawValue().toDouble();
     IMetMath::SResult pitch_r = IMetMath::RadiansToDegrees(pitch);
     assert(pitch_r.result == IMetMath::Result::_SUCCESS);
     data->pitchDegrees()->setRawValue(QVariant(pitch_r.value));
 
-    double yaw = source->getFactPointerYawRadians()->rawValue().toDouble();
+    double yaw = source->yawRadians()->rawValue().toDouble();
     IMetMath::SResult yaw_r = IMetMath::RadiansToDegrees(yaw);
     assert(yaw_r.result == IMetMath::Result::_SUCCESS);
     data->yawDegrees()->setRawValue(QVariant(yaw_r.value));
 
-    double rollrate = source->getFactPointerRollRateRadiansPerSecond()->rawValue().toDouble();
+    double rollrate = source->rollRateRadiansPerSecond()->rawValue().toDouble();
     IMetMath::SResult rollrate_r = IMetMath::RadiansToDegrees(rollrate);
     assert(rollrate_r.result == IMetMath::Result::_SUCCESS);
     data->rollRateDegreesPerSecond()->setRawValue(QVariant(rollrate_r.value));
 
-    double pitchrate = source->getFactPointerPitchRateRadiansPerSecond()->rawValue().toDouble();
+    double pitchrate = source->pitchRateRadiansPerSecond()->rawValue().toDouble();
     IMetMath::SResult pitchrate_r = IMetMath::RadiansToDegrees(pitchrate);
     assert(pitchrate_r.result == IMetMath::Result::_SUCCESS);
     data->pitchRateDegreesPerSecond()->setRawValue(QVariant(pitchrate_r.value));
 
-    double yawrate = source->getFactPointerYawRateRadiansPerSecond()->rawValue().toDouble();
+    double yawrate = source->yawRateRadiansPerSecond()->rawValue().toDouble();
     IMetMath::SResult yawrate_r = IMetMath::RadiansToDegrees(yawrate);
     assert(yawrate_r.result == IMetMath::Result::_SUCCESS);
     data->yawRateDegreesPerSecond()->setRawValue(QVariant(yawrate_r.value));
 
-    double vx = source->getFactPointerXVelocityMetersPerSecond()->rawValue().toDouble();
+    double vx = source->xVelocityMetersPerSecond()->rawValue().toDouble();
     data->xVelocityMetersPerSecond()->setRawValue(QVariant(vx));
 
-    double vy = source->getFactPointerYVelocityMetersPerSecond()->rawValue().toDouble();
+    double vy = source->yVelocityMetersPerSecond()->rawValue().toDouble();
     data->yVelocityMetersPerSecond()->setRawValue(QVariant(vy));
 
-    double vz = source->getFactPointerZVelocityMetersPerSecond()->rawValue().toDouble();
+    double vz = source->zVelocityMetersPerSecond()->rawValue().toDouble();
     data->zVelocityMetersPerSecond()->setRawValue(QVariant(vz));
 
-    uint32_t heartbeat = source->getFactPointerCustomModeHeartbeat()->rawValue().toUInt();
+    uint32_t heartbeat = source->customModeHeartbeat()->rawValue().toUInt();
     data->customModeHeartbeat()->setRawValue(QVariant(heartbeat));
 
-    int32_t quality = source->getFactPointerDataQuality()->rawValue().toInt();
+    int32_t quality = source->dataQuality()->rawValue().toInt();
     data->dataQuality()->setRawValue(QVariant(quality));
 
-    uint8_t sats = source->getFactPointerSatellites()->rawValue().toUInt();
+    uint8_t sats = source->satellites()->rawValue().toUInt();
     data->satellites()->setRawValue(QVariant(sats));
 
-    uint16_t hdop = source->getFactPointerHorizontalDilutionOfPosition()->rawValue().toUInt();
+    uint16_t hdop = source->horizontalDilutionOfPosition()->rawValue().toUInt();
     data->horizontalDilutionOfPositionFloat()->setRawValue(QVariant(static_cast<double>(hdop) / 100));
 }
 

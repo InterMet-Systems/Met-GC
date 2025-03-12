@@ -8,7 +8,7 @@ class MessageAltitudeFactGroup : public FactGroup{
 
 public:
     MessageAltitudeFactGroup(QObject* parent = nullptr);
-    void handleMessage(Vehicle* vehicle, mavlink_message_t& message) override;
+    // void handleMessage(Vehicle* vehicle, mavlink_message_t& message) override;
     Q_PROPERTY(Fact* droneSerial              READ droneSerial              CONSTANT) /* int32_t    filename, constant          raw         */
     Q_PROPERTY(Fact* year                     READ year                     CONSTANT) /* uint16_t   filename                    raw         */
     Q_PROPERTY(Fact* month                    READ month                    CONSTANT) /* uint8_t    filename                    raw         */

@@ -22,9 +22,9 @@ const MessengerAltitude::WindProps MessengerAltitude::calcWindProps() const {
     constexpr double a = 39.4;
     constexpr double b = 5.71;
 
-    const double rolldegrees = source->getFactPointerRollDegrees()->rawValue().toDouble();
-    const double pitchdegrees = source->getFactPointerPitchDegrees()->rawValue().toDouble();
-    const double yawdegrees = source->getFactPointerYawDegrees()->rawValue().toDouble();
+    const double rolldegrees = source->rollDegrees()->rawValue().toDouble();
+    const double pitchdegrees = source->pitchDegrees()->rawValue().toDouble();
+    const double yawdegrees = source->yawDegrees()->rawValue().toDouble();
 
     IMetMath::SResult croll_r = IMetMath::DegreesToRadians(rolldegrees);
     assert(croll_r.result == IMetMath::Result::_SUCCESS);
@@ -69,7 +69,7 @@ void MessengerAltitude::buildUTCDateStr(){
     std::string DD = std::to_string(static_cast<int>(pt->tm_mday));
     std::string s = std::string("/");
     std::string str = YY + s + MM + s + DD;
-    data->getFactPointerUTC_Date()->setRawValue(QVariant(str.c_str()));
+    data->uTCDate()->setRawValue(QVariant(str.c_str()));
 }
 
 void MessengerAltitude::buildUTCTimeStr(){
@@ -78,32 +78,32 @@ void MessengerAltitude::buildUTCTimeStr(){
     std::string ss = std::to_string(static_cast<int>(pt->tm_sec));
     std::string c = std::string(":");
     std::string str = hh + c + mm + c + ss;
-    data->getFactPointerUTC_Time()->setRawValue(QVariant(str.c_str()));
+    data->uTCTime()->setRawValue(QVariant(str.c_str()));
 }
 
 void MessengerAltitude::buildFilename(){
     std::string alm = std::string("ALM");
-    std::string srn = std::to_string(data->getFactPointerSRN()->rawValue().toInt());
-    std::string YYYY = std::to_string(data->getFactPointerYYYY()->rawValue().toUInt());
-    std::string MM = std::to_string(data->getFactPointerMM()->rawValue().toUInt());
-    std::string DD = std::to_string(data->getFactPointerDD()->rawValue().toUInt());
-    std::string HH = std::to_string(data->getFactPointerHH()->rawValue().toUInt());
-    std::string Mm = std::to_string(data->getFactPointerMm()->rawValue().toUInt());
-    std::string ss = std::to_string(data->getFactPointerss()->rawValue().toUInt());
-    std::string str = data->getFactPointerString()->rawValueString().toStdString();
+    std::string srn = std::to_string(data->droneSerial()->rawValue().toInt());
+    std::string YYYY = std::to_string(data->year()->rawValue().toUInt());
+    std::string MM = std::to_string(data->month()->rawValue().toUInt());
+    std::string DD = std::to_string(data->day()->rawValue().toUInt());
+    std::string HH = std::to_string(data->hour()->rawValue().toUInt());
+    std::string Mm = std::to_string(data->minute()->rawValue().toUInt());
+    std::string ss = std::to_string(data->second()->rawValue().toUInt());
+    std::string str = data->string()->rawValueString().toStdString();
     std::string csv = std::string(".csv");
     std::string _ = std::string("_");
     std::string filename = alm + _ + srn + _ + YYYY + MM + DD + _ + HH + Mm + ss + _ + str + csv;
-    data->getFactPointerRaw_Data_Filename()->setRawValue(QVariant(filename.c_str()));
+    data->rawDataFilename()->setRawValue(QVariant(filename.c_str()));
 }
 
 void MessengerAltitude::getStringFromUser(){
     const char* s = ""; /* TODO: read a file or GUI, don't know what file to read yet tho. */
-    data->getFactPointerString()->setRawValue(QVariant(s));
+    data->string()->setRawValue(QVariant(s));
 }
 
 void MessengerAltitude::updateTime(){
-    std::time_t t = static_cast<std::time_t>(source->getFactPointerTimeUnixSeconds()->rawValue().toDouble());
+    std::time_t t = static_cast<std::time_t>(source->timeUnixSeconds()->rawValue().toDouble());
     pt = std::gmtime(&t);
 
     if (!pt){
@@ -116,93 +116,93 @@ void MessengerAltitude::updateConstantData(){
     static bool init = false;
     if (init) return;
 
-    int32_t srn = source->getFactPointerDroneSerialNumber()->rawValue().toInt();
-    data->getFactPointerSRN()->setRawValue(QVariant(srn));
+    int32_t srn = source->droneSerialNumber()->rawValue().toInt();
+    data->droneSerial()->setRawValue(QVariant(srn));
 
     uint16_t YYYY = static_cast<uint16_t>(pt->tm_year + 1900);
-    data->getFactPointerYYYY()->setRawValue(QVariant(YYYY));
+    data->year()->setRawValue(QVariant(YYYY));
 
     uint8_t MM = static_cast<uint8_t>(pt->tm_mon + 1);
-    data->getFactPointerMM()->setRawValue(QVariant(MM));
+    data->month()->setRawValue(QVariant(MM));
 
     uint8_t DD = static_cast<uint8_t>(pt->tm_mday);
-    data->getFactPointerDD()->setRawValue(QVariant(DD));
+    data->day()->setRawValue(QVariant(DD));
 
     uint8_t HH = static_cast<uint8_t>(pt->tm_hour);
-    data->getFactPointerHH()->setRawValue(QVariant(HH));
+    data->hour()->setRawValue(QVariant(HH));
 
     uint8_t Mm = static_cast<uint8_t>(pt->tm_min);
-    data->getFactPointerMm()->setRawValue(QVariant(Mm));
+    data->minute()->setRawValue(QVariant(Mm));
 
     uint8_t ss = static_cast<uint8_t>(pt->tm_sec);
-    data->getFactPointerss()->setRawValue(QVariant(ss));
+    data->second()->setRawValue(QVariant(ss));
 
     getStringFromUser(); /* Not yet implemented, need to know what file to read. */
 
     /* Message_Version doesn't need to be updated here because the default value set in MessageAltitudeFactGroup.cc is all sufficient. */
 
-    int32_t poweredAge = source->getFactPointerPoweredAgeSeconds()->rawValue().toInt();
-    data->getFactPointerDrone_Powered_Age()->setRawValue(QVariant(poweredAge));
+    int32_t poweredAge = source->poweredAgeSeconds()->rawValue().toInt();
+    data->dronePoweredAge()->setRawValue(QVariant(poweredAge));
 
-    int32_t armedAge = source->getFactPointerArmedAgeSeconds()->rawValue().toInt();
-    data->getFactPointerDrone_Armed_Age()->setRawValue(QVariant(armedAge));
+    int32_t armedAge = source->armedAgeSeconds()->rawValue().toInt();
+    data->droneArmedAge()->setRawValue(QVariant(armedAge));
 
     buildFilename();
 
-    double time = source->getFactPointerTimeUnixSeconds()->rawValue().toDouble();
-    data->getFactPointerUnix_Start_Time()->setRawValue(QVariant(static_cast<uint64_t>(time)));
+    double time = source->timeUnixSeconds()->rawValue().toDouble();
+    data->unixStartTime()->setRawValue(QVariant(static_cast<uint64_t>(time)));
 
-    double groundWindSpd = source->getFactPointerGroundWindSpeedMetersPerSecond()->rawValue().toDouble();
-    data->getFactPointerGround_Wind_Speed()->setRawValue(QVariant(groundWindSpd));
+    double groundWindSpd = source->groundWindSpeedMetersPerSecond()->rawValue().toDouble();
+    data->groundWindSpeed()->setRawValue(QVariant(groundWindSpd));
 
-    int32_t groundWindDir = source->getFactPointerGroundWindDirectionDegrees()->rawValue().toInt();
-    data->getFactPointerGround_Wind_Direction()->setRawValue(QVariant(groundWindDir));
+    int32_t groundWindDir = source->groundWindDirectionDegrees()->rawValue().toInt();
+    data->groundWindDirection()->setRawValue(QVariant(groundWindDir));
 
-    double groundAirTemp = source->getFactPointerGroundAirTemperatureCelsius()->rawValue().toDouble();
-    data->getFactPointerGround_Air_Temperature()->setRawValue(QVariant(groundAirTemp));
+    double groundAirTemp = source->groundAirTemperatureCelsius()->rawValue().toDouble();
+    data->groundAirTemperature()->setRawValue(QVariant(groundAirTemp));
 
-    double groundHum = source->getFactPointerGroundHumidity()->rawValue().toDouble();
-    data->getFactPointerGround_Humidity()->setRawValue(QVariant(groundHum));
+    double groundHum = source->groundHumidity()->rawValue().toDouble();
+    data->groundHumidity()->setRawValue(QVariant(groundHum));
 
-    double groundPressure = source->getFactPointerGroundPressureMillibars()->rawValue().toDouble();
-    data->getFactPointerGround_Pressure()->setRawValue(QVariant(groundPressure));
+    double groundPressure = source->groundPressureMillibars()->rawValue().toDouble();
+    data->groundPressure()->setRawValue(QVariant(groundPressure));
 
-    double homeLat = source->getFactPointerHomePositionLatitudeDegrees()->rawValue().toDouble();
-    data->getFactPointerHome_Position_Latitude()->setRawValue(QVariant(homeLat));
+    double homeLat = source->homePositionLatitudeDegrees()->rawValue().toDouble();
+    data->homePositionLatitude()->setRawValue(QVariant(homeLat));
 
-    double homeLon = source->getFactPointerHomePositionLongitudeDegrees()->rawValue().toDouble();
-    data->getFactPointerHome_Position_Longitude()->setRawValue(QVariant(homeLon));
+    double homeLon = source->homePositionLongitudeDegrees()->rawValue().toDouble();
+    data->homePositionLongitude()->setRawValue(QVariant(homeLon));
 
-    double homeAlt = source->getFactPointerHomePositionAltitudeMeters()->rawValue().toDouble();
-    data->getFactPointerHome_Position_Altitude()->setRawValue(QVariant(homeAlt));
+    double homeAlt = source->homePositionAltitudeMeters()->rawValue().toDouble();
+    data->homePositionAltitude()->setRawValue(QVariant(homeAlt));
 
     init = true;
 }
 
 void MessengerAltitude::updateData(){
-    double alt = source->getFactPointerAltitudeMetersASL()->rawValue().toDouble();
-    data->getFactPointerAltitude_ASL()->setRawValue(QVariant(alt));
+    double alt = source->altitudeMetersASL()->rawValue().toDouble();
+    data->altitudeASL()->setRawValue(QVariant(alt));
 
     updateTime();
     buildUTCDateStr();
     buildUTCTimeStr();
 
-    double now = source->getFactPointerTimeUnixSeconds()->rawValue().toDouble();
-    double start = static_cast<double>(data->getFactPointerUnix_Start_Time()->rawValue().toInt());
-    data->getFactPointerTime_Since_Start()->setRawValue(QVariant(now - start));
+    double now = source->timeUnixSeconds()->rawValue().toDouble();
+    double start = static_cast<double>(data->unixStartTime()->rawValue().toInt());
+    data->timeSinceStart()->setRawValue(QVariant(now - start));
 
-    double pres = source->getFactPointerAbsolutePressureMillibars()->rawValue().toDouble();
-    data->getFactPointerPressure()->setRawValue(QVariant(pres));
+    double pres = source->absolutePressureMillibars()->rawValue().toDouble();
+    data->pressure()->setRawValue(QVariant(pres));
 
-    double t0 = source->getFactPointerTemperature0Celsius()->rawValue().toDouble();
-    double t1 = source->getFactPointerTemperature1Celsius()->rawValue().toDouble();
-    double t2 = source->getFactPointerTemperature2Celsius()->rawValue().toDouble();
-    data->getFactPointerAir_Temp()->setRawValue(QVariant((t0 + t1 + t2) / 3.));
+    double t0 = source->temperature0Celsius()->rawValue().toDouble();
+    double t1 = source->temperature1Celsius()->rawValue().toDouble();
+    double t2 = source->temperature2Celsius()->rawValue().toDouble();
+    data->airTemp()->setRawValue(QVariant((t0 + t1 + t2) / 3.));
 
-    double h0 = source->getFactPointerRelativeHumidity0()->rawValue().toDouble();
-    double h1 = source->getFactPointerRelativeHumidity1()->rawValue().toDouble();
-    double h2 = source->getFactPointerRelativeHumidity2()->rawValue().toDouble();
-    data->getFactPointerAir_Temp()->setRawValue(QVariant((h0 + h1 + h2) / 3.));
+    double h0 = source->relativeHumidity0()->rawValue().toDouble();
+    double h1 = source->relativeHumidity1()->rawValue().toDouble();
+    double h2 = source->relativeHumidity2()->rawValue().toDouble();
+    data->airTemp()->setRawValue(QVariant((h0 + h1 + h2) / 3.));
 }
 
 bool MessengerAltitude::criteriaMet(){
@@ -210,6 +210,10 @@ bool MessengerAltitude::criteriaMet(){
     updateConstantData();
     updateData();
     if (!passedThreshold()) return false;
+    return true;
+}
+
+bool MessengerAltitude::passedThreshold(){
     return true;
 }
 

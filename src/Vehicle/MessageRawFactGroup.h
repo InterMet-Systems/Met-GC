@@ -8,7 +8,7 @@ class MessageRawFactGroup : public FactGroup{
 
 public:
     MessageRawFactGroup(QObject* parent = nullptr);
-    void handleMessage(Vehicle* vehicle, mavlink_message_t& message) override;
+    // void handleMessage(Vehicle* vehicle, mavlink_message_t& message) override;
 
     Q_PROPERTY(Fact* timeUnixSeconds                    READ timeUnixSeconds                    CONSTANT) /* f64        derived from timeUnixMicroseconds      */
     Q_PROPERTY(Fact* altitudeMetersASL                  READ altitudeMetersASL                  CONSTANT) /* f64        derived from altitudeMillimetersMSL    */
