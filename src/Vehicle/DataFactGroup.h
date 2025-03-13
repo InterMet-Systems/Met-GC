@@ -8,7 +8,6 @@ class DataFactGroup : public FactGroup{
 
 public:
     DataFactGroup(QObject* parent = nullptr);
-    // void handleMessage(Vehicle* vehicle, mavlink_message_t& message) override;
 
     Q_PROPERTY(Fact* timeUnixMicroseconds               READ timeUnixMicroseconds               CONSTANT) /* uint64_t   MAVLINK_MSG_ID_SYSTEM_TIME             */
     Q_PROPERTY(Fact* altitudeMillimetersMSL             READ altitudeMillimetersMSL             CONSTANT) /* int32_t    MAVLINK_MSG_ID_GLOBAL_POSITION_INT     */

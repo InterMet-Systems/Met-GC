@@ -31,8 +31,10 @@ message(Custom QGC Version: $${CUSTOM_QGC_VERSION})
 
 # Branding
 
-DEFINES += CUSTOMHEADER=\"\\\"DataBalancerPlugin.h\\\"\"
-DEFINES += CUSTOMCLASS=DataBalancerPlugin
+# DEFINES += CUSTOMHEADER=\"\\\"DataBalancerPlugin.h\\\"\"
+# DEFINES += CUSTOMCLASS=DataBalancerPlugin
+DEFINES += CUSTOMHEADER=\"\\\"DataHubPlugin.h\\\"\"
+DEFINES += CUSTOMCLASS=DataHubPlugin
 
 TARGET   = CustomQGroundControl
 DEFINES += QGC_APPLICATION_NAME='"\\\"Custom QGroundControl\\\""'
@@ -59,10 +61,12 @@ QML_IMPORT_PATH += \
 SOURCES += \
     $$PWD/src/CustomPlugin.cc \
     $$PWD/src/DataBalancerPlugin.cc \
+    $$PWD/src/DataHubPlugin.cc
 
 HEADERS += \
     $$PWD/src/CustomPlugin.h \
     $$PWD/src/DataBalancerPlugin.h \
+    $$PWD/src/DataHubPlugin.h
 
 INCLUDEPATH += \
     $$PWD/src \
