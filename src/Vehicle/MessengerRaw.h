@@ -18,6 +18,8 @@ public:
 private:
     /* These four are called in succession in criteriaMet */
 
+    bool srcInit();
+
     /* Populates MessageRawFactGroup given DataFactGroup, performing unit/type conversions as necessary. */
     void updateData();
     /* Read some file and populate the nine facts that come from the file, assuming that they only need to be set once on startup.

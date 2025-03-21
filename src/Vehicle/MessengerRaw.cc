@@ -53,32 +53,38 @@ void MessengerRaw::updateData(){
 
     double roll = source->rollRadians()->rawValue().toDouble();
     IMetMath::SResult roll_r = IMetMath::RadiansToDegrees(roll);
-    assert(roll_r.result == IMetMath::Result::_SUCCESS);
+    assert(roll_r.result == IMetMath::Result::_SUCCESS || roll_r.result == IMetMath::Result::_INPUT_EXCEEDS_RANGE
+           || roll_r.result == IMetMath::Result::_OUTPUT_EXCEEDS_RANGE);
     data->rollDegrees()->setRawValue(QVariant(roll_r.value));
 
     double pitch = source->pitchRadians()->rawValue().toDouble();
     IMetMath::SResult pitch_r = IMetMath::RadiansToDegrees(pitch);
-    assert(pitch_r.result == IMetMath::Result::_SUCCESS);
+    assert(pitch_r.result == IMetMath::Result::_SUCCESS || pitch_r.result == IMetMath::Result::_INPUT_EXCEEDS_RANGE
+           || pitch_r.result == IMetMath::Result::_OUTPUT_EXCEEDS_RANGE);
     data->pitchDegrees()->setRawValue(QVariant(pitch_r.value));
 
     double yaw = source->yawRadians()->rawValue().toDouble();
     IMetMath::SResult yaw_r = IMetMath::RadiansToDegrees(yaw);
-    assert(yaw_r.result == IMetMath::Result::_SUCCESS);
+    assert(yaw_r.result == IMetMath::Result::_SUCCESS || yaw_r.result == IMetMath::Result::_INPUT_EXCEEDS_RANGE
+           || yaw_r.result == IMetMath::Result::_OUTPUT_EXCEEDS_RANGE);
     data->yawDegrees()->setRawValue(QVariant(yaw_r.value));
 
     double rollrate = source->rollRateRadiansPerSecond()->rawValue().toDouble();
     IMetMath::SResult rollrate_r = IMetMath::RadiansToDegrees(rollrate);
-    assert(rollrate_r.result == IMetMath::Result::_SUCCESS);
+    assert(rollrate_r.result == IMetMath::Result::_SUCCESS || rollrate_r.result == IMetMath::Result::_INPUT_EXCEEDS_RANGE
+           || rollrate_r.result == IMetMath::Result::_OUTPUT_EXCEEDS_RANGE);
     data->rollRateDegreesPerSecond()->setRawValue(QVariant(rollrate_r.value));
 
     double pitchrate = source->pitchRateRadiansPerSecond()->rawValue().toDouble();
     IMetMath::SResult pitchrate_r = IMetMath::RadiansToDegrees(pitchrate);
-    assert(pitchrate_r.result == IMetMath::Result::_SUCCESS);
+    assert(pitchrate_r.result == IMetMath::Result::_SUCCESS || pitchrate_r.result == IMetMath::Result::_INPUT_EXCEEDS_RANGE
+           || pitchrate_r.result == IMetMath::Result::_OUTPUT_EXCEEDS_RANGE);
     data->pitchRateDegreesPerSecond()->setRawValue(QVariant(pitchrate_r.value));
 
     double yawrate = source->yawRateRadiansPerSecond()->rawValue().toDouble();
     IMetMath::SResult yawrate_r = IMetMath::RadiansToDegrees(yawrate);
-    assert(yawrate_r.result == IMetMath::Result::_SUCCESS);
+    assert(yawrate_r.result == IMetMath::Result::_SUCCESS || yawrate_r.result == IMetMath::Result::_INPUT_EXCEEDS_RANGE
+           || yawrate_r.result == IMetMath::Result::_OUTPUT_EXCEEDS_RANGE);
     data->yawRateDegreesPerSecond()->setRawValue(QVariant(yawrate_r.value));
 
     double vx = source->xVelocityMetersPerSecond()->rawValue().toDouble();
@@ -155,10 +161,44 @@ bool MessengerRaw::validValues(){
     if (data->xVelocityMetersPerSecond()->rawValue().toDouble() ==        qQNaN())                                return false;
     if (data->yVelocityMetersPerSecond()->rawValue().toDouble() ==        qQNaN())                                return false;
     if (data->zVelocityMetersPerSecond()->rawValue().toDouble() ==        qQNaN())                                return false;
-    if (data->customModeHeartbeat()->rawValue().toUInt() ==               std::numeric_limits<uint32_t>::max())   return false;
-    if (data->satellites()->rawValue().toUInt() ==                        std::numeric_limits<uint8_t>::max())    return false;
-    if (data->horizontalDilutionOfPositionFloat()->rawValue().toUInt() == qQNaN())                                return false;
+    auto testVal = data->customModeHeartbeat()->rawValue().toUInt();
+    if (testVal ==               std::numeric_limits<uint32_t>::max())   return false;
+    qDebug() << "passed heartbeat";
+    auto testVal1 = data->satellites()->rawValue().toUInt();
+    if (testVal1 ==                        std::numeric_limits<uint8_t>::max())    return false;
+    qDebug() << "passed satellites";
+    auto testval2 = data->horizontalDilutionOfPositionFloat()->rawValue().toUInt();
+    if (testval2 == qQNaN())                                return false;
+    qDebug() << "passed hdop";
     return init = true;
+}
+
+bool MessengerRaw::srcInit(){
+    if (source->timeUnixMicroseconds()->rawValue().toULongLong() == std::numeric_limits<uint64_t>::max())                return false;
+    if (source->altitudeMillimetersMSL()->rawValue().toInt() == std::numeric_limits<signed int>::quiet_NaN())               return false;
+    if (std::isnan(source->absolutePressureMillibars()->rawValue().toDouble()))                                              return false;
+    if (std::isnan(source->temperature0Kelvin()->rawValue().toDouble())) return false;
+    if (std::isnan(source->temperature1Kelvin()->rawValue().toDouble())) return false;
+    if (std::isnan(source->temperature2Kelvin()->rawValue().toDouble())) return false;
+    if (std::isnan(source->relativeHumidity0()->rawValue().toDouble())) return false;
+    if (std::isnan(source->relativeHumidity1()->rawValue().toDouble())) return false;
+    if (std::isnan(source->relativeHumidity2()->rawValue().toDouble())) return false;
+    if (source->latitudeDegreesE7()->rawValue().toInt() == std::numeric_limits<signed int>::quiet_NaN()) return false;
+    if (source->longitudeDegreesE7()->rawValue().toInt() == std::numeric_limits<signed int>::quiet_NaN()) return false;
+    if (std::isnan(source->rollRadians()->rawValue().toDouble())) return false;
+    if (std::isnan(source->pitchRadians()->rawValue().toDouble())) return false;
+    if (std::isnan(source->yawRadians()->rawValue().toDouble())) return false;
+    if (std::isnan(source->rollRateRadiansPerSecond()->rawValue().toDouble())) return false;
+    if (std::isnan(source->pitchRateRadiansPerSecond()->rawValue().toDouble())) return false;
+    if (std::isnan(source->yawRateRadiansPerSecond()->rawValue().toDouble())) return false;
+    if (std::isnan(source->xVelocityMetersPerSecond()->rawValue().toDouble())) return false;
+    if (std::isnan(source->yVelocityMetersPerSecond()->rawValue().toDouble())) return false;
+    if (std::isnan(source->zVelocityMetersPerSecond()->rawValue().toDouble())) return false;
+    if (source->customModeHeartbeat()->rawValue().toDouble() == std::numeric_limits<unsigned int>::quiet_NaN()) return false;
+    // if (source->dataQuality()->rawValue().toInt() == QVariant(0)) return false;
+    if (source->satellites()->rawValue().toInt() == std::numeric_limits<unsigned int>::quiet_NaN()) return false;
+    if (source->horizontalDilutionOfPosition()->rawValue().toInt() == std::numeric_limits<unsigned int>::quiet_NaN()) return false;
+    return true;
 }
 
 bool MessengerRaw::timer() {
@@ -193,11 +233,17 @@ bool MessengerRaw::ascending() {
 }
 
 bool MessengerRaw::criteriaMet() {
+    if (!srcInit()) return false;
     updateData();
-    initFileFacts();
-    if (!ascending()) return false;
+    qDebug() << "data updated";
     if (!validValues()) return false;
+    qDebug() << "values validated";
+    initFileFacts();
+    qDebug() << "file facts init";
+    if (!ascending()) return false;
+    qDebug() << "ascending";
     if (!timer()) return false;
+    qDebug() << "timer passed";
     return true;
 }
 

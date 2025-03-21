@@ -30,6 +30,12 @@ int DataHub::parseMessage(const mavlink_message_t& m){
 
         updateRollingAverage(longitudeDegreesE7A, longitudeDegreesE7C, val2);
         pData->longitudeDegreesE7()->setRawValue(QVariant(longitudeDegreesE7A));
+
+        /* temp debug */
+        // char str[256];
+        // (void)sprintf(str, "%i", val2);
+        // qDebug() << str;
+
         break;
     }
     case MAVLINK_MSG_ID_SCALED_PRESSURE2:{

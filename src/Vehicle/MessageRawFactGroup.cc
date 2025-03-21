@@ -38,7 +38,7 @@ const char* MessageRawFactGroup::_horizontalDilutionOfPositionFloatFactName = "h
 const char* MessageRawFactGroup::_filenameFactName                          = "filename";
 
 MessageRawFactGroup::MessageRawFactGroup(QObject* parent)
-    : FactGroup(1000, ":/path.json", parent, true)
+    : FactGroup(1000, ":/json/Vehicle/MessengerRawFact.json", parent, true)
     ,_timeUnixSecondsFact                   (0, _timeUnixSecondsFactName                    , FactMetaData::valueTypeDouble)
     ,_altitudeMetersASLFact                 (0, _altitudeMetersASLFactName                  , FactMetaData::valueTypeDouble)
     ,_absolutePressureMillibarsFact         (0, _absolutePressureMillibarsFactName          , FactMetaData::valueTypeDouble)
