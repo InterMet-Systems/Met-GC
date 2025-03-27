@@ -225,7 +225,7 @@ bool MessengerRaw::ascending() {
     static size_t ascents = 0;
 
     uint32_t hearbeat = data->customModeHeartbeat()->rawValue().toUInt();
-    double vz = -data->zVelocityMetersPerSecond()->rawValue().toDouble();
+    double vz = -source->zVelocityForAscentDetection()->rawValue().toDouble();
     if ((bAscending = (hearbeat == 3 && vz > 2.5)) && !bLastState)
         qgcApp()->toolbox()->metDataLogManager()->setAscentNumber(++ascents);
     bLastState = bAscending;

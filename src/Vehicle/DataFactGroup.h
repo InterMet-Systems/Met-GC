@@ -33,6 +33,7 @@ public:
     Q_PROPERTY(Fact* dataQuality                        READ dataQuality                        CONSTANT) /* int32_t    Unknown                                */
     Q_PROPERTY(Fact* satellites                         READ satellites                         CONSTANT) /* uint8_t    MAVLINK_MSG_ID_GPS_RAW_INT             */
     Q_PROPERTY(Fact* horizontalDilutionOfPosition       READ horizontalDilutionOfPosition       CONSTANT) /* uint16_t   MAVLINK_MSG_ID_GPS_RAW_INT             */
+    Q_PROPERTY(Fact* zVelocityForAscentDetection        READ zVelocityForAscentDetection        CONSTANT) /* f32        MAVLINK_MSG_ID_LOCAL_POSITION_NED      */
 
     Fact* timeUnixMicroseconds()              { return &_timeUnixMicrosecondsFact; }
     Fact* altitudeMillimetersMSL()            { return &_altitudeMillimetersMSLFact; }
@@ -58,6 +59,7 @@ public:
     Fact* dataQuality()                       { return &_dataQualityFact; }
     Fact* satellites()                        { return &_satellitesFact; }
     Fact* horizontalDilutionOfPosition()      { return &_horizontalDilutionOfPositionFact; }
+    Fact* zVelocityForAscentDetection()       { return &_zVelocityForAscentDetectionFact; }
 
     static const char* _timeUnixMicrosecondsFactName;
     static const char* _altitudeMillimetersMSLFactName;
@@ -83,6 +85,7 @@ public:
     static const char* _dataQualityFactName;
     static const char* _satellitesFactName;
     static const char* _horizontalDilutionOfPositionFactName;
+    static const char* _zVelocityForAscentDetectionFactName;
 
 private:
     Fact            _timeUnixMicrosecondsFact;
@@ -109,6 +112,7 @@ private:
     Fact            _dataQualityFact;
     Fact            _satellitesFact;
     Fact            _horizontalDilutionOfPositionFact;
+    Fact            _zVelocityForAscentDetectionFact;
 };
 
 #endif // DATAFACTGROUP_H

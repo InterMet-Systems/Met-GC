@@ -24,6 +24,7 @@ const char* DataFactGroup::_customModeHeartbeatFactName                 = "custo
 const char* DataFactGroup::_dataQualityFactName                         = "dataQuality";
 const char* DataFactGroup::_satellitesFactName                          = "satellites";
 const char* DataFactGroup::_horizontalDilutionOfPositionFactName        = "horizontalDilutionOfPosition";
+const char* DataFactGroup::_zVelocityForAscentDetectionFactName         = "zVelocityForAscentDetection";
 
 DataFactGroup::DataFactGroup(QObject* parent)
     : FactGroup(1000, ":/json/Vehicle/DataFact.json", parent, true)
@@ -52,6 +53,7 @@ DataFactGroup::DataFactGroup(QObject* parent)
     ,_dataQualityFact                           (0, _dataQualityFactName                      , FactMetaData::valueTypeInt32)
     ,_satellitesFact                            (0, _satellitesFactName                       , FactMetaData::valueTypeUint8)
     ,_horizontalDilutionOfPositionFact          (0, _horizontalDilutionOfPositionFactName     , FactMetaData::valueTypeUint16)
+    ,_zVelocityForAscentDetectionFact           (0, _zVelocityForAscentDetectionFactName      , FactMetaData::valueTypeDouble)
 {
     _addFact(&_timeUnixMicrosecondsFact,                _timeUnixMicrosecondsFactName);
     _addFact(&_altitudeMillimetersMSLFact,              _altitudeMillimetersMSLFactName);
@@ -77,6 +79,7 @@ DataFactGroup::DataFactGroup(QObject* parent)
     _addFact(&_dataQualityFact,                         _dataQualityFactName);
     _addFact(&_satellitesFact,                          _satellitesFactName);
     _addFact(&_horizontalDilutionOfPositionFact,        _horizontalDilutionOfPositionFactName);
+    _addFact(&_zVelocityForAscentDetectionFact,         _zVelocityForAscentDetectionFactName);
 
     _timeUnixMicrosecondsFact.              setRawValue(std::numeric_limits<uint64_t>::max());
     _altitudeMillimetersMSLFact.            setRawValue(std::numeric_limits<signed int>::quiet_NaN());
@@ -103,4 +106,5 @@ DataFactGroup::DataFactGroup(QObject* parent)
     _dataQualityFact.                       setRawValue(QVariant(0));
     _satellitesFact.                        setRawValue(std::numeric_limits<unsigned int>::quiet_NaN());
     _horizontalDilutionOfPositionFact.      setRawValue(std::numeric_limits<unsigned int>::quiet_NaN());
+    _zVelocityForAscentDetectionFact.       setRawValue(qQNaN());
 }

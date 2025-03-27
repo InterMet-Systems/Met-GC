@@ -127,6 +127,8 @@ int DataHub::parseMessage(const mavlink_message_t& m){
 
         updateRollingAverage(zVelocityMetersPerSecondA, zVelocityMetersPerSecondC, val2);
         pData->zVelocityMetersPerSecond()->setRawValue(QVariant(zVelocityMetersPerSecondA));
+
+        pData->zVelocityForAscentDetection()->setRawValue(QVariant(val2));
         break;
     }
     case MAVLINK_MSG_ID_HEARTBEAT:{
