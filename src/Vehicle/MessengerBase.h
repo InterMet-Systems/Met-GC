@@ -1,8 +1,10 @@
 #ifndef MESSENGERBASE_H
 #define MESSENGERBASE_H
 
+#include "MessengerBaseCommon.h"
+
 template<typename TSource, typename TData>
-class MessengerBase {
+class MessengerBase : public MessengerBaseCommon {
 public:
     MessengerBase(TSource* src, TData* data) : source(src), data(data) {}
     virtual bool criteriaMet() = 0;

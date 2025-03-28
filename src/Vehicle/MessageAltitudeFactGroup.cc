@@ -45,7 +45,7 @@ const char* MessageAltitudeFactGroup::_hDOPFactName =                     "hDOP"
 const char* MessageAltitudeFactGroup::_dataQualityFactName =              "dataQuality";
 
 MessageAltitudeFactGroup::MessageAltitudeFactGroup(QObject* parent)
-    : FactGroup(1000, ":/path.json", parent, true)
+    : FactGroup(1000, ":/json/Vehicle/AltitudeFact.json", parent, true)
     ,_droneSerialFact             (0, _droneSerialFactName,             FactMetaData::valueTypeInt32)
     ,_yearFact                    (0, _yearFactName,                    FactMetaData::valueTypeUint16)
     ,_monthFact                   (0, _monthFactName,                   FactMetaData::valueTypeUint8)

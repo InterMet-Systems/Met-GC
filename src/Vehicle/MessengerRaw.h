@@ -32,9 +32,9 @@ private:
     double lastMessage = 0.;
 
     bool ascending();
-
-    std::vector<MessengerBase> subscribers;
-
+public:
+    std::vector<MessengerBaseCommon*> subscribers;
+private:
     const std::string createFilename() const;
 };
 

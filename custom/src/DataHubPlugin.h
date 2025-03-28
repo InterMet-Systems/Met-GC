@@ -4,6 +4,7 @@
 #include "QGCCorePlugin.h"
 #include "DataHub.h"
 #include "MessengerRaw.h"
+#include "MessengerAltitude.h"
 #include <QTranslator>
 #include <QTimer>
 
@@ -27,6 +28,10 @@ private:
 
     MessageRawFactGroup messageRawFactGroup;
     MessengerRaw messengerRaw;
+
+    MessageAltitudeFactGroup messageAltitudeFactGroup;
+    MessengerAltitude messengerAltitude;
+
     /* this is only for the temp logging method */
     QTimer* logTimer;
 };

@@ -30,6 +30,9 @@ private:
     void buildUTCTimeStr();
     void updateData();
     bool passedThreshold();
+
+    static constexpr double altitudeBin = 5.;
+    double lastAltBin = qQNaN();
 };
 
 #endif // MESSENGERALTITUDE_H

@@ -235,15 +235,15 @@ bool MessengerRaw::ascending() {
 bool MessengerRaw::criteriaMet() {
     if (!srcInit()) return false;
     updateData();
-    qDebug() << "data updated";
+    // qDebug() << "data updated";
     if (!validValues()) return false;
-    qDebug() << "values validated";
+    // qDebug() << "values validated";
     initFileFacts();
-    qDebug() << "file facts init";
+    // qDebug() << "file facts init";
     if (!ascending()) return false;
-    qDebug() << "ascending";
+    // qDebug() << "ascending";
     if (!timer()) return false;
-    qDebug() << "timer passed";
+    // qDebug() << "timer passed";
     return true;
 }
 
@@ -251,8 +251,8 @@ void MessengerRaw::publish() {
     /* this is where you would do things like write to the raw log file or update GUI */
 
     for (size_t i = 0; i < subscribers.size(); i++)
-        if (subscribers[i].criteriaMet())
-            subscribers[i].publish();
+        if (subscribers[i]->criteriaMet())
+            subscribers[i]->publish();
 
     if (dataHub) dataHub->resetAverages();
     else qDebug() << "no datahub linked";

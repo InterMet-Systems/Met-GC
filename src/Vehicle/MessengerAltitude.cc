@@ -213,8 +213,89 @@ bool MessengerAltitude::criteriaMet(){
     return true;
 }
 
+void MessengerAltitude::publish(){
+    QString logFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
+                          + "/QGroundControl/temp alm log.txt";
+
+    QFileInfo fileInfo(logFilePath);
+    QDir().mkpath(fileInfo.absolutePath());
+
+    QFile file(logFilePath);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
+        QTextStream stream(&file);
+
+        stream << "--- Log Entry: " << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") << " ---\n";
+        stream << "drone serial: " << data->droneSerial()->rawValue().toInt() << "\n";
+        stream << "year: " << data->year()->rawValue().toInt() << "\n";
+        stream << "month: " << data->month()->rawValue().toInt() << "\n";
+        stream << "day: " << data->day()->rawValue().toInt() << "\n";
+        stream << "hour: " << data->hour()->rawValue().toInt() << "\n";
+        stream << "minute: " << data->minute()->rawValue().toInt() << "\n";
+        stream << "second: " << data->second()->rawValue().toInt() << "\n";
+        stream << "string: " << data->string()->rawValue().toString() << "\n";
+        stream << "message version: " << data->messageVersion()->rawValue().toString() << "\n";
+        stream << "drone powered age: " << data->dronePoweredAge()->rawValue().toInt() << "\n";
+        stream << "drone armed age: " << data->droneArmedAge()->rawValue().toInt() << "\n";
+        stream << "raw data filename: " << data->rawDataFilename()->rawValue().toString() << "\n";
+        stream << "unix start time: " << data->unixStartTime()->rawValue().toULongLong() << "\n";
+        stream << "ground wind speed: " << data->groundWindSpeed()->rawValue().toDouble() << "\n";
+        stream << "ground wind direction: " << data->groundWindDirection()->rawValue().toInt() << "\n";
+        stream << "ground air temperature: " << data->groundAirTemperature()->rawValue().toDouble() << "\n";
+        stream << "ground humidity: " << data->groundHumidity()->rawValue().toDouble() << "\n";
+        stream << "ground pressure: " << data->groundPressure()->rawValue().toDouble() << "\n";
+        stream << "home position latitude: " << data->homePositionLatitude()->rawValue().toDouble() << "\n";
+        stream << "home position longitude: " << data->homePositionLongitude()->rawValue().toDouble() << "\n";
+        stream << "home position altitude: " << data->homePositionAltitude()->rawValue().toDouble() << "\n";
+        stream << "altitude ASL: " << data->altitudeASL()->rawValue().toDouble() << "\n";
+        stream << "UTC date: " << data->uTCDate()->rawValue().toString() << "\n";
+        stream << "UTC time: " << data->uTCTime()->rawValue().toString() << "\n";
+        stream << "time since start: " << data->timeSinceStart()->rawValue().toDouble() << "\n";
+        stream << "pressure: " << data->pressure()->rawValue().toDouble() << "\n";
+        stream << "air temp: " << data->airTemp()->rawValue().toDouble() << "\n";
+        stream << "rel hum: " << data->relHum()->rawValue().toDouble() << "\n";
+        stream << "wind speed: " << data->windSpeed()->rawValue().toDouble() << "\n";
+        stream << "wind direction: " << data->windDirection()->rawValue().toInt() << "\n";
+        stream << "latitude: " << data->latitude()->rawValue().toDouble() << "\n";
+        stream << "longitude: " << data->longitude()->rawValue().toDouble() << "\n";
+        stream << "roll: " << data->roll()->rawValue().toDouble() << "\n";
+        stream << "roll rate: " << data->rollRate()->rawValue().toDouble() << "\n";
+        stream << "pitch: " << data->pitch()->rawValue().toDouble() << "\n";
+        stream << "pitch rate: " << data->pitchRate()->rawValue().toDouble() << "\n";
+        stream << "yaw: " << data->yaw()->rawValue().toDouble() << "\n";
+        stream << "yaw rate: " << data->yawRate()->rawValue().toDouble() << "\n";
+        stream << "ascent rate: " << data->ascentRate()->rawValue().toDouble() << "\n";
+        stream << "speed over ground: " << data->speedOverGround()->rawValue().toDouble() << "\n";
+        stream << "satellites: " << data->satellites()->rawValue().toInt() << "\n";
+        stream << "hDOP: " << data->hDOP()->rawValue().toDouble() << "\n";
+        stream << "data quality: " << data->dataQuality()->rawValue().toInt() << "\n";
+        stream << "\n";
+
+        file.close();
+    }
+}
+
 bool MessengerAltitude::passedThreshold(){
-    return true;
+    // Get the current altitude in meters ASL (Above Sea Level)
+    double currentAltitude = source->altitudeMetersASL()->rawValue().toDouble();
+
+    // Calculate which altitude "bin" we're in by dividing by bin size and truncating
+    double currentAltBin = floor(currentAltitude / altitudeBin);
+
+    // If this is the first reading (lastAltBin is NaN), initialize lastAltBin
+    if (qIsNaN(lastAltBin)) {
+        lastAltBin = currentAltBin;
+        return false;
+    }
+
+    // Check if we've moved up at least one bin (5 meters)
+    bool ascended = currentAltBin > lastAltBin;
+
+    // If we've ascended, update the last altitude bin
+    if (ascended) {
+        lastAltBin = currentAltBin;
+    }
+
+    return ascended;
 }
 
 #undef _CRT_SECURE_NO_WARNINGS

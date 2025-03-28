@@ -11,8 +11,11 @@ DataHubPlugin::DataHubPlugin(QGCApplication *app, QGCToolbox* toolbox)
     , hub(&dataFactGroup)
     , messageRawFactGroup()
     , messengerRaw(&dataFactGroup, &messageRawFactGroup)
+    , messageAltitudeFactGroup()
+    , messengerAltitude(&messageRawFactGroup, &messageAltitudeFactGroup)
 {
     messengerRaw.dataHub = &hub;
+    messengerRaw.subscribers.push_back(&messengerAltitude);
     logTimer = new QTimer(this);
     connect(logTimer, &QTimer::timeout, this, &DataHubPlugin::logDataToFile);
     logTimer->start(5000);

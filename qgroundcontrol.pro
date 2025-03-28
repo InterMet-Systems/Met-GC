@@ -460,6 +460,7 @@ HEADERS += \
     src/QmlControls/CustomActionManager.h \
     src/QmlControls/QmlUnitsConversion.h \
     src/Vehicle/DataBalancer.h \
+    src/Vehicle/MessengerBaseCommon.h \
     src/Vehicle/MetDataLogManager.h \
     src/Vehicle/MetConfigParser.h \
     src/Vehicle/VehicleEscStatusFactGroup.h \
