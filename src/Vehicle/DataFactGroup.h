@@ -8,32 +8,32 @@ class DataFactGroup : public FactGroup{
 
 public:
     DataFactGroup(QObject* parent = nullptr);
-
-    Q_PROPERTY(Fact* timeUnixMicroseconds               READ timeUnixMicroseconds               CONSTANT) /* uint64_t   MAVLINK_MSG_ID_SYSTEM_TIME             */
-    Q_PROPERTY(Fact* altitudeMillimetersMSL             READ altitudeMillimetersMSL             CONSTANT) /* int32_t    MAVLINK_MSG_ID_GLOBAL_POSITION_INT     */
-    Q_PROPERTY(Fact* absolutePressureMillibars          READ absolutePressureMillibars          CONSTANT) /* f32        MAVLINK_MSG_ID_SCALED_PRESSURE2        */
-    Q_PROPERTY(Fact* temperature0Kelvin                 READ temperature0Kelvin                 CONSTANT) /* f32        MAVLINK_MSG_ID_CASS_SENSOR_RAW         */
-    Q_PROPERTY(Fact* temperature1Kelvin                 READ temperature1Kelvin                 CONSTANT) /* f32        MAVLINK_MSG_ID_CASS_SENSOR_RAW         */
-    Q_PROPERTY(Fact* temperature2Kelvin                 READ temperature2Kelvin                 CONSTANT) /* f32        MAVLINK_MSG_ID_CASS_SENSOR_RAW         */
-    Q_PROPERTY(Fact* relativeHumidity0                  READ relativeHumidity0                  CONSTANT) /* f32        MAVLINK_MSG_ID_CASS_SENSOR_RAW         */
-    Q_PROPERTY(Fact* relativeHumidity1                  READ relativeHumidity1                  CONSTANT) /* f32        MAVLINK_MSG_ID_CASS_SENSOR_RAW         */
-    Q_PROPERTY(Fact* relativeHumidity2                  READ relativeHumidity2                  CONSTANT) /* f32        MAVLINK_MSG_ID_CASS_SENSOR_RAW         */
-    Q_PROPERTY(Fact* latitudeDegreesE7                  READ latitudeDegreesE7                  CONSTANT) /* int32_t    MAVLINK_MSG_ID_GLOBAL_POSITION_INT     */
-    Q_PROPERTY(Fact* longitudeDegreesE7                 READ longitudeDegreesE7                 CONSTANT) /* int32_t    MAVLINK_MSG_ID_GLOBAL_POSITION_INT     */
-    Q_PROPERTY(Fact* rollRadians                        READ rollRadians                        CONSTANT) /* f32        MAVLINK_MSG_ID_ATTITUDE                */
-    Q_PROPERTY(Fact* pitchRadians                       READ pitchRadians                       CONSTANT) /* f32        MAVLINK_MSG_ID_ATTITUDE                */
-    Q_PROPERTY(Fact* yawRadians                         READ yawRadians                         CONSTANT) /* f32        MAVLINK_MSG_ID_ATTITUDE                */
-    Q_PROPERTY(Fact* rollRateRadiansPerSecond           READ rollRateRadiansPerSecond           CONSTANT) /* f32        MAVLINK_MSG_ID_ATTITUDE                */
-    Q_PROPERTY(Fact* pitchRateRadiansPerSecond          READ pitchRateRadiansPerSecond          CONSTANT) /* f32        MAVLINK_MSG_ID_ATTITUDE                */
-    Q_PROPERTY(Fact* yawRateRadiansPerSecond            READ yawRateRadiansPerSecond            CONSTANT) /* f32        MAVLINK_MSG_ID_ATTITUDE                */
-    Q_PROPERTY(Fact* xVelocityMetersPerSecond           READ xVelocityMetersPerSecond           CONSTANT) /* f32        MAVLINK_MSG_ID_LOCAL_POSITION_NED      */
-    Q_PROPERTY(Fact* yVelocityMetersPerSecond           READ yVelocityMetersPerSecond           CONSTANT) /* f32        MAVLINK_MSG_ID_LOCAL_POSITION_NED      */
-    Q_PROPERTY(Fact* zVelocityMetersPerSecond           READ zVelocityMetersPerSecond           CONSTANT) /* f32        MAVLINK_MSG_ID_LOCAL_POSITION_NED      */
-    Q_PROPERTY(Fact* customModeHeartbeat                READ customModeHeartbeat                CONSTANT) /* uint32_t   MAVLINK_MSG_ID_HEARTBEAT               */
-    Q_PROPERTY(Fact* dataQuality                        READ dataQuality                        CONSTANT) /* int32_t    Unknown                                */
-    Q_PROPERTY(Fact* satellites                         READ satellites                         CONSTANT) /* uint8_t    MAVLINK_MSG_ID_GPS_RAW_INT             */
-    Q_PROPERTY(Fact* horizontalDilutionOfPosition       READ horizontalDilutionOfPosition       CONSTANT) /* uint16_t   MAVLINK_MSG_ID_GPS_RAW_INT             */
-    Q_PROPERTY(Fact* zVelocityForAscentDetection        READ zVelocityForAscentDetection        CONSTANT) /* f32        MAVLINK_MSG_ID_LOCAL_POSITION_NED      */
+                                                                                                  /* src type   fact type   mavlink message macro               */
+    Q_PROPERTY(Fact* timeUnixMicroseconds           READ timeUnixMicroseconds           CONSTANT) /* uint64_t   uint64_t    MAVLINK_MSG_ID_SYSTEM_TIME          */
+    Q_PROPERTY(Fact* altitudeMillimetersMSL         READ altitudeMillimetersMSL         CONSTANT) /* int32_t    int32_t     MAVLINK_MSG_ID_GLOBAL_POSITION_INT  */
+    Q_PROPERTY(Fact* absolutePressureMillibars      READ absolutePressureMillibars      CONSTANT) /* f32        double      MAVLINK_MSG_ID_SCALED_PRESSURE2     */
+    Q_PROPERTY(Fact* temperature0Kelvin             READ temperature0Kelvin             CONSTANT) /* f32        double      MAVLINK_MSG_ID_CASS_SENSOR_RAW      */
+    Q_PROPERTY(Fact* temperature1Kelvin             READ temperature1Kelvin             CONSTANT) /* f32        double      MAVLINK_MSG_ID_CASS_SENSOR_RAW      */
+    Q_PROPERTY(Fact* temperature2Kelvin             READ temperature2Kelvin             CONSTANT) /* f32        double      MAVLINK_MSG_ID_CASS_SENSOR_RAW      */
+    Q_PROPERTY(Fact* relativeHumidity0              READ relativeHumidity0              CONSTANT) /* f32        double      MAVLINK_MSG_ID_CASS_SENSOR_RAW      */
+    Q_PROPERTY(Fact* relativeHumidity1              READ relativeHumidity1              CONSTANT) /* f32        double      MAVLINK_MSG_ID_CASS_SENSOR_RAW      */
+    Q_PROPERTY(Fact* relativeHumidity2              READ relativeHumidity2              CONSTANT) /* f32        double      MAVLINK_MSG_ID_CASS_SENSOR_RAW      */
+    Q_PROPERTY(Fact* latitudeDegreesE7              READ latitudeDegreesE7              CONSTANT) /* int32_t    int32_t     MAVLINK_MSG_ID_GLOBAL_POSITION_INT  */
+    Q_PROPERTY(Fact* longitudeDegreesE7             READ longitudeDegreesE7             CONSTANT) /* int32_t    int32_t     MAVLINK_MSG_ID_GLOBAL_POSITION_INT  */
+    Q_PROPERTY(Fact* rollRadians                    READ rollRadians                    CONSTANT) /* f32        double      MAVLINK_MSG_ID_ATTITUDE             */
+    Q_PROPERTY(Fact* pitchRadians                   READ pitchRadians                   CONSTANT) /* f32        double      MAVLINK_MSG_ID_ATTITUDE             */
+    Q_PROPERTY(Fact* yawRadians                     READ yawRadians                     CONSTANT) /* f32        double      MAVLINK_MSG_ID_ATTITUDE             */
+    Q_PROPERTY(Fact* rollRateRadiansPerSecond       READ rollRateRadiansPerSecond       CONSTANT) /* f32        double      MAVLINK_MSG_ID_ATTITUDE             */
+    Q_PROPERTY(Fact* pitchRateRadiansPerSecond      READ pitchRateRadiansPerSecond      CONSTANT) /* f32        double      MAVLINK_MSG_ID_ATTITUDE             */
+    Q_PROPERTY(Fact* yawRateRadiansPerSecond        READ yawRateRadiansPerSecond        CONSTANT) /* f32        double      MAVLINK_MSG_ID_ATTITUDE             */
+    Q_PROPERTY(Fact* xVelocityMetersPerSecond       READ xVelocityMetersPerSecond       CONSTANT) /* f32        double      MAVLINK_MSG_ID_LOCAL_POSITION_NED   */
+    Q_PROPERTY(Fact* yVelocityMetersPerSecond       READ yVelocityMetersPerSecond       CONSTANT) /* f32        double      MAVLINK_MSG_ID_LOCAL_POSITION_NED   */
+    Q_PROPERTY(Fact* zVelocityMetersPerSecond       READ zVelocityMetersPerSecond       CONSTANT) /* f32        double      MAVLINK_MSG_ID_LOCAL_POSITION_NED   */
+    Q_PROPERTY(Fact* customModeHeartbeat            READ customModeHeartbeat            CONSTANT) /* uint32_t   uint32_t    MAVLINK_MSG_ID_HEARTBEAT            */
+    Q_PROPERTY(Fact* dataQuality                    READ dataQuality                    CONSTANT) /* int32_t    int32_t     Unknown, not yet handled            */
+    Q_PROPERTY(Fact* satellites                     READ satellites                     CONSTANT) /* uint8_t    uint16_t    MAVLINK_MSG_ID_GPS_RAW_INT          */
+    Q_PROPERTY(Fact* horizontalDilutionOfPosition   READ horizontalDilutionOfPosition   CONSTANT) /* uint16_t   uint16_t    MAVLINK_MSG_ID_GPS_RAW_INT          */
+    Q_PROPERTY(Fact* zVelocityForAscentDetection    READ zVelocityForAscentDetection    CONSTANT) /* f32        double      MAVLINK_MSG_ID_LOCAL_POSITION_NED   */
 
     Fact* timeUnixMicroseconds()              { return &_timeUnixMicrosecondsFact; }
     Fact* altitudeMillimetersMSL()            { return &_altitudeMillimetersMSLFact; }

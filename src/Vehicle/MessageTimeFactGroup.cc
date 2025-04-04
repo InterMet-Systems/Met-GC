@@ -74,7 +74,7 @@ MessageTimeFactGroup::MessageTimeFactGroup(QObject* parent)
     ,_yawRateFact                       (0, _yawRateFactName,               FactMetaData::valueTypeDouble)
     ,_ascentRateFact                    (0, _ascentRateFactName,            FactMetaData::valueTypeDouble)
     ,_speedOverGroundFact               (0, _speedOverGroundFactName,       FactMetaData::valueTypeDouble)
-    ,_satellitesFact                    (0, _satellitesFactName,            FactMetaData::valueTypeUint8)
+    ,_satellitesFact                    (0, _satellitesFactName,            FactMetaData::valueTypeUint16)
     ,_hDOPFact                          (0, _hDOPFactName,                  FactMetaData::valueTypeDouble)
     ,_dataQualityFact                   (0, _dataQualityFactName,           FactMetaData::valueTypeInt32)
 {
@@ -150,7 +150,7 @@ MessageTimeFactGroup::MessageTimeFactGroup(QObject* parent)
     _yawRateFact                  .setRawValue(qQNaN());
     _ascentRateFact               .setRawValue(qQNaN());
     _speedOverGroundFact          .setRawValue(qQNaN());
-    _satellitesFact               .setRawValue(std::numeric_limits<uint8_t>::max());
+    _satellitesFact               .setRawValue(std::numeric_limits<uint16_t>::max());
     _hDOPFact                     .setRawValue(qQNaN());
     _dataQualityFact              .setRawValue(std::numeric_limits<int32_t>::max());
 }

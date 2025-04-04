@@ -189,7 +189,7 @@ void MessengerAltitude::updateData(){
 
     double now = source->timeUnixSeconds()->rawValue().toDouble();
     double start = static_cast<double>(data->unixStartTime()->rawValue().toInt());
-    data->timeSinceStart()->setRawValue(QVariant(now - start));
+    data->timeSinceStart()->setRawValue(QVariant(static_cast<int32_t>(now - start)));
 
     double pres = source->absolutePressureMillibars()->rawValue().toDouble();
     data->pressure()->setRawValue(QVariant(pres));
@@ -202,7 +202,10 @@ void MessengerAltitude::updateData(){
     double h0 = source->relativeHumidity0()->rawValue().toDouble();
     double h1 = source->relativeHumidity1()->rawValue().toDouble();
     double h2 = source->relativeHumidity2()->rawValue().toDouble();
-    data->airTemp()->setRawValue(QVariant((h0 + h1 + h2) / 3.));
+    data->relHum()->setRawValue(QVariant((h0 + h1 + h2) / 3.));
+
+    uint16_t satellites = source->satellites()->rawValue().toUInt();
+    data->satellites()->setRawValue(QVariant(satellites));
 }
 
 bool MessengerAltitude::criteriaMet(){
@@ -249,7 +252,7 @@ void MessengerAltitude::publish(){
         stream << "altitude ASL: " << data->altitudeASL()->rawValue().toDouble() << "\n";
         stream << "UTC date: " << data->uTCDate()->rawValue().toString() << "\n";
         stream << "UTC time: " << data->uTCTime()->rawValue().toString() << "\n";
-        stream << "time since start: " << data->timeSinceStart()->rawValue().toDouble() << "\n";
+        stream << "time since start: " << data->timeSinceStart()->rawValue().toInt() << "\n";
         stream << "pressure: " << data->pressure()->rawValue().toDouble() << "\n";
         stream << "air temp: " << data->airTemp()->rawValue().toDouble() << "\n";
         stream << "rel hum: " << data->relHum()->rawValue().toDouble() << "\n";
@@ -275,27 +278,50 @@ void MessengerAltitude::publish(){
 }
 
 bool MessengerAltitude::passedThreshold(){
-    // Get the current altitude in meters ASL (Above Sea Level)
-    double currentAltitude = source->altitudeMetersASL()->rawValue().toDouble();
+    Q_ASSERT(source);
+    Fact* pFact = source->altitudeMetersASL();
+    Q_ASSERT(pFact);
+    double alt = pFact->rawValue().toDouble();
 
-    // Calculate which altitude "bin" we're in by dividing by bin size and truncating
-    double currentAltBin = floor(currentAltitude / altitudeBin);
+    if (qIsNaN(lastAltBin)){
+        return handleFirstAltitude(alt);
+    }
+    if (alt - lastAltBin >= altitudeBin){
+        lastAltBin = alt;
+        return true;
+    }
+    return false;
+}
 
-    // If this is the first reading (lastAltBin is NaN), initialize lastAltBin
-    if (qIsNaN(lastAltBin)) {
-        lastAltBin = currentAltBin;
-        return false;
+bool MessengerAltitude::handleFirstAltitude(const double alt){
+    Q_ASSERT(source);
+    Fact* pFact = source->homePositionAltitudeMeters();
+    Q_ASSERT(pFact);
+    double homeAlt = pFact->rawValue().toDouble();
+
+    double minAltBound = minHomeAlt;
+    double maxAltBound = maxHomeAlt;
+    bool bHomeAlt = false;
+    if (bHomeAlt = !qIsNaN(homeAlt)){
+        minAltBound = std::max(minAltBound, homeAlt - homeAltRange);
+        maxAltBound = std::min(maxAltBound, homeAlt + homeAltRange);
     }
 
-    // Check if we've moved up at least one bin (5 meters)
-    bool ascended = currentAltBin > lastAltBin;
-
-    // If we've ascended, update the last altitude bin
-    if (ascended) {
-        lastAltBin = currentAltBin;
+    if (alt >= minAltBound && alt <= maxAltBound){
+        lastAltBin = alt;
+        return true;
     }
-
-    return ascended;
+#ifdef QT_DEBUG
+    qDebug() << "Anomaly: Initial altitude out of range, ALM production halted.";
+    if (bHomeAlt){
+        qDebug() << "Home altitude successfully read from file as: " << homeAlt;
+    } else{
+        qDebug() << "Home altitude not found in file.";
+    }
+    qDebug() << "Currently filtering initial altitude outside the range: " << minAltBound << "to " << maxAltBound;
+    qDebug() << "Reported altitude was: " << alt;
+#endif /* QT_DEBUG */
+    return false;
 }
 
 #undef _CRT_SECURE_NO_WARNINGS

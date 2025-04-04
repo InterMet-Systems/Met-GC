@@ -49,7 +49,7 @@ public:
     Q_PROPERTY(Fact* yawRate                  READ yawRate                  CONSTANT) /* f64        time-varying                raw         */
     Q_PROPERTY(Fact* ascentRate               READ ascentRate               CONSTANT) /* f64        time-varying                raw         */
     Q_PROPERTY(Fact* speedOverGround          READ speedOverGround          CONSTANT) /* f64        time-varying                raw         */
-    Q_PROPERTY(Fact* satellites               READ satellites               CONSTANT) /* uint8_t    time-varying                raw         */
+    Q_PROPERTY(Fact* satellites               READ satellites               CONSTANT) /* uint16_t   uint16_t    time-varying                raw         */
     Q_PROPERTY(Fact* hDOP                     READ hDOP                     CONSTANT) /* f64        time-varying                raw         */
     Q_PROPERTY(Fact* dataQuality              READ dataQuality              CONSTANT) /* int32_t    time-varying                raw         */
 

@@ -29,9 +29,13 @@ private:
     void buildUTCDateStr();
     void buildUTCTimeStr();
     void updateData();
-    bool passedThreshold();
 
+    bool passedThreshold();
+    bool handleFirstAltitude(const double alt);
     static constexpr double altitudeBin = 5.;
+    static constexpr double maxHomeAlt = 8848.86;   /* Everest */
+    static constexpr double minHomeAlt = -414.;     /* Dead sea */
+    static constexpr double homeAltRange = 512.;    /* If home altitude is provided, ignore initial altitude reports more than this distance from home altitude */
     double lastAltBin = qQNaN();
 };
 

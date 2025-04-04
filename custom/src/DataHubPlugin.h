@@ -5,6 +5,7 @@
 #include "DataHub.h"
 #include "MessengerRaw.h"
 #include "MessengerAltitude.h"
+#include "MessengerTime.h"
 #include <QTranslator>
 #include <QTimer>
 
@@ -31,6 +32,9 @@ private:
 
     MessageAltitudeFactGroup messageAltitudeFactGroup;
     MessengerAltitude messengerAltitude;
+
+    MessageTimeFactGroup messageTimeFactGroup;
+    MessengerTime messengerTime;
 
     /* this is only for the temp logging method */
     QTimer* logTimer;

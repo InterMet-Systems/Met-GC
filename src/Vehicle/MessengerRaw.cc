@@ -138,11 +138,13 @@ bool MessengerRaw::validValues(){
     static bool init = false;
     if (init) return true;
     /* for each fact marked 'required' in SoW, check that it's not NaN, if one is, then return false. */
-    if (data->timeUnixSeconds()->rawValue().toDouble() == qQNaN()){
-        /* Maybe log something like "We don't have timeUnixSeconds yet" */
-        return false;
-    }
-    if (data->altitudeMetersASL()->rawValue().toDouble() ==               qQNaN())                                return false;
+    // if (data->timeUnixSeconds()->rawValue().toDouble() == qQNaN()){
+    //     /* Maybe log something like "We don't have timeUnixSeconds yet" */
+    //     return false;
+    // }
+    if (qIsNaN(data->timeUnixSeconds()->rawValue().toDouble())) return false;
+    // if (data->altitudeMetersASL()->rawValue().toDouble() ==               qQNaN())                                return false;
+    if (qIsNaN(data->altitudeMetersASL()->rawValue().toDouble())) return false;
     if (data->absolutePressureMillibars()->rawValue().toDouble() ==       qQNaN())                                return false;
     if (data->temperature0Celsius()->rawValue().toDouble() ==             qQNaN())                                return false;
     if (data->temperature1Celsius()->rawValue().toDouble() ==             qQNaN())                                return false;
@@ -175,7 +177,8 @@ bool MessengerRaw::validValues(){
 
 bool MessengerRaw::srcInit(){
     if (source->timeUnixMicroseconds()->rawValue().toULongLong() == std::numeric_limits<uint64_t>::max())                return false;
-    if (source->altitudeMillimetersMSL()->rawValue().toInt() == std::numeric_limits<signed int>::quiet_NaN())               return false;
+    // if (source->altitudeMillimetersMSL()->rawValue().toInt() == std::numeric_limits<signed int>::quiet_NaN())               return false;
+    if (source->altitudeMillimetersMSL()->rawValue().toInt() == std::numeric_limits<int32_t>::max()) return false;
     if (std::isnan(source->absolutePressureMillibars()->rawValue().toDouble()))                                              return false;
     if (std::isnan(source->temperature0Kelvin()->rawValue().toDouble())) return false;
     if (std::isnan(source->temperature1Kelvin()->rawValue().toDouble())) return false;
@@ -195,8 +198,9 @@ bool MessengerRaw::srcInit(){
     if (std::isnan(source->yVelocityMetersPerSecond()->rawValue().toDouble())) return false;
     if (std::isnan(source->zVelocityMetersPerSecond()->rawValue().toDouble())) return false;
     if (source->customModeHeartbeat()->rawValue().toDouble() == std::numeric_limits<unsigned int>::quiet_NaN()) return false;
+    /* DataQuality isn't implemented yet so it's always going to be uninitialized, so don't wait for it */
     // if (source->dataQuality()->rawValue().toInt() == QVariant(0)) return false;
-    if (source->satellites()->rawValue().toInt() == std::numeric_limits<unsigned int>::quiet_NaN()) return false;
+    if (source->satellites()->rawValue().toInt() == std::numeric_limits<uint16_t>::max()) return false;
     if (source->horizontalDilutionOfPosition()->rawValue().toInt() == std::numeric_limits<unsigned int>::quiet_NaN()) return false;
     return true;
 }

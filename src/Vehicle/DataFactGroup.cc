@@ -51,7 +51,7 @@ DataFactGroup::DataFactGroup(QObject* parent)
     ,_zVelocityMetersPerSecondFact              (0, _zVelocityMetersPerSecondFactName         , FactMetaData::valueTypeDouble)
     ,_customModeHeartbeatFact                   (0, _customModeHeartbeatFactName              , FactMetaData::valueTypeUint32)
     ,_dataQualityFact                           (0, _dataQualityFactName                      , FactMetaData::valueTypeInt32)
-    ,_satellitesFact                            (0, _satellitesFactName                       , FactMetaData::valueTypeUint8)
+    ,_satellitesFact                            (0, _satellitesFactName                       , FactMetaData::valueTypeUint16)
     ,_horizontalDilutionOfPositionFact          (0, _horizontalDilutionOfPositionFactName     , FactMetaData::valueTypeUint16)
     ,_zVelocityForAscentDetectionFact           (0, _zVelocityForAscentDetectionFactName      , FactMetaData::valueTypeDouble)
 {
@@ -82,7 +82,7 @@ DataFactGroup::DataFactGroup(QObject* parent)
     _addFact(&_zVelocityForAscentDetectionFact,         _zVelocityForAscentDetectionFactName);
 
     _timeUnixMicrosecondsFact.              setRawValue(std::numeric_limits<uint64_t>::max());
-    _altitudeMillimetersMSLFact.            setRawValue(std::numeric_limits<signed int>::quiet_NaN());
+    _altitudeMillimetersMSLFact.            setRawValue(std::numeric_limits<int32_t>::max());
     _absolutePressureMillibarsFact.         setRawValue(qQNaN());
     _temperature0KelvinFact.                setRawValue(qQNaN());
     _temperature1KelvinFact.                setRawValue(qQNaN());
@@ -104,7 +104,7 @@ DataFactGroup::DataFactGroup(QObject* parent)
     _customModeHeartbeatFact.               setRawValue(std::numeric_limits<unsigned int>::quiet_NaN());
     /* TODO: find source fact for this */
     _dataQualityFact.                       setRawValue(QVariant(0));
-    _satellitesFact.                        setRawValue(std::numeric_limits<unsigned int>::quiet_NaN());
+    _satellitesFact.                        setRawValue(std::numeric_limits<uint16_t>::max());
     _horizontalDilutionOfPositionFact.      setRawValue(std::numeric_limits<unsigned int>::quiet_NaN());
     _zVelocityForAscentDetectionFact.       setRawValue(qQNaN());
 }

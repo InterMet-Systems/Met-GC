@@ -70,7 +70,7 @@ MessageAltitudeFactGroup::MessageAltitudeFactGroup(QObject* parent)
     ,_altitudeASLFact             (0, _altitudeASLFactName,             FactMetaData::valueTypeDouble)
     ,_uTCDateFact                 (0, _uTCDateFactName,                 FactMetaData::valueTypeString)
     ,_uTCTimeFact                 (0, _uTCTimeFactName,                 FactMetaData::valueTypeString)
-    ,_timeSinceStartFact          (0, _timeSinceStartFactName,          FactMetaData::valueTypeDouble)
+    ,_timeSinceStartFact          (0, _timeSinceStartFactName,          FactMetaData::valueTypeInt32)
     ,_pressureFact                (0, _pressureFactName,                FactMetaData::valueTypeDouble)
     ,_airTempFact                 (0, _airTempFactName,                 FactMetaData::valueTypeDouble)
     ,_relHumFact                  (0, _relHumFactName,                  FactMetaData::valueTypeDouble)
@@ -86,7 +86,7 @@ MessageAltitudeFactGroup::MessageAltitudeFactGroup(QObject* parent)
     ,_yawRateFact                 (0, _yawRateFactName,                 FactMetaData::valueTypeDouble)
     ,_ascentRateFact              (0, _ascentRateFactName,              FactMetaData::valueTypeDouble)
     ,_speedOverGroundFact         (0, _speedOverGroundFactName,         FactMetaData::valueTypeDouble)
-    ,_satellitesFact              (0, _satellitesFactName,              FactMetaData::valueTypeUint8)
+    ,_satellitesFact              (0, _satellitesFactName,              FactMetaData::valueTypeUint16)
     ,_hDOPFact                    (0, _hDOPFactName,                    FactMetaData::valueTypeDouble)
     ,_dataQualityFact             (0, _dataQualityFactName,             FactMetaData::valueTypeInt32)
 {
@@ -174,7 +174,7 @@ MessageAltitudeFactGroup::MessageAltitudeFactGroup(QObject* parent)
     _yawRateFact                  .setRawValue(qQNaN());
     _ascentRateFact               .setRawValue(qQNaN());
     _speedOverGroundFact          .setRawValue(qQNaN());
-    _satellitesFact               .setRawValue(std::numeric_limits<uint8_t>::max());
+    _satellitesFact               .setRawValue(std::numeric_limits<uint16_t>::max());
     _hDOPFact                     .setRawValue(qQNaN());
     _dataQualityFact              .setRawValue(std::numeric_limits<int32_t>::max());
 }

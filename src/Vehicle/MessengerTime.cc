@@ -154,6 +154,9 @@ void MessengerTime::updateData(){
     /* We really should just make MessageAltitudeFactGroup the source for this, rather than MessageRawFactGroup. That's not the design I had intended, but
     the facts are almost 100% identical. We're just duplicating everything. We can't do exactly this, because we need the data organized differently.
     And I'm also not including another class for them both to inherit from, so I'm not sure what to do about this other than just duplicate the work... */
+
+    uint16_t satellites = source->satellites()->rawValue().toUInt();
+    data->satellites()->setRawValue(QVariant(satellites));
 }
 
 void MessengerTime::buildUTCDateStr(){
