@@ -6,4 +6,5 @@
     <Publisher>Intermet Systems</Publisher>
     <StartMenuDir>Met-GC</StartMenuDir>
     <TargetDir>@ApplicationsDir@/Met-GC</TargetDir>
+    <ControlScript>installer.qs</ControlScript>
 </Installer>
