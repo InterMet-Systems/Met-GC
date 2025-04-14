@@ -44,6 +44,8 @@ const char* MessageAltitudeFactGroup::_satellitesFactName =               "satel
 const char* MessageAltitudeFactGroup::_hDOPFactName =                     "hDOP";
 const char* MessageAltitudeFactGroup::_dataQualityFactName =              "dataQuality";
 
+/* Still don't know what this json file is for. I did not create such a file, but it does need the directory and file name to follow this pattern,
+    even if the file doesn't actually exist. */
 MessageAltitudeFactGroup::MessageAltitudeFactGroup(QObject* parent)
     : FactGroup(1000, ":/json/Vehicle/AltitudeFact.json", parent, true)
     ,_droneSerialFact             (0, _droneSerialFactName,             FactMetaData::valueTypeInt32)

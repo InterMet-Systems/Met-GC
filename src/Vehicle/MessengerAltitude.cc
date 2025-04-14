@@ -283,10 +283,12 @@ bool MessengerAltitude::passedThreshold(){
     Q_ASSERT(pFact);
     double alt = pFact->rawValue().toDouble();
 
+    bool armed = source->customModeHeartbeat()->rawValue().toBool();
+
     if (qIsNaN(lastAltBin)){
-        return handleFirstAltitude(alt);
+        return handleFirstAltitude(alt) && armed;
     }
-    if (alt - lastAltBin >= altitudeBin){
+    if (alt - lastAltBin >= altitudeBin  && armed){
         lastAltBin = alt;
         return true;
     }
@@ -313,9 +315,9 @@ bool MessengerAltitude::handleFirstAltitude(const double alt){
     }
 #ifdef QT_DEBUG
     qDebug() << "Anomaly: Initial altitude out of range, ALM production halted.";
-    if (bHomeAlt){
+    if (bHomeAlt) {
         qDebug() << "Home altitude successfully read from file as: " << homeAlt;
-    } else{
+    } else {
         qDebug() << "Home altitude not found in file.";
     }
     qDebug() << "Currently filtering initial altitude outside the range: " << minAltBound << "to " << maxAltBound;

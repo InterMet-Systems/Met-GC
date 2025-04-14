@@ -124,7 +124,7 @@ MessageTimeFactGroup::MessageTimeFactGroup(QObject* parent)
     _rawDataFilenameFact          .setRawValue(QVariant(""));
     _unixStartTimeFact            .setRawValue(std::numeric_limits<uint64_t>::max());
     _groundWindSpeedFact          .setRawValue(qQNaN());
-    _groundWindDirectionFact      .setRawValue(qQNaN());
+    _groundWindDirectionFact      .setRawValue(std::numeric_limits<int32_t>::max());
     _groundAirTemperatureFact     .setRawValue(qQNaN());
     _groundHumidityFact           .setRawValue(qQNaN());
     _groundPressureFact           .setRawValue(qQNaN());
@@ -133,7 +133,7 @@ MessageTimeFactGroup::MessageTimeFactGroup(QObject* parent)
     _homePositionAltitudeFact     .setRawValue(qQNaN());
     _uTCDateFact                  .setRawValue(QVariant(""));
     _uTCTimeFact                  .setRawValue(QVariant(""));
-    _timeSinceStartFact           .setRawValue(qQNaN());
+    _timeSinceStartFact           .setRawValue(std::numeric_limits<int32_t>::max());
     _altitudeASLFact              .setRawValue(qQNaN());
     _pressureFact                 .setRawValue(qQNaN());
     _airTempFact                  .setRawValue(qQNaN());

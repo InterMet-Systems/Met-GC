@@ -157,6 +157,8 @@ void MessengerTime::updateData(){
 
     uint16_t satellites = source->satellites()->rawValue().toUInt();
     data->satellites()->setRawValue(QVariant(satellites));
+
+    /* The rest of these need to be implemented */
 }
 
 void MessengerTime::buildUTCDateStr(){
