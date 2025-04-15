@@ -1,0 +1,5 @@
+Met-GC is dual-licensed as Apache 2.0 and GPLv3.
+
+The [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0) License is a permissive license which allows Met-GC to be built and used in any environment, including proprietary applications. It allows Met-GC to be built for mobile app stores. When building with Apache 2.0 a commercial Qt license is required.
+
+The [GPL v3 License](http://www.gnu.org/licenses/gpl-3.0.en.html) is a strong copyleft license. When building Met-GC under this license the open source version of Qt can be used. Our licensing grants the permission to use a later version of the license, however, contributions have to be made under 3.0.

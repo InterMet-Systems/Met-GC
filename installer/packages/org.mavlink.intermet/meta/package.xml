@@ -6,4 +6,7 @@
     <ReleaseDate>2025-03-31</ReleaseDate>
     <Default>true</Default>
     <Script>installscript.qs</Script>
+    <Licenses>
+        <License name="Apache 2.0 and GPLv3 Dual License" file="license.txt" />
+    </Licenses>
 </Package>
