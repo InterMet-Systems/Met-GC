@@ -15,7 +15,7 @@ private:
 
     struct WindProps {
         double speed = 0.;
-        uint32_t dir = 0;
+        int32_t dir = 0;
     };
 
     void updateTime();

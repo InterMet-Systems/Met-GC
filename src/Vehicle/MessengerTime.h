@@ -13,6 +13,11 @@ public:
     bool criteriaMet() override;
     void publish() override;
 private:
+    struct WindProps {
+        double speed = 0.;
+        int32_t dir = 0;
+    };
+
     void updateConstantData();
     void buildFilename();
     void updateTime();
@@ -23,6 +28,7 @@ private:
     bool timer();
     double lastMessage = 0.;
     double frequency;
+    const WindProps calcWindProps() const; /* copy pasted from MessengerAltitude */
 };
 
 #endif // MESSENGERTIME_H

@@ -1,4 +1,5 @@
 #include "MessengerTime.h"
+#include "IMetMath.h"
 
 bool MessengerTime::criteriaMet(){
     updateTime();
@@ -158,7 +159,102 @@ void MessengerTime::updateData(){
     uint16_t satellites = source->satellites()->rawValue().toUInt();
     data->satellites()->setRawValue(QVariant(satellites));
 
-    /* The rest of these need to be implemented */
+    const WindProps windProps = calcWindProps();
+    data->windDirection()->setRawValue(QVariant(windProps.dir));
+    data->windSpeed()->setRawValue(QVariant(windProps.speed));
+
+    double lat = source->latitudeDegrees()->rawValue().toDouble();
+    data->latitude()->setRawValue(QVariant(lat));
+
+    double lon = source->longitudeDegrees()->rawValue().toDouble();
+    data->longitude()->setRawValue(QVariant(lon));
+
+    double roll = source->rollDegrees()->rawValue().toDouble();
+    data->roll()->setRawValue(QVariant(roll));
+
+    double pitch = source->pitchDegrees()->rawValue().toDouble();
+    data->pitch()->setRawValue(QVariant(pitch));
+
+    double yaw = source->yawDegrees()->rawValue().toDouble();
+    data->yaw()->setRawValue(QVariant(yaw));
+
+    double rollRate = source->rollRateDegreesPerSecond()->rawValue().toDouble();
+    data->rollRate()->setRawValue(QVariant(rollRate));
+
+    double pitchRate = source->pitchRateDegreesPerSecond()->rawValue().toDouble();
+    data->pitchRate()->setRawValue(QVariant(pitchRate));
+
+    double yawRate = source->yawRateDegreesPerSecond()->rawValue().toDouble();
+    data->yawRate()->setRawValue(QVariant(yawRate));
+
+    double ascentRate = -source->zVelocityMetersPerSecond()->rawValue().toDouble();
+    data->ascentRate()->setRawValue(QVariant(ascentRate));
+
+    double vx = source->xVelocityMetersPerSecond()->rawValue().toDouble();
+    double vy = source->yVelocityMetersPerSecond()->rawValue().toDouble();
+    double groundSpeed = std::max(0., std::hypot(vx, vy));
+    data->speedOverGround()->setRawValue(QVariant(groundSpeed));
+
+    double hdop = source->horizontalDilutionOfPositionFloat()->rawValue().toDouble();
+    data->hDOP()->setRawValue(QVariant(hdop));
+
+    int32_t dataQuality = source->dataQuality()->rawValue().toInt();
+    data->dataQuality()->setRawValue(QVariant(dataQuality));
+}
+
+const MessengerTime::WindProps MessengerTime::calcWindProps() const {
+    WindProps props;
+
+    assert(source && "AltitudeMessenger.source was null during calcWindProps");
+    if (!source) {
+        /* if not source, QGC or hardware has shit the bed, perhaps this would be a good time to except or log the error to a file and flush? */
+        qDebug() << "Fatal error";
+        return props;
+    }
+
+    /* Magic numbers from Tony Segales' paper */
+    constexpr double a = 39.4;
+    constexpr double b = 5.71;
+
+    const double rolldegrees = source->rollDegrees()->rawValue().toDouble();
+    const double pitchdegrees = source->pitchDegrees()->rawValue().toDouble();
+    const double yawdegrees = source->yawDegrees()->rawValue().toDouble();
+
+    IMetMath::SResult croll_r = IMetMath::DegreesToRadians(rolldegrees);
+    assert(croll_r.result == IMetMath::Result::_SUCCESS || croll_r.result == IMetMath::Result::_INPUT_EXCEEDS_RANGE);
+    const double croll = cos(croll_r.value);
+
+    IMetMath::SResult sroll_r = IMetMath::DegreesToRadians(rolldegrees);
+    assert(sroll_r.result == IMetMath::Result::_SUCCESS || sroll_r.result == IMetMath::Result::_INPUT_EXCEEDS_RANGE);
+    const double sroll = sin(sroll_r.value);
+
+    IMetMath::SResult cpitch_r = IMetMath::DegreesToRadians(pitchdegrees);
+    assert(cpitch_r.result == IMetMath::Result::_SUCCESS || cpitch_r.result == IMetMath::Result::_INPUT_EXCEEDS_RANGE);
+    const double cpitch = cos(cpitch_r.value);
+
+    IMetMath::SResult spitch_r = IMetMath::DegreesToRadians(pitchdegrees);
+    assert(spitch_r.result == IMetMath::Result::_SUCCESS || spitch_r.result == IMetMath::Result::_INPUT_EXCEEDS_RANGE);
+    const double spitch = sin(spitch_r.value);
+
+    IMetMath::SResult cyaw_r = IMetMath::DegreesToRadians(yawdegrees);
+    assert(cyaw_r.result == IMetMath::Result::_SUCCESS || cyaw_r.result == IMetMath::Result::_INPUT_EXCEEDS_RANGE);
+    const double cyaw = cos(cyaw_r.value);
+
+    IMetMath::SResult syaw_r = IMetMath::DegreesToRadians(yawdegrees);
+    assert(syaw_r.result == IMetMath::Result::_SUCCESS || syaw_r.result == IMetMath::Result::_INPUT_EXCEEDS_RANGE);
+    const double syaw = sin(syaw_r.value);
+
+    const double dirRads = atan2(-croll * spitch * syaw + sroll * cyaw, -sroll * syaw - croll * spitch * cyaw);
+
+    IMetMath::SResult dirDegrees_r = IMetMath::RadiansToDegrees(dirRads);
+    assert(dirDegrees_r.result == IMetMath::Result::_SUCCESS || dirDegrees_r.result == IMetMath::Result::_INPUT_EXCEEDS_RANGE);
+
+    props.dir = static_cast<int32_t>(fmod(dirDegrees_r.value + 360., 360.));
+
+    /* Can still yield 0.0 and +inf, however these are appropriate given the algorithm. */
+    props.speed = fmax(0., a * sqrt(tan(acos(std::clamp(croll * cpitch, -1., +1.)))) - b);
+
+    return props;
 }
 
 void MessengerTime::buildUTCDateStr(){

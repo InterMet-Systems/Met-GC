@@ -55,7 +55,7 @@ const MessengerAltitude::WindProps MessengerAltitude::calcWindProps() const {
     IMetMath::SResult dirDegrees_r = IMetMath::RadiansToDegrees(dirRads);
     assert(dirDegrees_r.result == IMetMath::Result::_SUCCESS);
 
-    props.dir = static_cast<uint32_t>(fmod(dirDegrees_r.value + 360., 360.));
+    props.dir = static_cast<int32_t>(fmod(dirDegrees_r.value + 360., 360.));
 
     /* Can still yield 0.0 and +inf, however these are appropriate given the algorithm. */
     props.speed = fmax(0., a * sqrt(tan(acos(std::clamp(croll * cpitch, -1., +1.)))) - b);
