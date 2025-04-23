@@ -21,7 +21,7 @@ public:
     Q_PROPERTY(Fact* dronePoweredAge          READ dronePoweredAge          CONSTANT) /* int32_t    constant                    raw         */
     Q_PROPERTY(Fact* droneArmedAge            READ droneArmedAge            CONSTANT) /* int32_t    constant                    raw         */
     Q_PROPERTY(Fact* rawDataFilename          READ rawDataFilename          CONSTANT) /* string     constant                    raw         */
-    Q_PROPERTY(Fact* unixStartTime            READ unixStartTime            CONSTANT) /* uint64_t   constant                    raw         */
+    Q_PROPERTY(Fact* unixStartTime            READ unixStartTime            CONSTANT) /* int32_t    constant                    raw         */
     Q_PROPERTY(Fact* groundWindSpeed          READ groundWindSpeed          CONSTANT) /* f64        constant                    raw         */
     Q_PROPERTY(Fact* groundWindDirection      READ groundWindDirection      CONSTANT) /* int32_t    constant                    raw         */
     Q_PROPERTY(Fact* groundAirTemperature     READ groundAirTemperature     CONSTANT) /* f64        constant                    raw         */

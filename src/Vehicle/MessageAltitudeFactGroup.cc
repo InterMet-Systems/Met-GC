@@ -60,7 +60,7 @@ MessageAltitudeFactGroup::MessageAltitudeFactGroup(QObject* parent)
     ,_dronePoweredAgeFact         (0, _dronePoweredAgeFactName,         FactMetaData::valueTypeInt32)
     ,_droneArmedAgeFact           (0, _droneArmedAgeFactName,           FactMetaData::valueTypeInt32)
     ,_rawDataFilenameFact         (0, _rawDataFilenameFactName,         FactMetaData::valueTypeString)
-    ,_unixStartTimeFact           (0, _unixStartTimeFactName,           FactMetaData::valueTypeUint64)
+    ,_unixStartTimeFact           (0, _unixStartTimeFactName,           FactMetaData::valueTypeInt32)
     ,_groundWindSpeedFact         (0, _groundWindSpeedFactName,         FactMetaData::valueTypeDouble)
     ,_groundWindDirectionFact     (0, _groundWindDirectionFactName,     FactMetaData::valueTypeInt32)
     ,_groundAirTemperatureFact    (0, _groundAirTemperatureFactName,    FactMetaData::valueTypeDouble)
@@ -72,7 +72,7 @@ MessageAltitudeFactGroup::MessageAltitudeFactGroup(QObject* parent)
     ,_altitudeASLFact             (0, _altitudeASLFactName,             FactMetaData::valueTypeDouble)
     ,_uTCDateFact                 (0, _uTCDateFactName,                 FactMetaData::valueTypeString)
     ,_uTCTimeFact                 (0, _uTCTimeFactName,                 FactMetaData::valueTypeString)
-    ,_timeSinceStartFact          (0, _timeSinceStartFactName,          FactMetaData::valueTypeInt32)
+    ,_timeSinceStartFact          (0, _timeSinceStartFactName,          FactMetaData::valueTypeDouble)
     ,_pressureFact                (0, _pressureFactName,                FactMetaData::valueTypeDouble)
     ,_airTempFact                 (0, _airTempFactName,                 FactMetaData::valueTypeDouble)
     ,_relHumFact                  (0, _relHumFactName,                  FactMetaData::valueTypeDouble)
@@ -148,7 +148,7 @@ MessageAltitudeFactGroup::MessageAltitudeFactGroup(QObject* parent)
     _dronePoweredAgeFact          .setRawValue(std::numeric_limits<int32_t>::max());
     _droneArmedAgeFact            .setRawValue(std::numeric_limits<int32_t>::max());
     _rawDataFilenameFact          .setRawValue(QVariant(""));
-    _unixStartTimeFact            .setRawValue(std::numeric_limits<uint64_t>::max());
+    _unixStartTimeFact            .setRawValue(std::numeric_limits<int32_t>::max());
     _groundWindSpeedFact          .setRawValue(qQNaN());
     _groundWindDirectionFact      .setRawValue(std::numeric_limits<int32_t>::max());
     _groundAirTemperatureFact     .setRawValue(qQNaN());

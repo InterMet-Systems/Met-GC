@@ -98,7 +98,7 @@ void MessengerTime::updateConstantData(){
     buildFilename();
 
     double time = source->timeUnixSeconds()->rawValue().toDouble();
-    data->unixStartTime()->setRawValue(QVariant(static_cast<uint64_t>(time)));
+    data->unixStartTime()->setRawValue(QVariant(static_cast<int32_t>(time)));
 
     double groundWindSpd = source->groundWindSpeedMetersPerSecond()->rawValue().toDouble();
     data->groundWindSpeed()->setRawValue(QVariant(groundWindSpd));
@@ -135,9 +135,9 @@ void MessengerTime::updateData(){
     buildUTCDateStr();
     buildUTCTimeStr();
 
-    double now = source->timeUnixSeconds()->rawValue().toDouble();
-    double start = static_cast<double>(data->unixStartTime()->rawValue().toInt());
-    data->timeSinceStart()->setRawValue(QVariant(static_cast<int32_t>(now - start)));
+    int32_t now = static_cast<int32_t>(source->timeUnixSeconds()->rawValue().toDouble());
+    int32_t start = data->unixStartTime()->rawValue().toInt();
+    data->timeSinceStart()->setRawValue(QVariant(now - start));
 
     double pres = source->absolutePressureMillibars()->rawValue().toDouble();
     data->pressure()->setRawValue(QVariant(pres));

@@ -98,7 +98,7 @@ void DataHubPlugin::logRawMessagesToFile(){
 
         stream << "--- Log Entry: " << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") << " ---\n";
 
-        stream << "timeUnixMicroseconds: " << messageRawFactGroup.timeUnixSeconds()->rawValue().toDouble() << "\n";
+        stream << "timeUnixSeconds: " << messageRawFactGroup.timeUnixSeconds()->rawValue().toDouble() << "\n";
         stream << "altitudeMillimetersMSL: " << messageRawFactGroup.altitudeMetersASL()->rawValue().toDouble() << "\n";
         stream << "absolutePressureMillibars: " << messageRawFactGroup.absolutePressureMillibars()->rawValue().toDouble() << "\n";
         stream << "temperature0Kelvin: " << messageRawFactGroup.temperature0Celsius()->rawValue().toDouble() << "\n";

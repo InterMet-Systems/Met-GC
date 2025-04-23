@@ -46,7 +46,7 @@ MessageTimeFactGroup::MessageTimeFactGroup(QObject* parent)
     ,_dronePoweredAgeFact               (0, _dronePoweredAgeFactName,       FactMetaData::valueTypeInt32)
     ,_droneArmedAgeFact                 (0, _droneArmedAgeFactName,         FactMetaData::valueTypeInt32)
     ,_rawDataFilenameFact               (0, _rawDataFilenameFactName,       FactMetaData::valueTypeString)
-    ,_unixStartTimeFact                 (0, _unixStartTimeFactName,         FactMetaData::valueTypeUint64)
+    ,_unixStartTimeFact                 (0, _unixStartTimeFactName,         FactMetaData::valueTypeInt32)
     ,_groundWindSpeedFact               (0, _groundWindSpeedFactName,       FactMetaData::valueTypeDouble)
     ,_groundWindDirectionFact           (0, _groundWindDirectionFactName,   FactMetaData::valueTypeInt32)
     ,_groundAirTemperatureFact          (0, _groundAirTemperatureFactName,  FactMetaData::valueTypeDouble)
@@ -122,7 +122,7 @@ MessageTimeFactGroup::MessageTimeFactGroup(QObject* parent)
     _dronePoweredAgeFact          .setRawValue(std::numeric_limits<int32_t>::max());
     _droneArmedAgeFact            .setRawValue(std::numeric_limits<int32_t>::max());
     _rawDataFilenameFact          .setRawValue(QVariant(""));
-    _unixStartTimeFact            .setRawValue(std::numeric_limits<uint64_t>::max());
+    _unixStartTimeFact            .setRawValue(std::numeric_limits<int32_t>::max());
     _groundWindSpeedFact          .setRawValue(qQNaN());
     _groundWindDirectionFact      .setRawValue(std::numeric_limits<int32_t>::max());
     _groundAirTemperatureFact     .setRawValue(qQNaN());
