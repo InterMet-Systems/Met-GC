@@ -78,6 +78,7 @@ public:
     int parseMessage(const mavlink_message_t& m);
     void resetAverages();
     DataHub(DataFactGroup* pData);
+
 private:
     template <typename T, bool bSigned = std::is_signed_v<T>>
     struct LargerType {};

@@ -35,7 +35,7 @@ bool DataHubPlugin::mavlinkMessage(Vehicle* vehicle, LinkInterface* link, mavlin
     (void)hub.parseMessage(message);
     if (messengerRaw.criteriaMet()) {
         messengerRaw.publish();
-        qDebug() << "published a raw message";
+        // qDebug() << "published a raw message";
         logRawMessagesToFile();
     }
     return true;

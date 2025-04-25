@@ -9,10 +9,9 @@ int DataHub::parseMessage(const mavlink_message_t& m){
     case MAVLINK_MSG_ID_SYSTEM_TIME:{
         mavlink_system_time_t s;
         mavlink_msg_system_time_decode(&m, &s);
-        uint64_t val = s.time_unix_usec;        
+        uint64_t val = s.time_unix_usec;
 
-        updateRollingAverage(timeUnixMicrosecondsA, timeUnixMicrosecondsC, val);
-        pData->timeUnixMicroseconds()->setRawValue(QVariant(timeUnixMicrosecondsA));
+        pData->timeUnixMicroseconds()->setRawValue(QVariant(val));
         break;
     }
     case MAVLINK_MSG_ID_GLOBAL_POSITION_INT:{

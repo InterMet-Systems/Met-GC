@@ -19,6 +19,7 @@ void MessengerTime::publish(){
     QFile file(logFilePath);
     if (file.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
         QTextStream stream(&file);
+        stream.setRealNumberNotation(QTextStream::FixedNotation);
 
         stream << "--- Log Entry: " << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") << " ---\n";
         stream << "drone serial: " << data->droneSerial()->rawValue().toInt() << "\n";
