@@ -11,7 +11,7 @@ int DataHub::parseMessage(const mavlink_message_t& m){
         mavlink_msg_system_time_decode(&m, &s);
         uint64_t val = s.time_unix_usec;
 
-        pData->timeUnixMicroseconds()->setRawValue(QVariant(val));
+        pData->timeUnixMicroseconds()->setRawValue(QVariant::fromValue(val));
         break;
     }
     case MAVLINK_MSG_ID_GLOBAL_POSITION_INT:{

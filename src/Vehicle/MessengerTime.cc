@@ -1,5 +1,8 @@
 #include "MessengerTime.h"
 #include "IMetMath.h"
+#include "qdir.h"
+#include <QFileInfo>
+#include <QStandardPaths>
 
 bool MessengerTime::criteriaMet(){
     updateTime();

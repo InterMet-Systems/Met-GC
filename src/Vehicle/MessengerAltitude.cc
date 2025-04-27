@@ -4,6 +4,9 @@
 #include <cstdint>
 #include <cmath>
 #include "QDebug"
+#include "qdir.h"
+#include <QFileInfo>
+#include <QStandardPaths>
 
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -346,7 +349,7 @@ bool MessengerAltitude::handleFirstAltitude(const double alt){
     double minAltBound = minHomeAlt;
     double maxAltBound = maxHomeAlt;
     bool bHomeAlt = false;
-    if (bHomeAlt = !qIsNaN(homeAlt)){
+    if ((bHomeAlt = !qIsNaN(homeAlt))){
         minAltBound = std::max(minAltBound, homeAlt - homeAltRange);
         maxAltBound = std::min(maxAltBound, homeAlt + homeAltRange);
     }

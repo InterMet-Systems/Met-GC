@@ -81,7 +81,7 @@ DataFactGroup::DataFactGroup(QObject* parent)
     _addFact(&_horizontalDilutionOfPositionFact,        _horizontalDilutionOfPositionFactName);
     _addFact(&_zVelocityForAscentDetectionFact,         _zVelocityForAscentDetectionFactName);
 
-    _timeUnixMicrosecondsFact.              setRawValue(std::numeric_limits<uint64_t>::max());
+    _timeUnixMicrosecondsFact.              setRawValue(QVariant::fromValue((std::numeric_limits<uint64_t>::max())));
     _altitudeMillimetersMSLFact.            setRawValue(std::numeric_limits<int32_t>::max());
     _absolutePressureMillibarsFact.         setRawValue(qQNaN());
     _temperature0KelvinFact.                setRawValue(qQNaN());

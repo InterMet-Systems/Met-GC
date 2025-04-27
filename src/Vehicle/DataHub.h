@@ -8,7 +8,7 @@ class DataHub{
     DataFactGroup* pData = nullptr;
 
     size_t timeUnixMicrosecondsC = 0;
-    uint64_t timeUnixMicrosecondsA = 0;
+    //uint64_t timeUnixMicrosecondsA = 0;
 
     size_t altitudeMillimetersMSLC = 0;
     int32_t altitudeMillimetersMSLA = 0;
