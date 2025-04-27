@@ -40,7 +40,7 @@ DataBalancerPlugin::~DataBalancerPlugin()
 
 bool DataBalancerPlugin::mavlinkMessage(Vehicle* vehicle, LinkInterface* link, mavlink_message_t message)
 {
-
+    qDebug() << "DataBalancerPlugin::mavlinkMessage";
     FactGroup* metFactGroup = vehicle->getFactGroup("temperature");
 
     if (!metFactGroup) {

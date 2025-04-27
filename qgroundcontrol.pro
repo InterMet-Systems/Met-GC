@@ -460,6 +460,7 @@ HEADERS += \
     src/QmlControls/CustomActionManager.h \
     src/QmlControls/QmlUnitsConversion.h \
     src/Vehicle/DataBalancer.h \
+    src/Vehicle/MessengerBaseCommon.h \
     src/Vehicle/MetDataLogManager.h \
     src/Vehicle/MetConfigParser.h \
     src/Vehicle/VehicleEscStatusFactGroup.h \
@@ -468,7 +469,17 @@ HEADERS += \
     src/api/QGCOptions.h \
     src/api/QGCSettings.h \
     src/api/QmlComponentInfo.h \
-    src/GPS/Drivers/src/base_station.h
+    src/GPS/Drivers/src/base_station.h \
+    src/Vehicle/IMetMath.h \
+    src/Vehicle/DataFactGroup.h \
+    src/Vehicle/DataHub.h \
+    src/Vehicle/MessageAltitudeFactGroup.h \
+    src/Vehicle/MessageRawFactGroup.h \
+    src/Vehicle/MessageTimeFactGroup.h \
+    src/Vehicle/MessengerAltitude.h \
+    src/Vehicle/MessengerBase.h \
+    src/Vehicle/MessengerRaw.h \
+    src/Vehicle/MessengerTime.h
 
 contains (DEFINES, QGC_ENABLE_PAIRING) {
     HEADERS += \
@@ -485,7 +496,15 @@ SOURCES += \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \
     src/api/QGCSettings.cc \
-    src/api/QmlComponentInfo.cc
+    src/api/QmlComponentInfo.cc \
+    src/Vehicle/DataFactGroup.cc \
+    src/Vehicle/DataHub.cc \
+    src/Vehicle/MessageAltitudeFactGroup.cc \
+    src/Vehicle/MessageRawFactGroup.cc \
+    src/Vehicle/MessageTimeFactGroup.cc \
+    src/Vehicle/MessengerAltitude.cc \
+    src/Vehicle/MessengerRaw.cc \
+    src/Vehicle/MessengerTime.cc
 
 contains (DEFINES, QGC_ENABLE_PAIRING) {
     SOURCES += \
