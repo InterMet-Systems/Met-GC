@@ -61,12 +61,18 @@ QML_IMPORT_PATH += \
 SOURCES += \
     $$PWD/src/CustomPlugin.cc \
     $$PWD/src/DataBalancerPlugin.cc \
-    $$PWD/src/DataHubPlugin.cc
+    $$PWD/src/DataHubPlugin.cc \
+    $$PWD/src/HerelinkCorePlugin.cc \
+    $$PWD/src/HerelinkOptions.cc \
+    $$PWD/src/VideoStreamControl.cc
 
 HEADERS += \
     $$PWD/src/CustomPlugin.h \
     $$PWD/src/DataBalancerPlugin.h \
-    $$PWD/src/DataHubPlugin.h
+    $$PWD/src/DataHubPlugin.h \
+    $$PWD/src/HerelinkCorePlugin.h \
+    $$PWD/src/HerelinkOptions.h \
+    $$PWD/src/VideoStreamControl.h
 
 INCLUDEPATH += \
     $$PWD/src \
