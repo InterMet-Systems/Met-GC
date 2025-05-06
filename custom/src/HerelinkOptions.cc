@@ -1,7 +1,7 @@
 #include "HerelinkOptions.h"
-#include "HerelinkCorePlugin.h"
+#include "DataHubPlugin.h"
 
-HerelinkOptions::HerelinkOptions(HerelinkCorePlugin* /* plugin */, QObject* parent)
+HerelinkOptions::HerelinkOptions(DataHubPlugin* /* plugin */, QObject* parent)
     : QGCOptions(parent)
 {
 
