@@ -9,6 +9,7 @@ public:
     MessengerBase(TSource* src, TData* data) : source(src), data(data) {}
     virtual bool criteriaMet() = 0;
     virtual void publish() = 0;
+    virtual void log() = 0;
 protected:
     TSource* source;
     TData* data;

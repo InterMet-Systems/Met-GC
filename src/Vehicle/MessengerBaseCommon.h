@@ -6,6 +6,7 @@ public:
     virtual ~MessengerBaseCommon() = default;
     virtual bool criteriaMet() = 0;
     virtual void publish() = 0;
+    virtual void log() = 0;
 };
 
 #endif // MESSENGERBASECOMMON_H

@@ -3,6 +3,7 @@
 #include "QGCApplication.h"
 #include "MetDataLogManager.h"
 #include "IMetMath.h"
+#include "SettingsManager.h"
 
 void MessengerRaw::updateData(){
     uint64_t time = source->timeUnixMicroseconds()->rawValue().toULongLong();
@@ -258,6 +259,61 @@ void MessengerRaw::publish() {
         if (subscribers[i]->criteriaMet())
             subscribers[i]->publish();
 
+    log();
+
     if (dataHub) dataHub->resetAverages();
     else qDebug() << "no datahub linked";
+}
+
+void MessengerRaw::log() {
+    initLogFile();
+
+    /* TODO: get the pointer once, only check regularly to make sure it hasn't changed, if it can change at all. */
+    Vehicle* activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
+    if(!activeVehicle) return;
+
+    if (!activeVehicle->armed() || !logFile.isOpen()){
+        logFile.close(); /* no-op if not opened */
+        return;
+    }
+    QStringList metFactValues;
+    QTextStream stream(&logFile);
+    if (!data) return;
+    QString timestamp = data->getFact("timeUnixSeconds")->rawValueString();
+    if (timestamp == latestTimestamp) {
+        return;
+    } else {
+        latestTimestamp = timestamp;
+    }
+    for (const auto &factName : logFactNames) {
+        if(!data->factExists(factName)) {
+            qCWarning(VehicleLog) << "Fact does not exist: " << factName;
+            continue;
+        }
+        metFactValues << data->getFact(factName)->rawValueString();
+    }
+
+    stream << metFactValues.join(",") << "\r\n";
+}
+
+void MessengerRaw::initLogFile(){
+    static bool init = false;
+    if (init) return;
+
+    Vehicle* activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
+    if(!activeVehicle) return;
+    if (!(activeVehicle->armed() || logOnConnect)) return;
+
+    QString now = QDateTime::currentDateTime().toString("MM-dd-yyyy_hh-mm-ss");
+    QString metRawFileName = QString("RAW_%1.csv").arg(now);
+    QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesRawSavePath());
+    logFile.setFileName(saveDir.absoluteFilePath(metRawFileName));
+    if (!logFile.open(QIODevice::Append)) {
+        qCWarning(VehicleLog) << "unable to open raw message file for text logging, Stopping text logging!";
+        return;
+    }
+    QTextStream stream(&logFile);
+    stream << logHeaders.join(",") << "\r\n";
+    stream << logUnits.join(",") << "\r\n";
+    init = true;
 }
