@@ -305,7 +305,7 @@ void MessengerRaw::initLogFile(){
     if (!(activeVehicle->armed() || logOnConnect)) return;
 
     QString now = QDateTime::currentDateTime().toString("MM-dd-yyyy_hh-mm-ss");
-    QString metRawFileName = QString("RAW_%1.csv").arg(now);
+    QString metRawFileName = QString("RAW_TEST__%1.csv").arg(now);
     QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesRawSavePath());
     logFile.setFileName(saveDir.absoluteFilePath(metRawFileName));
     if (!logFile.open(QIODevice::Append)) {

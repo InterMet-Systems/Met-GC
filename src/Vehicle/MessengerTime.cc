@@ -3,6 +3,8 @@
 #include "qdir.h"
 #include <QFileInfo>
 #include <QStandardPaths>
+#include "QGCApplication.h"
+#include "SettingsManager.h"
 
 bool MessengerTime::criteriaMet(){
     updateTime();
@@ -13,58 +15,60 @@ bool MessengerTime::criteriaMet(){
 }
 
 void MessengerTime::publish(){
-    QString logFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
-                          + "/QGroundControl/temp tlm log.txt";
+    log();
 
-    QFileInfo fileInfo(logFilePath);
-    QDir().mkpath(fileInfo.absolutePath());
+    // QString logFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
+    //                       + "/QGroundControl/temp tlm log.txt";
 
-    QFile file(logFilePath);
-    if (file.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
-        QTextStream stream(&file);
-        stream.setRealNumberNotation(QTextStream::FixedNotation);
+    // QFileInfo fileInfo(logFilePath);
+    // QDir().mkpath(fileInfo.absolutePath());
 
-        stream << "--- Log Entry: " << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") << " ---\n";
-        stream << "drone serial: " << data->droneSerial()->rawValue().toInt() << "\n";
-        stream << "message version: " << data->messageVersion()->rawValue().toString() << "\n";
-        stream << "drone powered age: " << data->dronePoweredAge()->rawValue().toInt() << "\n";
-        stream << "drone armed age: " << data->droneArmedAge()->rawValue().toInt() << "\n";
-        stream << "raw data filename: " << data->rawDataFilename()->rawValue().toString() << "\n";
-        stream << "unix start time: " << data->unixStartTime()->rawValue().toULongLong() << "\n";
-        stream << "ground wind speed: " << data->groundWindSpeed()->rawValue().toDouble() << "\n";
-        stream << "ground wind direction: " << data->groundWindDirection()->rawValue().toInt() << "\n";
-        stream << "ground air temperature: " << data->groundAirTemperature()->rawValue().toDouble() << "\n";
-        stream << "ground humidity: " << data->groundHumidity()->rawValue().toDouble() << "\n";
-        stream << "ground pressure: " << data->groundPressure()->rawValue().toDouble() << "\n";
-        stream << "home position latitude: " << data->homePositionLatitude()->rawValue().toDouble() << "\n";
-        stream << "home position longitude: " << data->homePositionLongitude()->rawValue().toDouble() << "\n";
-        stream << "home position altitude: " << data->homePositionAltitude()->rawValue().toDouble() << "\n";
-        stream << "altitude ASL: " << data->altitudeASL()->rawValue().toDouble() << "\n";
-        stream << "UTC date: " << data->uTCDate()->rawValue().toString() << "\n";
-        stream << "UTC time: " << data->uTCTime()->rawValue().toString() << "\n";
-        stream << "time since start: " << data->timeSinceStart()->rawValue().toInt() << "\n";
-        stream << "pressure: " << data->pressure()->rawValue().toDouble() << "\n";
-        stream << "air temp: " << data->airTemp()->rawValue().toDouble() << "\n";
-        stream << "rel hum: " << data->relHum()->rawValue().toDouble() << "\n";
-        stream << "wind speed: " << data->windSpeed()->rawValue().toDouble() << "\n";
-        stream << "wind direction: " << data->windDirection()->rawValue().toInt() << "\n";
-        stream << "latitude: " << data->latitude()->rawValue().toDouble() << "\n";
-        stream << "longitude: " << data->longitude()->rawValue().toDouble() << "\n";
-        stream << "roll: " << data->roll()->rawValue().toDouble() << "\n";
-        stream << "roll rate: " << data->rollRate()->rawValue().toDouble() << "\n";
-        stream << "pitch: " << data->pitch()->rawValue().toDouble() << "\n";
-        stream << "pitch rate: " << data->pitchRate()->rawValue().toDouble() << "\n";
-        stream << "yaw: " << data->yaw()->rawValue().toDouble() << "\n";
-        stream << "yaw rate: " << data->yawRate()->rawValue().toDouble() << "\n";
-        stream << "ascent rate: " << data->ascentRate()->rawValue().toDouble() << "\n";
-        stream << "speed over ground: " << data->speedOverGround()->rawValue().toDouble() << "\n";
-        stream << "satellites: " << data->satellites()->rawValue().toInt() << "\n";
-        stream << "hDOP: " << data->hDOP()->rawValue().toDouble() << "\n";
-        stream << "data quality: " << data->dataQuality()->rawValue().toInt() << "\n";
-        stream << "\n";
+    // QFile file(logFilePath);
+    // if (file.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text)) {
+    //     QTextStream stream(&file);
+    //     stream.setRealNumberNotation(QTextStream::FixedNotation);
 
-        file.close();
-    }
+    //     stream << "--- Log Entry: " << QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss") << " ---\n";
+    //     stream << "drone serial: " << data->droneSerial()->rawValue().toInt() << "\n";
+    //     stream << "message version: " << data->messageVersion()->rawValue().toString() << "\n";
+    //     stream << "drone powered age: " << data->dronePoweredAge()->rawValue().toInt() << "\n";
+    //     stream << "drone armed age: " << data->droneArmedAge()->rawValue().toInt() << "\n";
+    //     stream << "raw data filename: " << data->rawDataFilename()->rawValue().toString() << "\n";
+    //     stream << "unix start time: " << data->unixStartTime()->rawValue().toULongLong() << "\n";
+    //     stream << "ground wind speed: " << data->groundWindSpeed()->rawValue().toDouble() << "\n";
+    //     stream << "ground wind direction: " << data->groundWindDirection()->rawValue().toInt() << "\n";
+    //     stream << "ground air temperature: " << data->groundAirTemperature()->rawValue().toDouble() << "\n";
+    //     stream << "ground humidity: " << data->groundHumidity()->rawValue().toDouble() << "\n";
+    //     stream << "ground pressure: " << data->groundPressure()->rawValue().toDouble() << "\n";
+    //     stream << "home position latitude: " << data->homePositionLatitude()->rawValue().toDouble() << "\n";
+    //     stream << "home position longitude: " << data->homePositionLongitude()->rawValue().toDouble() << "\n";
+    //     stream << "home position altitude: " << data->homePositionAltitude()->rawValue().toDouble() << "\n";
+    //     stream << "altitude ASL: " << data->altitudeASL()->rawValue().toDouble() << "\n";
+    //     stream << "UTC date: " << data->uTCDate()->rawValue().toString() << "\n";
+    //     stream << "UTC time: " << data->uTCTime()->rawValue().toString() << "\n";
+    //     stream << "time since start: " << data->timeSinceStart()->rawValue().toInt() << "\n";
+    //     stream << "pressure: " << data->pressure()->rawValue().toDouble() << "\n";
+    //     stream << "air temp: " << data->airTemp()->rawValue().toDouble() << "\n";
+    //     stream << "rel hum: " << data->relHum()->rawValue().toDouble() << "\n";
+    //     stream << "wind speed: " << data->windSpeed()->rawValue().toDouble() << "\n";
+    //     stream << "wind direction: " << data->windDirection()->rawValue().toInt() << "\n";
+    //     stream << "latitude: " << data->latitude()->rawValue().toDouble() << "\n";
+    //     stream << "longitude: " << data->longitude()->rawValue().toDouble() << "\n";
+    //     stream << "roll: " << data->roll()->rawValue().toDouble() << "\n";
+    //     stream << "roll rate: " << data->rollRate()->rawValue().toDouble() << "\n";
+    //     stream << "pitch: " << data->pitch()->rawValue().toDouble() << "\n";
+    //     stream << "pitch rate: " << data->pitchRate()->rawValue().toDouble() << "\n";
+    //     stream << "yaw: " << data->yaw()->rawValue().toDouble() << "\n";
+    //     stream << "yaw rate: " << data->yawRate()->rawValue().toDouble() << "\n";
+    //     stream << "ascent rate: " << data->ascentRate()->rawValue().toDouble() << "\n";
+    //     stream << "speed over ground: " << data->speedOverGround()->rawValue().toDouble() << "\n";
+    //     stream << "satellites: " << data->satellites()->rawValue().toInt() << "\n";
+    //     stream << "hDOP: " << data->hDOP()->rawValue().toDouble() << "\n";
+    //     stream << "data quality: " << data->dataQuality()->rawValue().toInt() << "\n";
+    //     stream << "\n";
+
+    //     file.close();
+    // }
 }
 
 void MessengerTime::buildFilename(){
@@ -286,4 +290,57 @@ bool MessengerTime::timer() {
         return true;
     }
     return false;
+}
+
+void MessengerTime::log() {
+    initLogFile();
+
+    Vehicle* activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
+    if(!activeVehicle) return;
+
+    if (!activeVehicle->armed() || !logFile.isOpen()){
+        logFile.close();
+        return;
+    }
+    QStringList metFactValues;
+    QTextStream stream(&logFile);
+    if (!data) return;
+    QString timestamp = data->getFact("timeSinceStart")->rawValueString();
+    if (timestamp == latestTimestamp) {
+        return;
+    } else {
+        latestTimestamp = timestamp;
+    }
+    for (const auto &factName : logFactNames) {
+        if(!data->factExists(factName)) {
+            qCWarning(VehicleLog) << "Fact does not exist: " << factName;
+            continue;
+        }
+        metFactValues << data->getFact(factName)->rawValueString();
+    }
+
+    stream << metFactValues.join(",") << "\r\n";
+}
+
+void MessengerTime::initLogFile(){
+    static bool init = false;
+    if (init) return;
+
+    Vehicle* activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
+    if(!activeVehicle) return;
+    if (!(activeVehicle->armed() || logOnConnect)) return;
+
+    QString now = QDateTime::currentDateTime().toString("MM-dd-yyyy_hh-mm-ss");
+    QString metRawFileName = QString("TIM_TEST__%1.csv").arg(now);
+    QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesRawSavePath());
+    logFile.setFileName(saveDir.absoluteFilePath(metRawFileName));
+    if (!logFile.open(QIODevice::Append)) {
+        qCWarning(VehicleLog) << "unable to open alm message file for text logging, Stopping text logging!";
+        return;
+    }
+    QTextStream stream(&logFile);
+
+    stream << logHeaders.join(",") << "\r\n";
+    stream << logUnits.join(",") << "\r\n";
+    init = true;
 }
