@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>Met-GC</Name>
+    <Version>1.0.0</Version>
+    <Title>Met-GC Application Installer</Title>
+    <Publisher>Intermet Systems</Publisher>
+    <StartMenuDir>Met-GC</StartMenuDir>
+    <TargetDir>@ApplicationsDir@/Met-GC</TargetDir>
+    <ControlScript>installer.qs</ControlScript>
+</Installer>
