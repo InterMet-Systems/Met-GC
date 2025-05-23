@@ -318,7 +318,6 @@ void MessengerTime::log() {
         }
         metFactValues << data->getFact(factName)->rawValueString();
     }
-
     stream << metFactValues.join(",") << "\r\n";
 }
 
@@ -331,8 +330,8 @@ void MessengerTime::initLogFile(){
     if (!(activeVehicle->armed() || logOnConnect)) return;
 
     QString now = QDateTime::currentDateTime().toString("MM-dd-yyyy_hh-mm-ss");
-    QString metRawFileName = QString("TIM_TEST__%1.csv").arg(now);
-    QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesRawSavePath());
+    QString metRawFileName = QString("TIM_TEST_%1.csv").arg(now);
+    QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesTimeIntervalSavePath());
     logFile.setFileName(saveDir.absoluteFilePath(metRawFileName));
     if (!logFile.open(QIODevice::Append)) {
         qCWarning(VehicleLog) << "unable to open alm message file for text logging, Stopping text logging!";

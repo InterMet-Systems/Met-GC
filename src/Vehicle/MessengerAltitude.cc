@@ -414,7 +414,7 @@ void MessengerAltitude::initLogFile(){
 
     QString now = QDateTime::currentDateTime().toString("MM-dd-yyyy_hh-mm-ss");
     QString metRawFileName = QString("ALM_TEST__%1.csv").arg(now);
-    QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesRawSavePath());
+    QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesAltLevelSavePath());
     logFile.setFileName(saveDir.absoluteFilePath(metRawFileName));
     if (!logFile.open(QIODevice::Append)) {
         qCWarning(VehicleLog) << "unable to open alm message file for text logging, Stopping text logging!";

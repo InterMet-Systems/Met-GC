@@ -38,6 +38,7 @@ const char* AppSettings::missionDirectory =          QT_TRANSLATE_NOOP("AppSetti
 const char* AppSettings::messagesDirectory =         QT_TRANSLATE_NOOP("AppSettings", "Messages");
 const char* AppSettings::messagesRawDirectory =      QT_TRANSLATE_NOOP("AppSettings", "Messages/Raw");
 const char* AppSettings::messagesAltLevelDirectory = QT_TRANSLATE_NOOP("AppSettings", "Messages/AltitudeLevel");
+const char* AppSettings::messagesTimeIntervalDirectory = QT_TRANSLATE_NOOP("AppSettings", "Messages/TimeInterval");
 const char* AppSettings::messagesNetCdfDirectory =   QT_TRANSLATE_NOOP("AppSettings", "Messages/WMO_UAS_A");
 const char* AppSettings::logDirectory =              QT_TRANSLATE_NOOP("AppSettings", "Logs");
 const char* AppSettings::videoDirectory =            QT_TRANSLATE_NOOP("AppSettings", "Video");
@@ -245,6 +246,7 @@ void AppSettings::_checkSavePathDirectories(void)
         savePathDir.mkdir(messagesDirectory);
         savePathDir.mkdir(messagesRawDirectory);
         savePathDir.mkdir(messagesAltLevelDirectory);
+        savePathDir.mkdir(messagesTimeIntervalDirectory);
         savePathDir.mkdir(messagesNetCdfDirectory);
         savePathDir.mkdir(logDirectory);
         savePathDir.mkdir(videoDirectory);
@@ -326,6 +328,15 @@ QString AppSettings::messagesAltLevelSavePath(void)
     if (!path.isEmpty() && QDir(path).exists()) {
         QDir dir(path);
         return dir.filePath(messagesAltLevelDirectory);
+    }
+    return QString();
+}
+
+QString AppSettings::messagesTimeIntervalSavePath(){
+    QString path = savePath()->rawValue().toString();
+    if (!path.isEmpty() && QDir(path).exists()) {
+        QDir dir(path);
+        return dir.filePath(messagesTimeIntervalDirectory);
     }
     return QString();
 }
