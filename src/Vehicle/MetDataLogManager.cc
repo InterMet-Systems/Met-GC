@@ -502,6 +502,7 @@ void MetDataLogManager::_initializeOrReadConfigFile() {
         defaultConfig["FlightData"]["FlightName"] = _flightName;
         defaultConfig["FlightData"]["AirframeId"] = _airframeId;
         defaultConfig["FlightData"]["OperatorId"] = _operatorId;
+        defaultConfig["FlightData"]["RecordRawLogOnVehicleConnect"] = "0";
         iniParser.setSections(defaultConfig);
         QString defaultConfigFileData = iniParser.print();
         QTextStream out(&_metConfigFile);
