@@ -46,6 +46,7 @@ public:
     Q_PROPERTY(Fact* satellites                         READ satellites                         CONSTANT) /* uint8_t    MAVLINK_MSG_ID_GPS_RAW_INT             */
     Q_PROPERTY(Fact* horizontalDilutionOfPositionFloat  READ horizontalDilutionOfPositionFloat  CONSTANT) /* f32        derived from horizontalDilutionOfPosition */
     Q_PROPERTY(Fact* filename                           READ filename                           CONSTANT) /* string     MessengerRaw::createFilename           */
+    Q_PROPERTY(Fact* string                             READ string                             CONSTANT) /* string     ini file                               */
 
     Fact* timeUnixSeconds()                   { return &_timeUnixSecondsFact; }
     Fact* altitudeMetersASL()                 { return &_altitudeMetersASLFact; }
@@ -83,6 +84,7 @@ public:
     Fact* satellites()                        { return &_satellitesFact; }
     Fact* horizontalDilutionOfPositionFloat() { return &_horizontalDilutionOfPositionFloatFact; }
     Fact* filename()                          { return &_filenameFact; }
+    Fact* string()                            { return &_stringFact; }
 
     static const char* _timeUnixSecondsFactName;
     static const char* _altitudeMetersASLFactName;
@@ -120,6 +122,7 @@ public:
     static const char* _satellitesFactName;
     static const char* _horizontalDilutionOfPositionFloatFactName;
     static const char* _filenameFactName;
+    static const char* _stringFactName;
 
 private:
     Fact    _timeUnixSecondsFact;
@@ -158,6 +161,7 @@ private:
     Fact    _satellitesFact;
     Fact    _horizontalDilutionOfPositionFloatFact;
     Fact    _filenameFact;
+    Fact    _stringFact;
 };
 
 #endif // MESSAGERAWFACTGROUP_H

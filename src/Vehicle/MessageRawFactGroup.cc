@@ -36,6 +36,7 @@ const char* MessageRawFactGroup::_armedAgeSecondsFactName                   = "a
 const char* MessageRawFactGroup::_satellitesFactName                        = "satellites";
 const char* MessageRawFactGroup::_horizontalDilutionOfPositionFloatFactName = "horizontalDilutionOfPositionFloat";
 const char* MessageRawFactGroup::_filenameFactName                          = "filename";
+const char* MessageRawFactGroup::_stringFactName                            = "string";
 
 MessageRawFactGroup::MessageRawFactGroup(QObject* parent)
     : FactGroup(1000, ":/json/Vehicle/MessengerRawFact.json", parent, true)
@@ -75,6 +76,7 @@ MessageRawFactGroup::MessageRawFactGroup(QObject* parent)
     ,_satellitesFact                        (0, _satellitesFactName                         , FactMetaData::valueTypeUint8)
     ,_horizontalDilutionOfPositionFloatFact (0, _horizontalDilutionOfPositionFloatFactName  , FactMetaData::valueTypeDouble)
     ,_filenameFact                          (0, _filenameFactName                           , FactMetaData::valueTypeString)
+    ,_stringFact                            (0, _stringFactName                             , FactMetaData::valueTypeString)
 {
     _addFact(&_timeUnixSecondsFact                  , _timeUnixSecondsFactName                  );
     _addFact(&_altitudeMetersASLFact                , _altitudeMetersASLFactName                );
@@ -112,6 +114,7 @@ MessageRawFactGroup::MessageRawFactGroup(QObject* parent)
     _addFact(&_satellitesFact                       , _satellitesFactName                       );
     _addFact(&_horizontalDilutionOfPositionFloatFact, _horizontalDilutionOfPositionFloatFactName);
     _addFact(&_filenameFact                         , _filenameFactName                         );
+    _addFact(&_stringFact                           , _stringFactName                           );
 
     _timeUnixSecondsFact                            .setRawValue(qQNaN());
     _altitudeMetersASLFact                          .setRawValue(qQNaN());
@@ -149,4 +152,5 @@ MessageRawFactGroup::MessageRawFactGroup(QObject* parent)
     _satellitesFact                                 .setRawValue(std::numeric_limits<uint8_t>::max());
     _horizontalDilutionOfPositionFloatFact          .setRawValue(qQNaN());
     _filenameFact                                   .setRawValue(QVariant(""));
+    _stringFact                                     .setRawValue(QVariant(""));
 }

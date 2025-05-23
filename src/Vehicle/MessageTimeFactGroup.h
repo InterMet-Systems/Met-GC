@@ -45,6 +45,7 @@ public:
     Q_PROPERTY(Fact* satellites               READ satellites               CONSTANT)
     Q_PROPERTY(Fact* hDOP                     READ hDOP                     CONSTANT)
     Q_PROPERTY(Fact* dataQuality              READ dataQuality              CONSTANT)
+    Q_PROPERTY(Fact* string                   READ string                   CONSTANT)
 
     Fact* droneSerial           ()  { return &_droneSerialFact; }
     Fact* filename              ()  { return &_filenameFact; }
@@ -83,6 +84,7 @@ public:
     Fact* satellites            ()  { return &_satellitesFact; }
     Fact* hDOP                  ()  { return &_hDOPFact; }
     Fact* dataQuality           ()  { return &_dataQualityFact; }
+    Fact* string                ()  { return &_stringFact; }
 
     static const char* _droneSerialFactName;
     static const char* _filenameFactName;
@@ -121,6 +123,7 @@ public:
     static const char* _satellitesFactName;
     static const char* _hDOPFactName;
     static const char* _dataQualityFactName;
+    static const char* _stringFactName;
 
 private:
     Fact _droneSerialFact;
@@ -160,6 +163,7 @@ private:
     Fact _satellitesFact;
     Fact _hDOPFact;
     Fact _dataQualityFact;
+    Fact _stringFact;
 };
 
 #endif // MESSAGETIMEFACTGROUP_H

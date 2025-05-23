@@ -2,41 +2,42 @@
 
 const char* MessageTimeFactGroup::_droneSerialFactName =                "droneSerial";
 const char* MessageTimeFactGroup::_filenameFactName =                   "filename";
-const char* MessageTimeFactGroup::_messageVersionFactName =             "message version";
-const char* MessageTimeFactGroup::_dronePoweredAgeFactName =            "drone power age";
-const char* MessageTimeFactGroup::_droneArmedAgeFactName =              "drone armed age";
-const char* MessageTimeFactGroup::_rawDataFilenameFactName =            "raw data filename";
-const char* MessageTimeFactGroup::_unixStartTimeFactName =              "unix start time";
-const char* MessageTimeFactGroup::_groundWindSpeedFactName =            "ground wind speed";
-const char* MessageTimeFactGroup::_groundWindDirectionFactName =        "ground wind direction";
-const char* MessageTimeFactGroup::_groundAirTemperatureFactName =       "ground air temperature";
-const char* MessageTimeFactGroup::_groundHumidityFactName =             "ground humidity";
-const char* MessageTimeFactGroup::_groundPressureFactName =             "ground pressure";
-const char* MessageTimeFactGroup::_homePositionLatitudeFactName =       "home position latitude";
-const char* MessageTimeFactGroup::_homePositionLongitudeFactName =      "home position longitude";
-const char* MessageTimeFactGroup::_homePositionAltitudeFactName =       "home position altitude";
-const char* MessageTimeFactGroup::_uTCDateFactName =                    "UTC date";
-const char* MessageTimeFactGroup::_uTCTimeFactName =                    "UTC time";
+const char* MessageTimeFactGroup::_messageVersionFactName =             "messageVersion";
+const char* MessageTimeFactGroup::_dronePoweredAgeFactName =            "dronePowerAge";
+const char* MessageTimeFactGroup::_droneArmedAgeFactName =              "droneArmedAge";
+const char* MessageTimeFactGroup::_rawDataFilenameFactName =            "rawData Filename";
+const char* MessageTimeFactGroup::_unixStartTimeFactName =              "unixStartTime";
+const char* MessageTimeFactGroup::_groundWindSpeedFactName =            "groundWindSpeed";
+const char* MessageTimeFactGroup::_groundWindDirectionFactName =        "groundWindDirection";
+const char* MessageTimeFactGroup::_groundAirTemperatureFactName =       "groundAirTemperature";
+const char* MessageTimeFactGroup::_groundHumidityFactName =             "groundHumidity";
+const char* MessageTimeFactGroup::_groundPressureFactName =             "groundPressure";
+const char* MessageTimeFactGroup::_homePositionLatitudeFactName =       "homePositionLatitude";
+const char* MessageTimeFactGroup::_homePositionLongitudeFactName =      "homePositionLongitude";
+const char* MessageTimeFactGroup::_homePositionAltitudeFactName =       "homePositionAltitude";
+const char* MessageTimeFactGroup::_uTCDateFactName =                    "UTCDate";
+const char* MessageTimeFactGroup::_uTCTimeFactName =                    "UTCTime";
 const char* MessageTimeFactGroup::_timeSinceStartFactName =             "timeSinceStart";
-const char* MessageTimeFactGroup::_altitudeASLFactName =                "altitude ASL";
+const char* MessageTimeFactGroup::_altitudeASLFactName =                "altitudeASL";
 const char* MessageTimeFactGroup::_pressureFactName =                   "pressure";
-const char* MessageTimeFactGroup::_airTempFactName =                    "air temp";
-const char* MessageTimeFactGroup::_relHumFactName =                     "rel hum";
-const char* MessageTimeFactGroup::_windSpeedFactName =                  "wind speed";
-const char* MessageTimeFactGroup::_windDirectionFactName =              "wind direction";
+const char* MessageTimeFactGroup::_airTempFactName =                    "airTemp";
+const char* MessageTimeFactGroup::_relHumFactName =                     "relHum";
+const char* MessageTimeFactGroup::_windSpeedFactName =                  "windSpeed";
+const char* MessageTimeFactGroup::_windDirectionFactName =              "windDirection";
 const char* MessageTimeFactGroup::_latitudeFactName =                   "latitude";
 const char* MessageTimeFactGroup::_longitudeFactName =                  "longitude";
 const char* MessageTimeFactGroup::_rollFactName =                       "roll";
-const char* MessageTimeFactGroup::_rollRateFactName =                   "roll rate";
+const char* MessageTimeFactGroup::_rollRateFactName =                   "rollRate";
 const char* MessageTimeFactGroup::_pitchFactName =                      "pitch";
-const char* MessageTimeFactGroup::_pitchRateFactName =                  "pitch rate";
+const char* MessageTimeFactGroup::_pitchRateFactName =                  "pitchRate";
 const char* MessageTimeFactGroup::_yawFactName =                        "yaw";
-const char* MessageTimeFactGroup::_yawRateFactName =                    "yaw rate";
-const char* MessageTimeFactGroup::_ascentRateFactName =                 "ascent rate";
-const char* MessageTimeFactGroup::_speedOverGroundFactName =            "speed over ground";
+const char* MessageTimeFactGroup::_yawRateFactName =                    "yawRate";
+const char* MessageTimeFactGroup::_ascentRateFactName =                 "ascentRate";
+const char* MessageTimeFactGroup::_speedOverGroundFactName =            "speedOverGround";
 const char* MessageTimeFactGroup::_satellitesFactName =                 "satellites";
 const char* MessageTimeFactGroup::_hDOPFactName =                       "hdop";
-const char* MessageTimeFactGroup::_dataQualityFactName =                "data quality";
+const char* MessageTimeFactGroup::_dataQualityFactName =                "dataQuality";
+const char* MessageTimeFactGroup::_stringFactName =                     "string";
 
 MessageTimeFactGroup::MessageTimeFactGroup(QObject* parent)
     : FactGroup(1000, ":/json/Vehicle/TimeFact.json", parent, true)
@@ -77,6 +78,7 @@ MessageTimeFactGroup::MessageTimeFactGroup(QObject* parent)
     ,_satellitesFact                    (0, _satellitesFactName,            FactMetaData::valueTypeUint16)
     ,_hDOPFact                          (0, _hDOPFactName,                  FactMetaData::valueTypeDouble)
     ,_dataQualityFact                   (0, _dataQualityFactName,           FactMetaData::valueTypeInt32)
+    ,_stringFact                        (0, _stringFactName,                FactMetaData::valueTypeString)
 {
     _addFact(&_droneSerialFact             , _droneSerialFactName             );
     _addFact(&_filenameFact                , _filenameFactName                );
@@ -115,6 +117,7 @@ MessageTimeFactGroup::MessageTimeFactGroup(QObject* parent)
     _addFact(&_satellitesFact              , _satellitesFactName              );
     _addFact(&_hDOPFact                    , _hDOPFactName                    );
     _addFact(&_dataQualityFact             , _dataQualityFactName             );
+    _addFact(&_stringFact                  , _stringFactName                  );
 
     _droneSerialFact              .setRawValue(std::numeric_limits<int32_t>::max());
     _filenameFact                 .setRawValue(QVariant(""));
@@ -153,4 +156,5 @@ MessageTimeFactGroup::MessageTimeFactGroup(QObject* parent)
     _satellitesFact               .setRawValue(std::numeric_limits<uint16_t>::max());
     _hDOPFact                     .setRawValue(qQNaN());
     _dataQualityFact              .setRawValue(std::numeric_limits<int32_t>::max());
+    _stringFact                   .setRawValue(QVariant(""));
 }

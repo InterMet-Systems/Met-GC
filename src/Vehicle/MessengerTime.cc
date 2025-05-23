@@ -330,11 +330,13 @@ void MessengerTime::initLogFile(){
     if (!(activeVehicle->armed() || logOnConnect)) return;
 
     QString now = QDateTime::currentDateTime().toString("MM-dd-yyyy_hh-mm-ss");
-    QString metRawFileName = QString("TIM_TEST_%1.csv").arg(now);
+    QString srn = data->droneSerial()->rawValueString();
+    QString str = data->string()->rawValueString();
+    QString metTIMFileName = QString("TIM_%1_%2_%3.csv").arg(srn, now, str);
     QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesTimeIntervalSavePath());
-    logFile.setFileName(saveDir.absoluteFilePath(metRawFileName));
+    logFile.setFileName(saveDir.absoluteFilePath(metTIMFileName));
     if (!logFile.open(QIODevice::Append)) {
-        qCWarning(VehicleLog) << "unable to open alm message file for text logging, Stopping text logging!";
+        qCWarning(VehicleLog) << "unable to open tim message file for text logging, Stopping text logging!";
         return;
     }
     QTextStream stream(&logFile);

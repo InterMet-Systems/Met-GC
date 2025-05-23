@@ -413,7 +413,9 @@ void MessengerAltitude::initLogFile(){
     if (!(activeVehicle->armed() || logOnConnect)) return;
 
     QString now = QDateTime::currentDateTime().toString("MM-dd-yyyy_hh-mm-ss");
-    QString metRawFileName = QString("ALM_TEST__%1.csv").arg(now);
+    QString srn = data->droneSerial()->rawValueString();
+    QString str = data->string()->rawValueString();
+    QString metRawFileName = QString("ALM_%1_%2_%3.csv").arg(srn, now, str);
     QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesAltLevelSavePath());
     logFile.setFileName(saveDir.absoluteFilePath(metRawFileName));
     if (!logFile.open(QIODevice::Append)) {
