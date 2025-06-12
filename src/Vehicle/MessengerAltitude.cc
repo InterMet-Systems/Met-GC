@@ -254,11 +254,11 @@ void MessengerAltitude::updateData(){
     data->dataQuality()->setRawValue(QVariant(dataQuality));
 }
 
-bool MessengerAltitude::criteriaMet(){
+bool MessengerAltitude::criteriaMet(){    
     updateTime();
     updateConstantData();
     updateData();
-    if (!passedThreshold()) return false;
+    if (!passedThreshold()) return false;    
     return true;
 }
 
@@ -337,7 +337,10 @@ bool MessengerAltitude::passedThreshold(){
         return handleFirstAltitude(alt) && armed;
     }
     if (alt - lastAltBin >= altitudeBin  && armed){
+        /*
         lastAltBin = alt;
+        */
+        lastAltBin += altitudeBin;
         return true;
     }
     return false;
@@ -358,8 +361,11 @@ bool MessengerAltitude::handleFirstAltitude(const double alt){
     }
 
     if (alt >= minAltBound && alt <= maxAltBound){
+        /*
         lastAltBin = alt;
-        return true;
+        */
+        lastAltBin = std::ceil(alt / altitudeBin) * altitudeBin;
+        return false;
     }
 #ifdef QT_DEBUG
     qDebug() << "Anomaly: Initial altitude out of range, ALM production halted.";
@@ -384,6 +390,7 @@ void MessengerAltitude::log() {
         logFile.close();
         return;
     }
+
     QStringList metFactValues;
     QTextStream stream(&logFile);
     if (!data) return;
@@ -398,7 +405,13 @@ void MessengerAltitude::log() {
             qCWarning(VehicleLog) << "Fact does not exist: " << factName;
             continue;
         }
-        metFactValues << data->getFact(factName)->rawValueString();
+        if (factName == "altitudeASL"){
+            double alt = data->getFact(factName)->rawValue().toDouble();
+            alt = (std::ceil(alt / altitudeBin) * altitudeBin) - (altitudeBin / 2);
+            metFactValues << QString::number(alt, 'f', 1);
+        } else {
+            metFactValues << data->getFact(factName)->rawValueString();
+        }
     }
 
     stream << metFactValues.join(",") << "\r\n";

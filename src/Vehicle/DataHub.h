@@ -77,7 +77,7 @@ public:
     /* parses all relevant messages, keeps the most recent several data points, and updates a rolling average for each data point. */
     int parseMessage(const mavlink_message_t& m);
     void resetAverages();
-    DataHub(DataFactGroup* pData);
+    DataHub(DataFactGroup* pData, size_t slotWidthMS, size_t slotCount);
 
 private:
     template <typename T, bool bSigned = std::is_signed_v<T>>
@@ -118,6 +118,40 @@ private:
         }
         count++;
     }
+
+
+public:
+    typedef enum {
+        HUMIDITY /* just one for now, there will be many more */
+    } DataType;
+
+    typedef struct {
+        uint64_t unixTime;
+        DataType type;
+        char data[48];
+        struct Slot* child;
+    } Slot;
+
+    size_t slotWidthMS;
+    size_t slotCount;
+    Slot* ring;
+    uint64_t headUnixTimeUS; /* this + index * slotWidthMS * 1000 is unix time in microseconds */
+    size_t headIndex;
+    uint64_t unixBootTimeUS;
+    bool ringInit;
+
+    inline void msgSysTime(const mavlink_message_t&);
+    inline void msgGlobalPosition(const mavlink_message_t& m);
+    inline void msgScaledPressure2(const mavlink_message_t& m);
+    inline void msgCassSensorRaw(const mavlink_message_t& m);
+    inline void msgAttitude(const mavlink_message_t& m);
+    inline void msgLocalPositionNED(const mavlink_message_t& m);
+    inline void msgHeartbeat(const mavlink_message_t& m);
+    inline void msgGPSRawInt(const mavlink_message_t& m);
+
+    inline size_t indexFromUnixTimeUS(uint64_t unixTimeUS);
+
+
 };
 
 #endif // DATAHUB_H

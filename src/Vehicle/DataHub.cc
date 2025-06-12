@@ -1,7 +1,15 @@
 #include "DataHub.h"
 
-DataHub::DataHub(DataFactGroup* pData){
+DataHub::DataHub(DataFactGroup* pData, size_t slotWidthMS, size_t slotCount){
     this->pData = pData;
+
+    this->slotWidthMS = slotWidthMS;
+    this->slotCount = slotCount;
+    this->ring = (Slot*)malloc(sizeof(Slot) * slotCount);
+    if (!this->ring){
+        qDebug() << "Big problem\n";
+    }
+    this->ringInit = false;
 }
 
 int DataHub::parseMessage(const mavlink_message_t& m){
@@ -12,6 +20,9 @@ int DataHub::parseMessage(const mavlink_message_t& m){
         uint64_t val = s.time_unix_usec;
 
         pData->timeUnixMicroseconds()->setRawValue(QVariant::fromValue(val));
+
+        //msgSysTime(m);
+
         break;
     }
     case MAVLINK_MSG_ID_GLOBAL_POSITION_INT:{
@@ -180,4 +191,53 @@ void DataHub::resetAverages(){
     zVelocityMetersPerSecondC = 0;
     satellitesC = 0;
     horizontalDilutionOfPositionC = 0;
+}
+
+inline void DataHub::msgSysTime(const mavlink_message_t& m){
+    mavlink_system_time_t s;
+    mavlink_msg_system_time_decode(&m, &s);
+    uint64_t unixTimeUS = s.time_unix_usec;
+    Slot slot;
+    slot.unixTime = unixTimeUS;
+    if (!this->ringInit){
+        uint32_t bootTimeMS = s.time_boot_ms;
+        this->unixBootTimeUS = unixTimeUS - bootTimeMS * 1000;
+        this->headIndex = 0;
+        this->ring[headIndex] = slot;
+        this->headUnixTimeUS = unixTimeUS;
+        this->ringInit = true;
+        qDebug() << "inserted the FIRST sys time message";
+    } else {
+        size_t i = indexFromUnixTimeUS(unixTimeUS);
+        assert(i >= 0 && i < this->slotCount);
+        this->headUnixTimeUS = unixTimeUS;
+        this->headIndex = i;
+        if (!this->ring[headIndex].child){
+            this->ring[headIndex] = slot;
+        } else {
+            /* need helper to walk children until !.child */
+        }
+        qDebug() << "inserted another sys time message";
+    }
+}
+
+inline void DataHub::msgGlobalPosition(const mavlink_message_t& m){
+    mavlink_global_position_int_t s;
+    mavlink_msg_global_position_int_decode(&m, &s);
+    int32_t val0 = s.alt;
+    int32_t val1 = s.lat;
+    int32_t val2 = s.lon;
+    uint64_t unixTime = this->unixBootTimeUS + s.time_boot_ms * 1000;
+    Slot slot;
+    slot.unixTime = unixTime;
+    memcpy(&slot.data[0                  ], &val0, sizeof(int32_t));
+    memcpy(&slot.data[sizeof(int32_t) * 1], &val1, sizeof(int32_t));
+    memcpy(&slot.data[sizeof(int32_t) * 2], &val2, sizeof(int32_t));
+}
+
+inline size_t DataHub::indexFromUnixTimeUS(uint64_t unixTimeUS){
+    uint64_t differenceUS = unixTimeUS - this->headUnixTimeUS;
+    uint64_t differenceIndices = static_cast<uint64_t>(differenceUS / this->slotWidthMS * 1000);
+    size_t targetIndex = this->headIndex + differenceIndices % this->slotCount;
+    return targetIndex;
 }
