@@ -39,6 +39,17 @@ private:
     static constexpr double homeAltRange = 512.;    /* If home altitude is provided, ignore initial altitude reports more than this distance from home altitude */
     double lastAltBin = qQNaN();
 
+    /* new way of collating data */
+    static constexpr int bufferCapacity = 32;
+    typedef struct {
+        double pressure;
+    } ALMData;
+    int head, tail, count;
+    ALMData buffer[bufferCapacity];
+    void initBuffer();
+    void resetBuffer();
+    ALMData collateData();
+
     /* logging */
     static constexpr bool logOnConnect = false; /* if true, begins writing to log file without waiting for the vehicle to become active */
     void initLogFile();

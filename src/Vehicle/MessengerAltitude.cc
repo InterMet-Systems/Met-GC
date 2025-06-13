@@ -184,6 +184,20 @@ void MessengerAltitude::updateConstantData(){
 }
 
 void MessengerAltitude::updateData(){
+    initBuffer();
+    ALMData almdata;
+    almdata.pressure = source->absolutePressureMillibars()->rawValue().toDouble();
+    assert(bufferCapacity > count);
+    if (!(bufferCapacity > count)){
+        qDebug() << "Oh no...";
+        qDebug() << count;
+        return;
+    }
+    buffer[head] = almdata;
+    qDebug() << "inserting an item, count is: " << count;
+    head = (head + 1) % bufferCapacity;
+    count++;
+
     double alt = source->altitudeMetersASL()->rawValue().toDouble();
     data->altitudeASL()->setRawValue(QVariant(alt));
 
@@ -263,6 +277,12 @@ bool MessengerAltitude::criteriaMet(){
 }
 
 void MessengerAltitude::publish(){
+    qDebug() << "Collating data over " << count << " records";
+    ALMData almdata = collateData();
+    data->pressure()->setRawValue(QVariant(almdata.pressure));
+
+    resetBuffer();
+
     log();
 
     // QString logFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
@@ -455,6 +475,29 @@ void MessengerAltitude::initLogFile(){
     stream << logHeaders.join(",") << "\r\n";
     stream << logUnits.join(",") << "\r\n";
     init = true;
+}
+
+void MessengerAltitude::initBuffer(){
+    static int init = 0;
+    if (!init){
+        head = tail = count = 0;
+        init = 1;
+    }
+}
+
+void MessengerAltitude::resetBuffer(){
+    tail = head;
+    count = 0;
+}
+
+MessengerAltitude::ALMData MessengerAltitude::collateData(){
+    ALMData data;
+    double pressure = 0.0;
+    for (int i = 0; i < count; i++){
+        pressure += buffer[(tail + i) % bufferCapacity].pressure;
+    }
+    data.pressure = pressure / count;
+    return data;
 }
 
 #undef _CRT_SECURE_NO_WARNINGS
