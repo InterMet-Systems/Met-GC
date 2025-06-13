@@ -311,12 +311,27 @@ void MessengerTime::log() {
     } else {
         latestTimestamp = timestamp;
     }
-    for (const auto &factName : logFactNames) {
-        if(!data->factExists(factName)) {
-            qCWarning(VehicleLog) << "Fact does not exist: " << factName;
+    for (const auto &logItem : logItems) {
+        if(!data->factExists(logItem.str)) {
+            qCWarning(VehicleLog) << "Fact does not exist: " << logItem.str;
             continue;
         }
-        metFactValues << data->getFact(factName)->rawValueString();
+        switch (logItem.format){
+        case 0:{
+            metFactValues << data->getFact(logItem.str)->rawValueString();
+        } break;
+        case 'i':{
+            int val = data->getFact(logItem.str)->rawValue().toInt();
+            metFactValues << QString::number(val);
+        } break;
+        case 'f':{
+            double val = data->getFact(logItem.str)->rawValue().toDouble();
+            metFactValues << QString::number(val, 'f', logItem.precision);
+        } break;
+        default:{
+            qDebug() << "Unhandled format when logging TIM";
+        }
+        }
     }
     stream << metFactValues.join(",") << "\r\n";
 }
