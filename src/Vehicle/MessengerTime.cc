@@ -337,6 +337,10 @@ void MessengerTime::log() {
     stream << metFactValues.join(",") << "\r\n";
 }
 
+void MessengerTime::logConstantData(){
+
+}
+
 void MessengerTime::initLogFile(){
     static bool init = false;
     if (init) return;

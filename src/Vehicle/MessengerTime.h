@@ -33,6 +33,7 @@ private:
 
     static constexpr bool logOnConnect = false; /* if true, begins writing to log file without waiting for the vehicle to become active */
     void initLogFile();
+    void logConstantData();
     QFile logFile;
     QString latestTimestamp = "0";
     QStringList logHeaders = {
@@ -88,6 +89,12 @@ private:
         char format;
         int precision;
     } LogItem;
+    typedef struct {
+        QString str, labelStr;
+        char format;
+        int precision;
+        QString unitStr;
+    } ConstantDataItem;
     QList<LogItem> logItems = {
         { "uTCDate",              0, 0 },
         { "uTCTime",              0, 0 },
@@ -111,6 +118,22 @@ private:
         { "satellites",         'i', 0 },
         { "hDOP",               'f', 1 },
         { "dataQuality",        'i', 0 },
+    };
+    QList<ConstantDataItem> constantDatalogItems = {
+        { "messageVersion",         "Message Version",            0,    0,    "" },
+        { "droneSerial",            "Drone Serial Number",      'i',    0,    "" },
+        { "dronePoweredAge",        "Drone Powered Age",        'i',    0,   "s" },
+        { "droneArmedAge",          "Drone Armed Age",          'i',    0,   "s" },
+        { "rawDataFilename",        "Raw Data Filename",          0,    0,    "" },
+        { "unixStartTime",          "Unix Start Time",          'i',    0,   "s" },
+        { "groundWindSpeed",        "Ground Wind Speed",        'f',    1, "m/s" },
+        { "groundWindDirection",    "Ground Wind Direction",    'i',    0, "deg" },
+        { "groundAirTemperature",   "Ground Air Temperature",   'f',    2,   "C" },
+        { "groundHumidity",         "Ground Humidity",          'f',    1,   "%" },
+        { "groundPressure",         "Ground Pressure",          'f',    2,  "mB" },
+        { "homePositionLatitude",   "Home Position Latitude",   'f',    6, "deg" },
+        { "homePositionLongitude",  "Home Position Longitude",  'f',    6, "deg" },
+        { "homePositionAltitude",   "Home Position Altitude",   'f',    1,   "m" },
     };
 };
 
