@@ -385,6 +385,7 @@ bool MessengerAltitude::handleFirstAltitude(const double alt){
         lastAltBin = alt;
         */
         lastAltBin = std::ceil(alt / altitudeBin) * altitudeBin;
+        resetBuffer();
         return false;
     }
 #ifdef QT_DEBUG
@@ -420,17 +421,26 @@ void MessengerAltitude::log() {
     } else {
         latestTimestamp = timestamp;
     }
-    for (const auto &factName : logFactNames) {
-        if(!data->factExists(factName)) {
-            qCWarning(VehicleLog) << "Fact does not exist: " << factName;
+    for (const auto &logItem : logItems) {
+        if(!data->factExists(logItem.str)) {
+            qCWarning(VehicleLog) << "Fact does not exist: " << logItem.str;
             continue;
         }
-        if (factName == "altitudeASL"){
-            double alt = data->getFact(factName)->rawValue().toDouble();
-            alt = (std::ceil(alt / altitudeBin) * altitudeBin) - (altitudeBin / 2);
-            metFactValues << QString::number(alt, 'f', 1);
-        } else {
-            metFactValues << data->getFact(factName)->rawValueString();
+        switch (logItem.format){
+        case 0:{
+            metFactValues << data->getFact(logItem.str)->rawValueString();
+        } break;
+        case 'i':{
+            int val = data->getFact(logItem.str)->rawValue().toInt();
+            metFactValues << QString::number(val);
+        } break;
+        case 'f':{
+            double val = data->getFact(logItem.str)->rawValue().toDouble();
+            metFactValues << QString::number(val, 'f', logItem.precision);
+        } break;
+        default:{
+            qDebug() << "Unhandled format when logging ALM";
+        }
         }
     }
 

@@ -175,6 +175,35 @@ private:
         "homePositionLongitude",
         "homePositionAltitude"
     };
+    typedef struct {
+        QString str;
+        char format;
+        int precision;
+    } LogItem;
+    QList<LogItem> logItems = {
+        { "altitudeASL",        'f', 1 },
+        { "uTCDate",              0, 0 },
+        { "uTCTime",              0, 0 },
+        { "timeSinceStart",     'f', 2 },
+        { "pressure",           'f', 2 },
+        { "airTemp",            'f', 2 },
+        { "relHum",             'f', 1 },
+        { "windSpeed",          'f', 1 },
+        { "windDirection",      'i', 0 },
+        { "latitude",           'f', 6 },
+        { "longitude",          'f', 6 },
+        { "roll",               'f', 1 },
+        { "rollRate",           'f', 1 },
+        { "pitch",              'f', 1 },
+        { "pitchRate",          'f', 1 },
+        { "yaw",                'f', 1 },
+        { "yawRate",            'f', 1 },
+        { "ascentRate",         'f', 1 },
+        { "speedOverGround",    'f', 1 },
+        { "satellites",         'i', 0 },
+        { "hDOP",               'f', 1 },
+        { "dataQuality",        'i', 0 },
+    };
 };
 
 #endif // MESSENGERALTITUDE_H

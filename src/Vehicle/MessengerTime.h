@@ -109,7 +109,7 @@ private:
         { "ascentRate",         'f', 1 },
         { "speedOverGround",    'f', 1 },
         { "satellites",         'i', 0 },
-        { "hdop",               'f', 1 },
+        { "hDOP",               'f', 1 },
         { "dataQuality",        'i', 0 },
     };
 };

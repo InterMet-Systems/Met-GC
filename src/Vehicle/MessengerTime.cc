@@ -302,6 +302,7 @@ void MessengerTime::log() {
         logFile.close();
         return;
     }
+
     QStringList metFactValues;
     QTextStream stream(&logFile);
     if (!data) return;
