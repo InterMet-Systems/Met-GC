@@ -3,9 +3,9 @@
 const char* MessageTimeFactGroup::_droneSerialFactName =                "droneSerial";
 const char* MessageTimeFactGroup::_filenameFactName =                   "filename";
 const char* MessageTimeFactGroup::_messageVersionFactName =             "messageVersion";
-const char* MessageTimeFactGroup::_dronePoweredAgeFactName =            "dronePowerAge";
+const char* MessageTimeFactGroup::_dronePoweredAgeFactName =            "dronePoweredAge";
 const char* MessageTimeFactGroup::_droneArmedAgeFactName =              "droneArmedAge";
-const char* MessageTimeFactGroup::_rawDataFilenameFactName =            "rawData Filename";
+const char* MessageTimeFactGroup::_rawDataFilenameFactName =            "rawDataFilename";
 const char* MessageTimeFactGroup::_unixStartTimeFactName =              "unixStartTime";
 const char* MessageTimeFactGroup::_groundWindSpeedFactName =            "groundWindSpeed";
 const char* MessageTimeFactGroup::_groundWindDirectionFactName =        "groundWindDirection";
@@ -35,7 +35,7 @@ const char* MessageTimeFactGroup::_yawRateFactName =                    "yawRate
 const char* MessageTimeFactGroup::_ascentRateFactName =                 "ascentRate";
 const char* MessageTimeFactGroup::_speedOverGroundFactName =            "speedOverGround";
 const char* MessageTimeFactGroup::_satellitesFactName =                 "satellites";
-const char* MessageTimeFactGroup::_hDOPFactName =                       "hdop";
+const char* MessageTimeFactGroup::_hDOPFactName =                       "hDOP";
 const char* MessageTimeFactGroup::_dataQualityFactName =                "dataQuality";
 const char* MessageTimeFactGroup::_stringFactName =                     "string";
 

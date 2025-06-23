@@ -233,6 +233,7 @@ bool MessengerRaw::ascending() {
     double vz = -source->zVelocityForAscentDetection()->rawValue().toDouble();
     if ((bAscending = (hearbeat == 3 && vz > 2.5)) && !bLastState)
         qgcApp()->toolbox()->metDataLogManager()->setAscentNumber(++ascents);
+    else if (bLastState && !bAscending) logFile.close(); /* TODO: hoist this */
     bLastState = bAscending;
     return bAscending;
 }
@@ -245,10 +246,15 @@ bool MessengerRaw::criteriaMet() {
     // qDebug() << "values validated";
     initFileFacts();
     // qDebug() << "file facts init";
+    /*
     if (!ascending()) return false;
     // qDebug() << "ascending";
+    */
     if (!timer()) return false;
     // qDebug() << "timer passed";
+
+    (void)ascending();
+
     return true;
 }
 

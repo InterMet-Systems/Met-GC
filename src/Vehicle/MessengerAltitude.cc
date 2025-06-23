@@ -187,12 +187,14 @@ void MessengerAltitude::updateData(){
     initBuffer();
     ALMData almdata;
     almdata.pressure = source->absolutePressureMillibars()->rawValue().toDouble();
-    assert(bufferCapacity > count);
-    if (!(bufferCapacity > count)){
-        qDebug() << "Oh no...";
-        qDebug() << count;
+    if (!(bufferCapacity > count)) {
+        qCWarning(VehicleLog) << "exceded ALM ring buffer capacity - find out why/increase it";
         return;
     }
+
+    /*
+    assert(bufferCapacity > count);
+    */
     buffer[head] = almdata;
     qDebug() << "inserting an item, count is: " << count;
     head = (head + 1) % bufferCapacity;
@@ -271,7 +273,7 @@ void MessengerAltitude::updateData(){
 bool MessengerAltitude::criteriaMet(){    
     updateTime();
     updateConstantData();
-    updateData();
+    if (phase == 1) updateData();
     if (!passedThreshold()) return false;    
     return true;
 }
@@ -356,11 +358,13 @@ bool MessengerAltitude::passedThreshold(){
     if (qIsNaN(lastAltBin)){
         return handleFirstAltitude(alt) && armed;
     }
+    if (alt >= lastAltBin) phase = 1;
     if (alt - lastAltBin >= altitudeBin  && armed){
         /*
         lastAltBin = alt;
         */
         lastAltBin += altitudeBin;
+
         return true;
     }
     return false;
@@ -385,7 +389,7 @@ bool MessengerAltitude::handleFirstAltitude(const double alt){
         lastAltBin = alt;
         */
         lastAltBin = std::ceil(alt / altitudeBin) * altitudeBin;
-        resetBuffer();
+        resetBuffer();        
         return false;
     }
 #ifdef QT_DEBUG
@@ -437,6 +441,9 @@ void MessengerAltitude::log() {
         case 'f':{
             double val = data->getFact(logItem.str)->rawValue().toDouble();
             metFactValues << QString::number(val, 'f', logItem.precision);
+        } break;
+        case 'a': {
+            metFactValues << QString::number(lastAltBin - (altitudeBin / 2), 'f', logItem.precision);
         } break;
         default:{
             qDebug() << "Unhandled format when logging ALM";

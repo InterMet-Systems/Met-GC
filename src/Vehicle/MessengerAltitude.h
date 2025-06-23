@@ -38,6 +38,7 @@ private:
     static constexpr double minHomeAlt = -414.;     /* Dead sea */
     static constexpr double homeAltRange = 512.;    /* If home altitude is provided, ignore initial altitude reports more than this distance from home altitude */
     double lastAltBin = qQNaN();
+    int phase = 0;
 
     /* new way of collating data */
     static constexpr int bufferCapacity = 32;
@@ -187,7 +188,7 @@ private:
         QString unitStr;
     } ConstantDataItem;
     QList<LogItem> logItems = {
-        { "altitudeASL",        'f', 1 },
+        { "altitudeASL",        'a', 1 }, /* format 'a' is arbitrary, because altitude is handled a little different from other float items */
         { "uTCDate",              0, 0 },
         { "uTCTime",              0, 0 },
         { "timeSinceStart",     'f', 2 },

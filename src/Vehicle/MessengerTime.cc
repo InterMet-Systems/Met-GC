@@ -72,7 +72,7 @@ void MessengerTime::publish(){
 }
 
 void MessengerTime::buildFilename(){
-    std::string filename = std::string("coming soon to a blockbuster near your");
+    std::string filename = std::string("Uninitialized");
     /* Yet to be implemented
     this is almost exactly the same as in the ALM, which is implemented, so I could just copy it. However, I don't like the approach I used there, and
     both need to be improved. Leaving this empty will make sure that it gets caught and I will come back and see this comment.
