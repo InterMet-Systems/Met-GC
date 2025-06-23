@@ -303,9 +303,11 @@ void MessengerTime::log() {
         return;
     }
 
+    if (!data) return;
+
     QStringList metFactValues;
     QTextStream stream(&logFile);
-    if (!data) return;
+
     QString timestamp = data->getFact("timeSinceStart")->rawValueString();
     if (timestamp == latestTimestamp) {
         return;
@@ -338,7 +340,31 @@ void MessengerTime::log() {
 }
 
 void MessengerTime::logConstantData(){
-
+    QStringList strlist;
+    QTextStream stream(&logFile);
+    for (const auto &logItem : constantDataLogItems) {
+        if (!data->factExists(logItem.str)) {
+            qCWarning(VehicleLog) << "Fact does not exist: " << logItem.str;
+            continue;
+        }
+        switch (logItem.format) {
+        case 0:{
+            strlist << logItem.labelStr << data->getFact(logItem.str)->rawValueString();
+        } break;
+        case 'i':{
+            int val = data->getFact(logItem.str)->rawValue().toInt();
+            strlist << logItem.labelStr << QString::number(val) << logItem.unitStr;
+        } break;
+        case 'f': {
+            double val = data->getFact(logItem.str)->rawValue().toDouble();
+            strlist << logItem.labelStr << QString::number(val, 'f', logItem.precision) << logItem.unitStr;
+        } break;
+        default: {
+            qDebug() << "Unhandled format when logging constant data for TIM";
+        }
+        }
+    }
+    stream << strlist.join(",") << "\r\n";
 }
 
 void MessengerTime::initLogFile(){
@@ -361,6 +387,34 @@ void MessengerTime::initLogFile(){
     }
     QTextStream stream(&logFile);
 
+    QStringList strlist;
+    for (const auto &logItem : constantDataLogItems) {
+        if (!data->factExists(logItem.str)) {
+            qCWarning(VehicleLog) << "Fact does not exist: " << logItem.str;
+            continue;
+        }
+        switch (logItem.format) {
+        case 0:{
+            strlist << logItem.labelStr << "," << data->getFact(logItem.str)->rawValueString() << ",\r\n";
+        } break;
+        case 'i':{
+            int val = data->getFact(logItem.str)->rawValue().toInt();
+            strlist << logItem.labelStr << "," << QString::number(val) << "," << logItem.unitStr << ",\r\n";
+        } break;
+        case 'f': {
+            double val = data->getFact(logItem.str)->rawValue().toDouble();
+            strlist << logItem.labelStr << "," << QString::number(val, 'f', logItem.precision) << "," << logItem.unitStr << ",\r\n";
+        } break;
+        case 'z': {
+            int val = data->getFact(logItem.str)->rawValue().toInt();
+            strlist << logItem.labelStr << "," << QString::number(val) << ",\r\n";
+        } break;
+        default: {
+            qDebug() << "Unhandled format when logging constant data for TIM";
+        }
+        }
+    }
+    stream << strlist.join("") << "\r\n";
     stream << logHeaders.join(",") << "\r\n";
     stream << logUnits.join(",") << "\r\n";
     init = true;

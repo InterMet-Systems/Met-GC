@@ -119,9 +119,9 @@ private:
         { "hDOP",               'f', 1 },
         { "dataQuality",        'i', 0 },
     };
-    QList<ConstantDataItem> constantDatalogItems = {
+    QList<ConstantDataItem> constantDataLogItems = {
         { "messageVersion",         "Message Version",            0,    0,    "" },
-        { "droneSerial",            "Drone Serial Number",      'i',    0,    "" },
+        { "droneSerial",            "Drone Serial Number",      'z',    0,    "" }, /* z format is arbitrary because it's the only unitless int */
         { "dronePoweredAge",        "Drone Powered Age",        'i',    0,   "s" },
         { "droneArmedAge",          "Drone Armed Age",          'i',    0,   "s" },
         { "rawDataFilename",        "Raw Data Filename",          0,    0,    "" },

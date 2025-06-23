@@ -482,6 +482,34 @@ void MessengerAltitude::initLogFile(){
         stream << name << "," << value << "," << unitField << "\r\n";
     }
 
+    QStringList strlist;
+    for (const auto &logItem : constantDataLogItems) {
+        if (!data->factExists(logItem.str)) {
+            qCWarning(VehicleLog) << "Fact does not exist: " << logItem.str;
+            continue;
+        }
+        switch (logItem.format) {
+        case 0:{
+            strlist << logItem.labelStr << "," << data->getFact(logItem.str)->rawValueString() << ",\r\n";
+        } break;
+        case 'i':{
+            int val = data->getFact(logItem.str)->rawValue().toInt();
+            strlist << logItem.labelStr << "," << QString::number(val) << "," << logItem.unitStr << ",\r\n";
+        } break;
+        case 'f': {
+            double val = data->getFact(logItem.str)->rawValue().toDouble();
+            strlist << logItem.labelStr << "," << QString::number(val, 'f', logItem.precision) << "," << logItem.unitStr << ",\r\n";
+        } break;
+        case 'z': {
+            int val = data->getFact(logItem.str)->rawValue().toInt();
+            strlist << logItem.labelStr << "," << QString::number(val) << ",\r\n";
+        } break;
+        default: {
+            qDebug() << "Unhandled format when logging constant data for ALM";
+        }
+        }
+    }
+    stream << strlist.join("") << "\r\n";
     stream << logHeaders.join(",") << "\r\n";
     stream << logUnits.join(",") << "\r\n";
     init = true;
