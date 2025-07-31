@@ -13,10 +13,10 @@ using namespace std;
 #endif
 MetDataLogManager::MetDataLogManager(QGCApplication* app, QGCToolbox* toolbox) : QGCTool(app, toolbox)
 {
-    connect(&_metRawCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetRawCsvLine);
-    connect(&_metAlmCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetAlmCsvLine);
-    _metRawCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
-    _metAlmCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
+    //connect(&_metRawCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetRawCsvLine);
+    //connect(&_metAlmCsvTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetAlmCsvLine);
+    //_metRawCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
+    //_metAlmCsvTimer.start(20); // set below nyquist rate for 50ms balancedDataFrequency to ensure no data is missed
 #ifdef QGC_NETCDF_ENABLED
     connect(&_metNetCdfTimer, &QTimer::timeout, this, &MetDataLogManager::_writeMetNetCdfLine);
     _metNetCdfTimer.start(20); // timing for NetCDF messages should always be the same as the ALM messages
@@ -51,7 +51,7 @@ MetDataLogManager::~MetDataLogManager()
 void MetDataLogManager::_initializeMetRawCsv()
 {
     QString now = QDateTime::currentDateTime().toString("MM-dd-yyyy_hh-mm-ss");
-    QString metRawFileName = QString("RAW_%1.csv").arg(now);
+    QString metRawFileName = QString("RAW_GOTCHA_%1.csv").arg(now);
     QDir saveDir(qgcApp()->toolbox()->settingsManager()->appSettings()->messagesRawSavePath());
     _metRawCsvFile.setFileName(saveDir.absoluteFilePath(metRawFileName));
 
