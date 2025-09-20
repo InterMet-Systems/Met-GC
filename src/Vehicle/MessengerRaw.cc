@@ -235,6 +235,9 @@ bool MessengerRaw::ascending() {
         qgcApp()->toolbox()->metDataLogManager()->setAscentNumber(++ascents);
     else if (bLastState && !bAscending) logFile.close(); /* TODO: hoist this */
     bLastState = bAscending;
+
+    data->ascending()->setRawValue(QVariant(bAscending));
+
     return bAscending;
 }
 
@@ -254,6 +257,7 @@ bool MessengerRaw::criteriaMet() {
     // qDebug() << "timer passed";
 
     (void)ascending();
+    qDebug() << "ascending: " << data->ascending()->rawValue().toBool();
 
     return true;
 }

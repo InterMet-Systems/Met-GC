@@ -38,6 +38,7 @@ private:
     static constexpr double minHomeAlt = -414.;     /* Dead sea */
     static constexpr double homeAltRange = 512.;    /* If home altitude is provided, ignore initial altitude reports more than this distance from home altitude */
     double lastAltBin = qQNaN();
+    /* this being 1 means we are passed the start of the first bin */
     int phase = 0;
 
     /* new way of collating data */

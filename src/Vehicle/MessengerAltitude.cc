@@ -358,11 +358,13 @@ bool MessengerAltitude::passedThreshold(){
     if (qIsNaN(lastAltBin)){
         return handleFirstAltitude(alt) && armed;
     }
-    if (alt >= lastAltBin) phase = 1;
-    if (alt - lastAltBin >= altitudeBin  && armed){
-        /*
-        lastAltBin = alt;
-        */
+    if (alt >= lastAltBin && source->ascending()->rawValue().toBool()) {
+        phase = 1;
+    } else {
+        phase = 0;
+        return false;
+    }
+    if (alt - lastAltBin >= altitudeBin  && armed){        
         lastAltBin += altitudeBin;
 
         return true;
@@ -409,6 +411,11 @@ void MessengerAltitude::log() {
     initLogFile();
 
     Vehicle* activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
+
+    if (activeVehicle)
+        qDebug() << "Yes";
+    else qDebug() << "No";
+
     if(!activeVehicle) return;
 
     if (!activeVehicle->armed() || !logFile.isOpen()){
